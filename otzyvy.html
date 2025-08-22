@@ -126,46 +126,64 @@
 
   <div class="container">
     <h1 class="text-center mb-3 animate">💬 Отзывы жителей села Иваново</h1>
-    <div id="all-reviews" class="mt-4">
-  <!-- Сюда загрузятся все отзывы -->
-</div>
+    <p class="text-center lead mb-5 animate">Что думают люди о жизни в селе и нашем проекте</p>
 
-<script>
-  fetch('reviews.json')
-    .then(r => r.json())
-    .then(reviews => {
-      const container = document.getElementById('all-reviews');
+    <!-- Отзыв 1 -->
+    <!-- <div class="review-card animate">
+      <div class="d-flex align-items-center mb-2">
+        <i class="fas fa-user-circle user-icon text-success"></i>
+        <div>
+          <strong class="username">Анна Петрова</strong><br>
+          <small class="text-muted">Жительница с 1998 года</small>
+        </div>
+      </div>
+      <div class="text-warning mb-3">
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+      </div>
+      <p>Отличный проект! Наконец-то можно узнать, что происходит в селе. Спасибо за фестиваль урожая — впервые за 10 лет собрались все семьи! Теперь и молодёжь интересуется жизнью села.</p>
+    </div> -->
 
-      if (reviews.length === 0) {
-        container.innerHTML = '<p class="text-center text-muted">Пока нет отзывов. Будьте первым!</p>';
-        return;
-      }
+    <!-- Отзыв 2 -->
+    <!-- <div class="review-card animate">
+      <div class="d-flex align-items-center mb-2">
+        <i class="fas fa-user-circle user-icon text-primary"></i>
+        <div>
+          <strong class="username">Иван Сидоров</strong><br>
+          <small class="text-muted">Пенсионер, фермер</small>
+        </div>
+      </div>
+      <div class="text-warning mb-3">
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="far fa-star star"></i>
+      </div>
+      <p>Ремонт дороги — большая удача для села. А сайт и бот помогают быть в курсе. Хотелось бы больше фотоотчётов и новостей про молодёжные инициативы.</p>
+    </div> -->
 
-      reviews.forEach((review, index) => {
-        const reviewEl = document.createElement('div');
-        reviewEl.className = 'review-card animate';
-        reviewEl.style.animationDelay = `${0.2 + index * 0.1}s`;
-
-        // Можно добавить звёзды, если хочешь
-        reviewEl.innerHTML = `
-          <div class="d-flex align-items-center mb-2">
-            <i class="fas fa-user-circle fa-2x text-success me-3"></i>
-            <div>
-              <strong class="username">${review.name}</strong><br>
-              <small class="text-muted">${review.username}</small>
-            </div>
-          </div>
-          <p>${review.text}</p>
-          <small class="text-secondary">📅 ${review.date}</small>
-        `;
-        container.appendChild(reviewEl);
-      });
-    })
-    .catch(err => {
-      console.error("Ошибка загрузки отзывов:", err);
-      document.getElementById('all-reviews').innerHTML = '<p class="text-danger">Не удалось загрузить отзывы.</p>';
-    });
-</script>
+    <!-- Отзыв 3 -->
+    <!-- <div class="review-card animate"> -->
+      <!-- <div class="d-flex align-items-center mb-2">
+        <i class="fas fa-user-circle user-icon text-danger"></i>
+        <div>
+          <strong class="username">Елена М.</strong><br>
+          <small class="text-muted">Молодая мама</small>
+        </div>
+      </div>
+      <div class="text-warning mb-3">
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+        <i class="fas fa-star star"></i>
+      </div>
+      <p>Люблю, как освещают молодёжные инициативы. Мой сын участвовал в центре — стал увереннее. Спасибо за то, что делаете село лучше!</p>
+    </div> -->
 
     <!-- Кнопка -->
     <div class="text-center mt-5">
@@ -188,3 +206,32 @@
   </script>
 </body>
 </html>
+<script>
+  fetch('reviews.json')
+    .then(r => r.json())
+    .then(reviews => {
+      const container = document.getElementById('reviews-container');
+      reviews.forEach((r, i) => {
+        setTimeout(() => {
+          const div = document.createElement('div');
+          div.className = 'review-card';
+          div.innerHTML = `
+            <div class="p-4">
+              <div class="review-header">
+                <i class="fas fa-user-circle fa-2x text-success me-3"></i>
+                <div>
+                  <strong>${r.name}</strong><br>
+                  <small>${r.username}</small>
+                </div>
+              </div>
+              <p>${r.text}</p>
+              <small class="text-muted">${r.date}</small>
+            </div>
+          `;
+          container.appendChild(div);
+          div.style.opacity = 0;
+          setTimeout(() => div.style.opacity = 1, 50);
+        }, i * 200);
+      });
+    });
+</script>

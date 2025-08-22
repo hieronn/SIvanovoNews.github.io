@@ -432,30 +432,27 @@
 
 <!-- 💬 Отзывы жителей села Иваново -->
 <section id="reviews" 
-  class="container my-5 position-relative py-5" 
-  style="background: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed; 
-         background-size: cover;
-         border-radius: 24px;
-         overflow: hidden;">
+  class="position-relative py-5 mx-auto"
+  style="max-width: 800px; background: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed; 
+         background-size: cover; border-radius: 24px; overflow: hidden;">
   
-  <!-- Полупрозрачный слой поверх фона -->
+  <!-- Полупрозрачный градиентный слой -->
   <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-              background: linear-gradient(135deg, rgba(76, 175, 80, 0.8), rgba(255, 152, 0, 0.6));
-              z-index: 1;
-              border-radius: 24px;"></div>
+              background: linear-gradient(135deg, rgba(76, 175, 80, 0.85), rgba(255, 152, 0, 0.7));
+              z-index: 1; border-radius: 24px;"></div>
 
   <!-- Контент -->
-  <div class="position-relative z-3 text-white text-center mb-5 px-3">
-    <h2 class="display-5 fw-bold mb-4" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
+  <div class="position-relative z-3 text-center px-4" style="color: white;">
+    <h2 class="h1 fw-bold mb-4" style="font-size: 2.5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
       <i class="fas fa-comments me-3"></i>Отзывы жителей
     </h2>
-    <p class="lead mb-0" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+    <p class="lead mb-5" style="font-size: 1.2rem; text-shadow: 1px 1px 6px rgba(0,0,0,0.6);">
       Что думают люди о жизни в селе и нашем проекте
     </p>
   </div>
 
   <!-- Контейнер отзывов -->
-  <div id="reviews-container" class="row g-4 px-4">
+  <div id="reviews-container" class="row g-4 px-4" style="margin: 0 auto; max-width: 750px;">
     <!-- Сюда загрузятся отзывы -->
   </div>
 
@@ -469,7 +466,8 @@
          color: white;
          border: none;
          border-radius: 60px;
-         font-weight: 600;
+         font-weight: 700;
+         font-size: 1.2rem;
          box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6);
          animation: gradient-shift 4s ease infinite, pulse-shadow 2s infinite;
          transition: transform 0.3s ease;"
@@ -499,7 +497,7 @@
   .review-card {
     background: linear-gradient(135deg, #ffffff, #f8fbf8);
     border-radius: 24px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
     border-left: 6px solid #4CAF50;
     transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     height: 100%;
@@ -564,6 +562,7 @@
     color: #2E7D32;
     margin: 0;
     font-size: 1.3rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   }
 
   .review-username {
@@ -573,16 +572,17 @@
   }
 
   .review-text {
-    color: #444;
+    color: #333;
+    font-weight: 600;
+    font-size: 1.1rem;
     line-height: 1.7;
-    font-size: 1.05rem;
     margin-bottom: 16px;
-    font-weight: 500;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
   }
 
   .review-date {
-    font-size: 0.85rem;
-    color: #777;
+    font-size: 0.9rem;
+    color: #555;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -590,16 +590,6 @@
 
   .review-date i {
     color: #FFD700;
-  }
-
-  /* Адаптивность */
-  @media (max-width: 768px) {
-    #reviews {
-      background-attachment: scroll !important;
-    }
-    .review-card {
-      border-radius: 20px;
-    }
   }
 </style>
 
@@ -614,7 +604,7 @@
       toShow.forEach((review, index) => {
         const delay = index * 350;
         const col = document.createElement('div');
-        col.className = 'col-md-6 col-lg-4';
+        col.className = 'col-12 mb-4';  /* Одна карточка в ряд на всех экранах */
         col.innerHTML = `
           <div class="review-card" style="transition-delay: ${delay}ms;">
             <div class="p-4">
@@ -775,3 +765,25 @@
   </script>
 </body>
 </html>
+<script>
+  fetch('news.json')
+    .then(r => r.json())
+    .then(news => {
+      const container = document.getElementById('news-container');
+      const toShow = news.slice(0, 3);
+      toShow.forEach(n => {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4';
+        col.innerHTML = `
+          <div class="news-card">
+            <div class="p-4">
+              <h5>${n.text.substring(0, 50)}...</h5>
+              <p class="text-muted">${n.name}</p>
+              <small class="text-secondary">${n.date}</small>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+    });
+</script>
