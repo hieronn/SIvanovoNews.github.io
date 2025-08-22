@@ -1,0 +1,94 @@
+/* Градиент для заголовка */
+.bg-new-gradient {
+  background: linear-gradient(90deg, #E91E63, #9C27B0, #673AB7);
+  background-size: 250% 250%;
+  animation: gradientShiftTitle 4s ease infinite;
+}
+
+@keyframes gradientShiftTitle {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+} */
+
+/* Анимация появления */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Эффект при наведении */
+ .card-news:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(156, 39, 176, 0.25);
+  transition: all 0.4s ease;
+}
+
+.text-orange {
+  color: #EF6C00;
+  font-weight: 600;
+}
+/* Анимация появления карточек */
+#reviews .border-bottom {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+#reviews .border-bottom:nth-child(1) { transition-delay: 0.1s; }
+#reviews .border-bottom:nth-child(2) { transition-delay: 0.3s; }
+#reviews .border-bottom:nth-child(3) { transition-delay: 0.5s; }
+
+/* Показываем при скролле */
+#reviews.visible .border-bottom {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Эффект при наведении на кнопку */
+#reviews .btn-gradient:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(76, 175, 80, 0.5);
+}
+/* Кастомная кнопка "Все отзывы" */
+.btn-custom-reviews {
+  background: linear-gradient(45deg, #4CAF50, #8BC34A);
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-custom-reviews:hover {
+  background: linear-gradient(45deg, #388E3C, #689F38);
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+  color: white;
+}
+
+/* Кнопка с градиентом Telegram */
+.btn-custom-telegram {
+  background: linear-gradient(45deg, #0088cc, #57c8f2);
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  box-shadow: 0 6px 20px rgba(0, 136, 204, 0.3);
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-custom-telegram:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 30px rgba(0, 136, 204, 0.5);
+  background: linear-gradient(45deg, #006aa5, #3aa5e0);
+}

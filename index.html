@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Новости села Иваново</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  
+  <!-- Animate.css -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --primary: #4CAF50;
+      --secondary: #FF9800;
+      --accent: #2196F3;
+      --light: #FFF9C4;
+      --dark: #3E2723;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #f0f7ff, #f4f9e9);
+      color: #333;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* Анимированный градиентный логотип */
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3, #4CAF50);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientFlow 6s ease infinite;
+    }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Главный баннер */
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                  url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+      background-size: cover;
+      height: 650px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 900;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+    }
+    .hero p {
+      font-size: 1.4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Градиентные кнопки */
+    .btn-gradient {
+      background: linear-gradient(45deg, #4CAF50, #8BC34A);
+      border: none;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-weight: 600;
+      transition: all 0.4s;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+    .btn-gradient:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
+    }
+
+    /* Карточки новостей */
+    .news-card {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      transition: all 0.4s ease;
+      background: white;
+      border-left: 6px solid var(--primary);
+    }
+    .news-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+      border-left-color: var(--secondary);
+    }
+    .news-img {
+      height: 190px;
+      object-fit: cover;
+      transition: 0.4s;
+    }
+    .news-card:hover .news-img {
+      transform: scale(1.12);
+    }
+
+    /* Метки дат */
+    .date-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 12px;
+    }
+    .date-badge-1 { background: #4CAF50; }
+    .date-badge-2 { background: #FF9800; }
+    .date-badge-3 { background: #2196F3; }
+
+    /* Улучшенная секция "О селе" */
+    .section-about {
+      background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      padding: 100px 0;
+      position: relative;
+    }
+    .section-about::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.92);
+      z-index: 1;
+    }
+    .section-about > .container {
+      position: relative;
+      z-index: 2;
+    }
+    .about-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid #eee;
+    }
+    .about-card h4 {
+      color: var(--primary);
+    }
+
+    /* Магазин */
+    .section-shop {
+      background: linear-gradient(135deg, #FFF3E0, #E1F5FE);
+      padding: 90px 0;
+      text-align: center;
+    }
+
+    /* Контакты */
+    .contact-item {
+      transition: transform 0.3s;
+    }
+    .contact-item:hover {
+      transform: scale(1.1);
+      color: var(--secondary);
+    }
+
+    /* Подвал */
+    .footer {
+      background: linear-gradient(135deg, #2E7D32, #1B5E20);
+      color: #FFF9C4;
+      padding: 70px 0 30px;
+    }
+    .footer a {
+      color: #FFF9C4;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #FFCC80;
+    }
+
+    /* Анимация появления */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.9s ease;
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Улучшенная секция "Прислать новость" */
+    .card-news {
+      border: none;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+    }
+    .bg-new-gradient {
+      background: linear-gradient(90deg, #E91E63, #9C27B0, #673AB7, #E91E63);
+      background-size: 300% 300%;
+      animation: gradientShift 5s ease infinite;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .btn-telegram {
+      background: linear-gradient(45deg, #D81B60, #8E24AA);
+      color: white;
+      font-weight: 600;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 60px;
+      font-size: 1.15rem;
+      box-shadow: 0 6px 20px rgba(136, 64, 142, 0.4);
+    }
+    .btn-telegram:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 30px rgba(136, 64, 142, 0.6);
+    }
+    .text-orange {
+      color: #EF6C00;
+      font-weight: 600;
+    }
+
+    /* RSS-лента */
+    .rss-card {
+      border-left: 5px solid var(--accent);
+      transition: all 0.3s;
+    }
+    .rss-card:hover {
+      transform: translateX(8px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Навигация -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-leaf me-2"></i> Новости села Иваново
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#home">Главная</a></li>
+          <li class="nav-item"><a class="nav-link" href="#news">Новости</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">О селе</a></li>
+          <li class="nav-item"><a class="nav-link" href="#shop">🛒 Магазин</a></li>
+          <li class="nav-item"><a class="nav-link" href="#send-news">📬 Прислать новость</a></li>
+          <li class="nav-item"><a class="nav-link" href="#reviews">📝 Отзывы</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Главный баннер -->
+  <section id="home" class="hero">
+    <div class="container">
+      <h1 class="animate__animated animate__fadeInDown">Добро пожаловать в Иваново!</h1>
+      <p class="lead animate__animated animate__fadeInUp">Самые свежие новости, события и традиции — прямо из сердца нашей деревни</p>
+      <a href="#news" class="btn btn-gradient mt-4 animate__animated animate__zoomIn">Читать новости</a>
+    </div>
+  </section>
+
+  <!-- Новости -->
+  <section id="news" class="container my-5">
+    <h2 class="text-center mb-5 fw-bold" style="color: #2E7D32;">Последние новости</h2>
+    <div class="row">
+      <div class="col-md-6 col-lg-4 animate-on-scroll">
+        <div class="news-card">
+          <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80" class="news-img w-100" alt="Фестиваль">
+          <div class="p-4">
+            <span class="date-badge date-badge-1">10 октября 2023</span>
+            <h5>Фестиваль урожая — праздник для всех!</h5>
+            <p>Жители Иваново собрались на яркий праздник с песнями, танцами и вкуснейшими блюдами из местных продуктов.</p>
+            <a href="#" class="btn btn-sm btn-outline-success">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 animate-on-scroll">
+        <div class="news-card">
+          <img src="https://images.unsplash.com/photo-1565060000858-5d1b7904426d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80" class="news-img w-100" alt="Ремонт">
+          <div class="p-4">
+            <span class="date-badge date-badge-2">5 октября 2023</span>
+            <h5>Ремонт дороги к школе завершается</h5>
+            <p>Новая асфальтированная дорога обеспечит безопасный путь для детей и удобство для жителей.</p>
+            <a href="#" class="btn btn-sm btn-outline-warning">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 animate-on-scroll">
+        <div class="news-card">
+          <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80" class="news-img w-100" alt="Молодёжь">
+          <div class="p-4">
+            <span class="date-badge date-badge-3">1 октября 2023</span>
+            <h5>Открыт молодёжный центр</h5>
+            <p>Теперь подростки могут заниматься творчеством, IT и спортом в новом современном пространстве.</p>
+            <a href="#" class="btn btn-sm btn-outline-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- О селе -->
+  <section id="about" class="section-about">
+    <div class="container">
+      <h2 class="text-center mb-5 fw-bold text-success animate-on-scroll">О селе Иваново</h2>
+      <div class="row align-items-center">
+        <div class="col-lg-12">
+          <div class="about-card animate-on-scroll">
+            <h4><i class="fas fa-history me-2 text-primary"></i> История села</h4>
+            <p>Село Иваново в Ковровском районе Владимирской области впервые упоминается в 1628 году как вотчина князя Хилкова. Здесь стоит старинная Богородице-Рождественская церковь (1833 г.), а станция Эсино — часть железнодорожной ветки Ковров—Муром — вдохновляла даже Михаила Булгакова.</p>
+
+            <h4 class="mt-4"><i class="fas fa-home me-2 text-success"></i> Жизнь сегодня</h4>
+            <p>Село живёт: работает школа, детский сад «Родничок», дом культуры и поликлиника. Здесь каждый знает каждого, а природа дарит покой и вдохновение.</p>
+
+            <div class="row text-center mt-4">
+              <div class="col-md-4">
+                <i class="fas fa-tree fa-2x text-success mb-3"></i>
+                <h6>Чистый воздух</h6>
+              </div>
+              <div class="col-md-4">
+                <i class="fas fa-users fa-2x text-primary mb-3"></i>
+                <h6>Дружелюбная община</h6>
+              </div>
+              <div class="col-md-4">
+                <i class="fas fa-church fa-2x text-danger mb-3"></i>
+                <h6>Старинная церковь</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Магазин -->
+  <section id="shop" class="section-shop">
+    <div class="container">
+      <i class="fas fa-store fa-3x text-warning mb-3"></i>
+      <h2 class="fw-bold">🛒 Наш магазин — скоро откроется!</h2>
+      <p class="lead">Покупайте <strong>местные продукты</strong>: мёд, овощи, ягоды, варенье, грибы, сувениры ручной работы и так далее.</p>
+      <button class="btn btn-gradient" onclick="alert('Скоро! Подпишитесь на рассылку, чтобы первыми узнать об открытии.')">
+        Узнать первым об открытии
+      </button>
+    </div>
+  </section>
+
+  <!-- Подписка -->
+  <section id="subscribe" class="container my-5 text-center animate-on-scroll">
+    <h2 class="fw-bold mb-4" style="color: #2E7D32;">📩 Подписаться на новости</h2>
+    <p class="lead mb-4">Получайте свежие новости села прямо в Telegram или на email!</p>
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="d-grid gap-3 d-sm-flex justify-content-center">
+          <a href="https://t.me/nseloivanovo" target="_blank" rel="noopener" class="btn btn-lg btn-gradient w-100">
+            <i class="fab fa-telegram me-2"></i> В Telegram
+          </a>
+          <a href="mailto:seloivanovo33@mail.ru?subject=Подписка на новости&body=Здравствуйте! Хочу получать новости села Иваново на email." 
+             target="_blank" rel="noopener" class="btn btn-lg btn-outline-secondary w-100">
+             <i class="fas fa-envelope me-2"></i> На Email
+          </a>
+        </div>
+        <p class="mt-3 text-muted small">
+          Нажимая "В Telegram", вы переходите в канал. По email — отправляете запрос на подписку.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Прислать новость -->
+  <section id="send-news" class="container my-5 animate-on-scroll">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card card-news shadow-lg border-0">
+          <div class="bg-new-gradient rounded-top-4">
+            <i class="fas fa-bullhorn fa-3x mb-3 animate__animated animate__pulse" style="--animate-duration: 2s;"></i>
+            <h2 class="fw-bold mb-0">📬 Прислать новость</h2>
+          </div>
+          <div class="card-body p-5">
+            <p class="lead text-center mb-4" style="color: #4A148C;">
+              Стало что-то известно? Произошло событие? Сфотографировали интересное место?
+            </p>
+            <p class="text-center fs-5">
+              <strong class="text-danger">Напишите нашему боту — и мы опубликуем новость!</strong>
+            </p>
+            <div class="text-center mt-4">
+              <a href="https://t.me/SIvanovoNewsBot" target="_blank" rel="noopener" class="btn btn-telegram btn-lg">
+                <i class="fab fa-telegram me-2"></i> Написать боту
+              </a>
+            </div>
+            <div class="mt-5 p-4 bg-light rounded-4" style="border: 2px dashed #F8BBD0;">
+              <h5 class="text-danger fw-bold"><i class="fas fa-question-circle me-2"></i> Как это работает:</h5>
+              <ol class="ms-3" style="color: #4A148C;">
+                <li><strong>Нажмите кнопку</strong> — откроется Telegram</li>
+                <li><strong>Напишите боту:</strong> что, где, когда</li>
+                <li><strong>Прикрепите фото или видео</strong> (по желанию)</li>
+                <li>Бот подтвердит приём</li>
+                <li><strong>Вы получите уведомление,</strong> когда новость появится на сайте</li>
+              </ol>
+              <p class="text-muted small mt-3 mb-0">
+                <i class="fas fa-lock text-success me-1"></i>
+                <strong>Важно:</strong> можно писать анонимно.
+              </p>
+            </div>
+          </div>
+          <div class="text-center py-3" style="background: #FFF3E0; border-top: 1px dashed #FF8A65;">
+            <small class="text-orange fw-semibold">Сделано с любовью к селу Иваново ❤️</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- 💬 Отзывы жителей села Иваново -->
+<section id="reviews" 
+  class="container my-5 position-relative py-5" 
+  style="background: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed; 
+         background-size: cover;
+         border-radius: 24px;
+         overflow: hidden;">
+  
+  <!-- Полупрозрачный слой поверх фона -->
+  <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+              background: linear-gradient(135deg, rgba(76, 175, 80, 0.8), rgba(255, 152, 0, 0.6));
+              z-index: 1;
+              border-radius: 24px;"></div>
+
+  <!-- Контент -->
+  <div class="position-relative z-3 text-white text-center mb-5 px-3">
+    <h2 class="display-5 fw-bold mb-4" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
+      <i class="fas fa-comments me-3"></i>Отзывы жителей
+    </h2>
+    <p class="lead mb-0" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+      Что думают люди о жизни в селе и нашем проекте
+    </p>
+  </div>
+
+  <!-- Контейнер отзывов -->
+  <div id="reviews-container" class="row g-4 px-4">
+    <!-- Сюда загрузятся отзывы -->
+  </div>
+
+  <!-- Кнопка "Все отзывы" -->
+  <div class="text-center mt-5 mb-4">
+    <a href="otzyvy.html" 
+       class="btn btn-lg px-5 py-3 shadow-lg"
+       style="
+         background: linear-gradient(45deg, #4CAF50, #8BC34A, #4CAF50);
+         background-size: 200% 200%;
+         color: white;
+         border: none;
+         border-radius: 60px;
+         font-weight: 600;
+         box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6);
+         animation: gradient-shift 4s ease infinite, pulse-shadow 2s infinite;
+         transition: transform 0.3s ease;"
+       onmouseover="this.style.transform='scale(1.1)';"
+       onmouseout="this.style.transform='scale(1)';">
+      <i class="fas fa-arrow-right me-2"></i> Смотреть все отзывы
+    </a>
+  </div>
+</section>
+
+<!-- Стили -->
+<style>
+  /* Анимация движения градиента */
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Анимация тени кнопки */
+  @keyframes pulse-shadow {
+    0%, 100% { box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6); }
+    50% { box-shadow: 0 15px 40px rgba(76, 175, 80, 0.8); }
+  }
+
+  /* Карточка отзыва */
+  .review-card {
+    background: linear-gradient(135deg, #ffffff, #f8fbf8);
+    border-radius: 24px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    border-left: 6px solid #4CAF50;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    height: 100%;
+    opacity: 0;
+    transform: translateY(40px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Блик на карточке */
+  .review-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .review-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Эффект при наведении */
+  .review-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    border-left-color: #FF9800;
+    background: linear-gradient(135deg, #e8f5e8, #e3f2fd);
+  }
+
+  /* Анимация появления */
+  .review-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Заголовок */
+  .review-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .review-avatar {
+    font-size: 2.3rem;
+    background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradient-shift 4s ease infinite;
+  }
+
+  .review-name {
+    font-weight: 700;
+    color: #2E7D32;
+    margin: 0;
+    font-size: 1.3rem;
+  }
+
+  .review-username {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+  }
+
+  .review-text {
+    color: #444;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .review-date {
+    font-size: 0.85rem;
+    color: #777;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .review-date i {
+    color: #FFD700;
+  }
+
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    #reviews {
+      background-attachment: scroll !important;
+    }
+    .review-card {
+      border-radius: 20px;
+    }
+  }
+</style>
+
+<!-- Скрипт -->
+<script>
+  fetch('reviews.json')
+    .then(r => r.json())
+    .then(reviews => {
+      const container = document.getElementById('reviews-container');
+      const toShow = reviews.slice(0, 3);
+
+      toShow.forEach((review, index) => {
+        const delay = index * 350;
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4';
+        col.innerHTML = `
+          <div class="review-card" style="transition-delay: ${delay}ms;">
+            <div class="p-4">
+              <div class="review-header">
+                <i class="fas fa-user-circle review-avatar"></i>
+                <div>
+                  <p class="review-name">${review.name}</p>
+                  <p class="review-username">${review.username}</p>
+                </div>
+              </div>
+              <p class="review-text">${review.text}</p>
+              <div class="review-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>${review.date}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+
+        setTimeout(() => {
+          col.querySelector('.review-card').classList.add('visible');
+        }, delay + 150);
+      });
+
+      // Скрываем кнопку, если отзывов <= 3
+      const button = document.querySelector('#reviews a[href="otzyvy.html"]');
+      if (reviews.length <= 3) {
+        button.style.display = 'none';
+      }
+    })
+    .catch(err => {
+      console.error('Ошибка загрузки отзывов:', err);
+      document.getElementById('reviews-container').innerHTML = `
+        <div class="col-12 text-center">
+          <i class="far fa-comment-slash fa-3x text-white mb-3" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);"></i>
+          <p class="text-white fs-5" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">Пока нет отзывов. Будьте первым!</p>
+        </div>
+      `;
+    });
+</script>
+
+  <!-- RSS-лента из Telegram -->
+  <section id="news-from-tg" class="container my-5 animate-on-scroll">
+    <h2 class="text-center mb-4 fw-bold" style="color: #2E7D32;">
+      <i class="fab fa-telegram me-2" style="color: #2196F3;"></i>
+      Последние новости в Telegram
+    </h2>
+    <div id="rss-feed" class="text-center">
+      <p>Загрузка новостей...</p>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section id="contact" class="container my-5 animate-on-scroll">
+    <h2 class="text-center mb-5 fw-bold" style="color: #1565C0;">Связаться с нами</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="row text-center">
+          <div class="col-md-4 mb-4 contact-item">
+            <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+            <h5>Email</h5>
+            <p>seloivanovo33@mail.ru</p>
+          </div>
+          <div class="col-md-4 mb-4 contact-item">
+            <i class="fas fa-phone fa-2x text-success mb-3"></i>
+            <h5>Телефон</h5>
+            <p>Не указан</p>
+          </div>
+          <div class="col-md-4 mb-4 contact-item">
+            <i class="fas fa-map-marker-alt fa-2x text-danger mb-3"></i>
+            <h5>Адрес</h5>
+            <p>Село Иваново, Ковровский район, Владимирская область</p>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <p><strong>Присылайте новости и отзывы!</strong> Вы можете стать автором на нашем сайте.</p>
+          <a href="mailto:seloivanovo33@mail.ru" class="btn btn-outline-primary">Написать письмо</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Подвал -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Новости села Иваново</h5>
+          <p>Ваш надёжный источник информации о жизни в селе. Присоединяйтесь к нам!</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <h5>Мы в соцсетях</h5>
+          <a href="https://vk.com/ivanovo_selo" class="me-3 fs-5" target="_blank" rel="noopener">
+            <i class="fab fa-vk"></i>
+          </a>
+          <a href="https://t.me/nseloivanovo" class="me-3 fs-5" target="_blank" rel="noopener">
+            <i class="fab fa-telegram"></i>
+          </a>
+          <a href="https://youtube.com/@ivanovoTV" class="me-3 fs-5" target="_blank" rel="noopener">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="https://instagram.com/ivanovo_life" class="fs-5" target="_blank" rel="noopener">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+      <hr class="mt-4 mb-3" style="border-color: #FFECB3;">
+      <p class="text-center mb-0">© 2025 Новости села Иваново. Сделано с любовью к родному краю.</p>
+    </div>
+  </footer>
+
+  <!-- Подключаем jQuery и RSS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    // Анимация появления при скролле
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Загрузка новостей из Telegram
+    $(document).ready(function() {
+      $.get('https://rss.telega.link/channel.php?channel=nseloivanovo', function(data) {
+        $('#rss-feed').empty();
+        const $items = $(data).find('item').slice(0, 3);
+        
+        if ($items.length === 0) {
+          $('#rss-feed').html('<p>Нет новостей в канале. Опубликуйте первый пост!</p>');
+          return;
+        }
+
+        $items.each(function() {
+          const title = $(this).find('title').text() || 'Без заголовка';
+          const link = $(this).find('link').text();
+          $('#rss-feed').append(`
+            <div class="card mb-4 rss-card shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">${title}</h5>
+                <a href="${link}" target="_blank" class="btn btn-outline-primary btn-sm">
+                  <i class="fab fa-telegram me-1"></i> Читать в Telegram
+                </a>
+              </div>
+            </div>
+          `);
+        });
+      }).fail(function() {
+        $('#rss-feed').html('<p class="text-danger">Не удалось загрузить новости. Проверьте канал <a href="https://t.me/nseloivanovo" target="_blank">@nseloivanovo</a>.</p>');
+      });
+    });
+  </script>
+</body>
+</html>
