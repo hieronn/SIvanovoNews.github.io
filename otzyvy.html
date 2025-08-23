@@ -11,71 +11,112 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
-  <!-- Google Fonts (опционально) -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet"/>
 
   <style>
     body {
       font-family: 'Montserrat', 'Segoe UI', sans-serif;
-      background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+      background: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
       background-size: cover;
       color: #333;
       line-height: 1.8;
     }
 
-    /* Полупрозрачный слой поверх фона */
+    /* Полупрозрачный градиентный слой */
     body::before {
       content: '';
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.92);
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(255, 152, 0, 0.75));
       z-index: -1;
     }
 
-    /* Общая обёртка */
     .container {
       max-width: 800px;
-      padding: 40px 20px;
+      padding: 50px 20px;
     }
 
     h1 {
       font-weight: 700;
-      color: #2E7D32;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      color: #FFF9C4;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+      text-align: center;
     }
 
     p.lead {
-      color: #555;
+      color: #FFF3E0;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+      text-align: center;
       font-size: 1.1rem;
     }
 
     /* Карточка отзыва */
     .review-card {
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border-left: 6px solid #4CAF50;
+      transition: all 0.4s ease;
       margin-bottom: 30px;
-      border-left: 5px solid #4CAF50;
-      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .review-card.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     .review-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.16);
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+      border-left-color: #FF9800;
     }
 
-    .review-card .user-icon {
-      font-size: 2.5rem;
-      margin-right: 15px;
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
     }
 
-    .review-card .username {
+    .review-avatar {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 200%;
+      animation: gradient-shift 4s ease infinite;
+    }
+
+    .review-name {
       font-weight: 600;
-      color: #1B5E20;
+      color: #2E7D32;
+      margin: 0;
     }
 
-    /* Звёзды */
-    .star {
+    .review-username {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 0;
+    }
+
+    .review-text {
+      color: #444;
+      line-height: 1.7;
+      font-size: 1.05rem;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    .review-date {
+      font-size: 0.85rem;
+      color: #777;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .review-date i {
       color: #FFD700;
     }
 
@@ -100,6 +141,13 @@
       background: linear-gradient(45deg, #388E3C, #689F38);
     }
 
+    /* Анимация градиента */
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     /* Анимация появления */
     @keyframes fadeInUp {
       from {
@@ -111,127 +159,89 @@
         transform: translateY(0);
       }
     }
-    .animate {
-      animation: fadeInUp 0.8s ease forwards;
-    }
-    .review-card {
-      opacity: 0;
-    }
-    .review-card:nth-child(1) { animation-delay: 0.2s; }
-    .review-card:nth-child(2) { animation-delay: 0.4s; }
-    .review-card:nth-child(3) { animation-delay: 0.6s; }
   </style>
 </head>
 <body class="p-0">
 
   <div class="container">
-    <h1 class="text-center mb-3 animate">💬 Отзывы жителей села Иваново</h1>
-    <p class="text-center lead mb-5 animate">Что думают люди о жизни в селе и нашем проекте</p>
+    <h1 class="mb-3">💬 Отзывы жителей села Иваново</h1>
+    <p class="lead mb-5">Что думают люди о жизни в селе и нашем проекте</p>
 
-    <!-- Отзыв 1 -->
-    <!-- <div class="review-card animate">
-      <div class="d-flex align-items-center mb-2">
-        <i class="fas fa-user-circle user-icon text-success"></i>
-        <div>
-          <strong class="username">Анна Петрова</strong><br>
-          <small class="text-muted">Жительница с 1998 года</small>
-        </div>
-      </div>
-      <div class="text-warning mb-3">
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-      </div>
-      <p>Отличный проект! Наконец-то можно узнать, что происходит в селе. Спасибо за фестиваль урожая — впервые за 10 лет собрались все семьи! Теперь и молодёжь интересуется жизнью села.</p>
-    </div> -->
+    <!-- Контейнер для отзывов -->
+    <div id="all-reviews">
+      <!-- Отзывы загрузятся сюда -->
+    </div>
 
-    <!-- Отзыв 2 -->
-    <!-- <div class="review-card animate">
-      <div class="d-flex align-items-center mb-2">
-        <i class="fas fa-user-circle user-icon text-primary"></i>
-        <div>
-          <strong class="username">Иван Сидоров</strong><br>
-          <small class="text-muted">Пенсионер, фермер</small>
-        </div>
-      </div>
-      <div class="text-warning mb-3">
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="far fa-star star"></i>
-      </div>
-      <p>Ремонт дороги — большая удача для села. А сайт и бот помогают быть в курсе. Хотелось бы больше фотоотчётов и новостей про молодёжные инициативы.</p>
-    </div> -->
-
-    <!-- Отзыв 3 -->
-    <!-- <div class="review-card animate"> -->
-      <!-- <div class="d-flex align-items-center mb-2">
-        <i class="fas fa-user-circle user-icon text-danger"></i>
-        <div>
-          <strong class="username">Елена М.</strong><br>
-          <small class="text-muted">Молодая мама</small>
-        </div>
-      </div>
-      <div class="text-warning mb-3">
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-        <i class="fas fa-star star"></i>
-      </div>
-      <p>Люблю, как освещают молодёжные инициативы. Мой сын участвовал в центре — стал увереннее. Спасибо за то, что делаете село лучше!</p>
-    </div> -->
-
-    <!-- Кнопка -->
+    <!-- Кнопка "Оставить отзыв" -->
     <div class="text-center mt-5">
       <a href="https://t.me/SIvanovoNewsBot" target="_blank" rel="noopener" class="btn-custom">
         <i class="fab fa-telegram"></i> Оставить свой отзыв
       </a>
-      <p class="text-muted small mt-3">
+      <p class="text-white small mt-3" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
         Напишите в бота — анонимно или под именем ❤️
       </p>
     </div>
   </div>
 
-  <!-- Скрипт: анимация появления отзывов -->
+  <!-- Скрипт: загрузка отзывов из reviews.json -->
   <script>
-    document.querySelectorAll('.animate').forEach((el, i) => {
-      setTimeout(() => {
-        el.style.opacity = 1;
-      }, 300 + i * 200);
-    });
+    fetch('reviews.json')
+      .then(r => r.json())
+      .then(reviews => {
+        const container = document.getElementById('all-reviews');
+
+        if (reviews.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-5">
+              <i class="far fa-comment-dots fa-3x text-white mb-3" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);"></i>
+              <p class="text-white fs-5" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+                Пока нет отзывов. Будьте первым!
+              </p>
+            </div>
+          `;
+          return;
+        }
+
+        reviews.forEach((review, index) => {
+          const delay = index * 250;
+          const reviewEl = document.createElement('div');
+          reviewEl.className = 'review-card';
+          reviewEl.style.animationDelay = `${delay}ms`;
+
+          reviewEl.innerHTML = `
+            <div class="p-4">
+              <div class="review-header">
+                <i class="fas fa-user-circle review-avatar"></i>
+                <div>
+                  <p class="review-name">${review.name}</p>
+                  <p class="review-username">${review.username}</p>
+                </div>
+              </div>
+              <p class="review-text">${review.text}</p>
+              <div class="review-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>${review.date}</span>
+              </div>
+            </div>
+          `;
+          container.appendChild(reviewEl);
+
+          // Анимация появления
+          setTimeout(() => {
+            reviewEl.style.opacity = 1;
+          }, delay + 100);
+        });
+      })
+      .catch(err => {
+        console.error('Ошибка загрузки отзывов:', err);
+        document.getElementById('all-reviews').innerHTML = `
+          <div class="text-center py-5">
+            <p class="text-white fs-5" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
+              ❌ Не удалось загрузить отзывы. Проверьте позже.
+            </p>
+          </div>
+        `;
+      });
   </script>
 </body>
 </html>
-<script>
-  fetch('reviews.json')
-    .then(r => r.json())
-    .then(reviews => {
-      const container = document.getElementById('reviews-container');
-      reviews.forEach((r, i) => {
-        setTimeout(() => {
-          const div = document.createElement('div');
-          div.className = 'review-card';
-          div.innerHTML = `
-            <div class="p-4">
-              <div class="review-header">
-                <i class="fas fa-user-circle fa-2x text-success me-3"></i>
-                <div>
-                  <strong>${r.name}</strong><br>
-                  <small>${r.username}</small>
-                </div>
-              </div>
-              <p>${r.text}</p>
-              <small class="text-muted">${r.date}</small>
-            </div>
-          `;
-          container.appendChild(div);
-          div.style.opacity = 0;
-          setTimeout(() => div.style.opacity = 1, 50);
-        }, i * 200);
-      });
-    });
-</script>
