@@ -21,21 +21,40 @@
       --accent: #2196F3;
     }
 
+    /* Переливающийся фон всей страницы */
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #f0f7ff, #f4f9e9);
+      background: linear-gradient(135deg, #e8f5e8, #f3e5f5, #e1f5fe);
+      background-size: 400% 400%;
       color: #333;
       line-height: 1.8;
+      animation: gradientBG 18s ease infinite;
+      margin: 0;
+      padding: 0;
     }
 
-    /* Градиентный логотип */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Анимированный логотип */
     .navbar-brand {
       font-weight: 800;
       font-size: 1.5rem;
-      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3);
+      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3, #4CAF50);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      background-size: 300% 300%;
+      animation: gradientFlow 6s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     /* Главный баннер */
@@ -43,7 +62,7 @@
       background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
                   url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
       background-size: cover;
-      height: 650px;
+      height: 700px;
       display: flex;
       align-items: center;
       text-align: center;
@@ -60,48 +79,40 @@
       margin: 0 auto;
     }
 
-    /* Кнопки */
+    /* Переливающаяся кнопка */
     .btn-gradient {
       background: linear-gradient(45deg, #4CAF50, #8BC34A);
-      border: none;
       color: white;
+      border: none;
       padding: 14px 32px;
       border-radius: 60px;
       font-weight: 600;
-      transition: all 0.4s;
-      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+      transition: all 0.4s ease;
+      animation: pulse-shadow 2s infinite;
     }
     .btn-gradient:hover {
       transform: scale(1.08);
-      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
+      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6);
+    }
+    @keyframes pulse-shadow {
+      0%, 100% { box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4); }
+      50% { box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6); }
     }
 
     /* Карточки новостей */
     .news-card {
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-      transition: all 0.4s ease;
       background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
       border-left: 6px solid var(--primary);
+      transition: all 0.4s ease;
+      overflow: hidden;
     }
     .news-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
     }
-
-    /* Метки дат */
-    .date-badge {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 12px;
-    }
-    .date-badge-1 { background: #4CAF50; }
-    .date-badge-2 { background: #FF9800; }
-    .date-badge-3 { background: #2196F3; }
 
     /* Секция "О селе" */
     .section-about {
@@ -160,6 +171,66 @@
     .animate-on-scroll.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* === 💬 БЛОК "НАПИСАТЬ БОТУ" — ПЕРЕЛИВАЮЩИЙСЯ === */
+    .bot-section {
+      background: linear-gradient(135deg, #E91E63, #9C27B0, #673AB7);
+      background-size: 300% 300%;
+      animation: gradientShift 6s ease infinite;
+      border-radius: 24px;
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+      margin: 80px 0;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .bot-section h2 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+    .bot-section p.lead {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    }
+    .btn-bot {
+      background: white;
+      color: #E91E63;
+      font-weight: 700;
+      padding: 16px 45px;
+      border-radius: 60px;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+    .btn-bot:hover {
+      transform: scale(1.12);
+      box-shadow: 0 12px 35px rgba(255, 255, 255, 0.5);
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .bot-section .small {
+      color: rgba(255, 255, 255, 0.8);
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    }
+
+    /* RSS-лента */
+    .rss-card {
+      border-left: 5px solid var(--accent);
+    }
+    .rss-card:hover {
+      transform: translateX(8px);
     }
   </style>
 </head>
@@ -249,69 +320,22 @@
     </div>
   </section>
 
-  <!-- Подписка -->
-  <section id="subscribe" class="container my-5 text-center animate-on-scroll">
-    <h2 class="fw-bold mb-4" style="color: #2E7D32;">📩 Подписаться на новости</h2>
-    <p class="lead mb-4">Получайте свежие новости села прямо в Telegram или на email!</p>
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <div class="d-grid gap-3 d-sm-flex justify-content-center">
-          <a href="https://t.me/nseloivanovo" target="_blank" rel="noopener" class="btn btn-lg btn-gradient w-100">
-            <i class="fab fa-telegram me-2"></i> В Telegram
-          </a>
-          <a href="mailto:seloivanovo33@mail.ru?subject=Подписка на новости&body=Здравствуйте! Хочу получать новости села Иваново на email." 
-             target="_blank" rel="noopener" class="btn btn-lg btn-outline-secondary w-100">
-             <i class="fas fa-envelope me-2"></i> На Email
-          </a>
-        </div>
-        <p class="mt-3 text-muted small">
-          Нажимая "В Telegram", вы переходите в канал. По email — отправляете запрос на подписку.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Прислать новость -->
-  <section id="send-news" class="container my-5 animate-on-scroll">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="card card-news shadow-lg border-0">
-          <div class="bg-new-gradient rounded-top-4">
-            <i class="fas fa-bullhorn fa-3x mb-3 animate__animated animate__pulse" style="--animate-duration: 2s;"></i>
-            <h2 class="fw-bold mb-0">📬 Прислать новость</h2>
-          </div>
-          <div class="card-body p-5">
-            <p class="lead text-center mb-4" style="color: #4A148C;">
-              Стало что-то известно? Произошло событие? Сфотографировали интересное место?
-            </p>
-            <p class="text-center fs-5">
-              <strong class="text-danger">Напишите нашему боту — и мы опубликуем новость!</strong>
-            </p>
-            <div class="text-center mt-4">
-              <a href="https://t.me/SIvanovoNewsBot" target="_blank" rel="noopener" class="btn btn-telegram btn-lg">
-                <i class="fab fa-telegram me-2"></i> Написать боту
-              </a>
-            </div>
-            <div class="mt-5 p-4 bg-light rounded-4" style="border: 2px dashed #F8BBD0;">
-              <h5 class="text-danger fw-bold"><i class="fas fa-question-circle me-2"></i> Как это работает:</h5>
-              <ol class="ms-3" style="color: #4A148C;">
-                <li><strong>Нажмите кнопку</strong> — откроется Telegram</li>
-                <li><strong>Напишите боту:</strong> что, где, когда</li>
-                <li><strong>Прикрепите фото или видео</strong> (по желанию)</li>
-                <li>Бот подтвердит приём</li>
-                <li><strong>Вы получите уведомление,</strong> когда новость появится на сайте</li>
-              </ol>
-              <p class="text-muted small mt-3 mb-0">
-                <i class="fas fa-lock text-success me-1"></i>
-                <strong>Важно:</strong> можно писать анонимно.
-              </p>
-            </div>
-          </div>
-          <div class="text-center py-3" style="background: #FFF3E0; border-top: 1px dashed #FF8A65;">
-            <small class="text-orange fw-semibold">Сделано с любовью к селу Иваново ❤️</small>
-          </div>
-        </div>
-      </div>
+  <!-- ✅ ПЕРЕЛИВАЮЩИЙСЯ БЛОК "НАПИСАТЬ БОТУ" -->
+  <section class="bot-section">
+    <div class="container">
+      <h2><i class="fab fa-telegram me-3"></i> Прислать новость</h2>
+      <p class="lead">
+        <strong>Стало что-то известно? Произошло событие? Сфотографировали интересное место?</strong>
+      </p>
+      <p class="lead">
+        Напишите нашему боту — и мы опубликуем новость!
+      </p>
+      <a href="https://t.me/SIvanovoNewsBot" target="_blank" rel="noopener" class="btn-bot">
+        <i class="fab fa-telegram me-2"></i> Написать боту
+      </a>
+      <p class="mt-3 small">
+        Можно писать анонимно. Вы получите уведомление, когда новость появится на сайте.
+      </p>
     </div>
   </section>
 
@@ -332,17 +356,17 @@
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="row text-center">
-          <div class="col-md-4 mb-4 contact-item">
+          <div class="col-md-4 mb-4">
             <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
             <h5>Email</h5>
             <p>seloivanovo33@mail.ru</p>
           </div>
-          <div class="col-md-4 mb-4 contact-item">
+          <div class="col-md-4 mb-4">
             <i class="fas fa-phone fa-2x text-success mb-3"></i>
             <h5>Телефон</h5>
             <p>Не указан</p>
           </div>
-          <div class="col-md-4 mb-4 contact-item">
+          <div class="col-md-4 mb-4">
             <i class="fas fa-map-marker-alt fa-2x text-danger mb-3"></i>
             <h5>Адрес</h5>
             <p>Село Иваново, Ковровский район, Владимирская область</p>
@@ -388,7 +412,7 @@
   <!-- Подключаем jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-    // Анимация появления
+    // Анимация появления при скролле
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('visible');
