@@ -4,6 +4,43 @@ from datetime import datetime
 import logging
 from telegram import Update, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+import subprocess
+import os
+
+# Настройки GitHub
+GITHUB_REPO = "https://github.com/hieronn/SIvanovoNews.github.io.git"
+LOCAL_REPO_PATH = "./site_repo"  # Локальная папка для клонирования
+GITHUB_TOKEN = "ghp_..."  # ⚠️ Замени на твой токен (Settings → Developer settings → Personal access tokens)
+
+def prepare_github_repo():
+    """Клонирует или обновляет репозиторий"""
+    if not os.path.exists(LOCAL_REPO_PATH):
+        os.makedirs(LOCAL_REPO_PATH)
+        subprocess.run(["git", "clone", f"https://{GITHUB_TOKEN}@github.com/hieronn/SIvanovoNews.github.io.git", "."], cwd=LOCAL_REPO_PATH)
+    else:
+        subprocess.run(["git", "pull"], cwd=LOCAL_REPO_PATH)
+
+def copy_files_to_repo():
+    """Копируем нужные файлы в локальный репозиторий"""
+    import shutil
+    for file in ["news.json", "reviews.json", "index.html", "otzyvy.html"]:
+        if os.path.exists(file):
+            shutil.copy(file, os.path.join(LOCAL_REPO_PATH, file))
+
+async def push_to_github():
+    """Автоматически пушит изменения в GitHub"""
+    try:
+        prepare_github_repo()
+        copy_files_to_repo()
+
+        # Делаем коммит
+        subprocess.run(["git", "add", "."], cwd=LOCAL_REPO_PATH)
+        subprocess.run(["git", "commit", "-m", "🔄 Автообновление: новость/отзыв опубликован"], cwd=LOCAL_REPO_PATH)
+        subprocess.run(["git", "push"], cwd=LOCAL_REPO_PATH)
+
+        print("✅ Файлы успешно отправлены в GitHub")
+    except Exception as e:
+        print(f"❌ Ошибка автопуша: {e}")
 
 # === НАСТРОЙКИ ===
 BOT_TOKEN = "8299964233:AAFa4I3gFSjWxodUWQMx8j5W0yWkPRRhx6M"  # ⚠️ Убедись, что токен правильный
@@ -168,7 +205,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logging.error(f"Ошибка: {e}")
         await message.reply_text("⚠️ Ошибка при отправке. Попробуйте позже.")
 
-# /publish <user_id> — опубликовать
 async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         await update.message.reply_text("❌ У вас нет прав.")
@@ -184,7 +220,6 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_name = user_info.full_name
         username = f"@{user_info.username}" if user_info.username else "аноним"
 
-        # Получаем последнее сообщение
         last_msg = context.bot_data.get(f"last_message_{user_id}")
         if not last_msg:
             await update.message.reply_text("❌ Не удалось найти сообщение пользователя.")
@@ -193,14 +228,17 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = last_msg["text"]
         is_review = any(word in text.lower() for word in ["отзыв", "нравится", "можно улучшить", "предложение", "мнение"])
 
+        now = datetime.now().strftime("%d.%m.%Y")
         item = {
             "user_id": user_id,
             "name": user_name,
             "username": username,
             "text": text,
-            "date": datetime.now().strftime("%d.%m.%Y"),
+            "date": now,
             "timestamp": datetime.now().isoformat()
         }
+
+        html_block = ""  # Готовый HTML-код
 
         if is_review:
             # Это отзыв
@@ -208,16 +246,35 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reviews.insert(0, item)
             save_json(REVIEWS_FILE, reviews)
 
+            # Отправляем в канал
             await context.bot.send_message(
                 chat_id=CHANNEL_ID,
-                text=f"💬 Новый отзыв от {user_name}:\n\n“{text}”"
+                text=f"💬 <b>Новый отзыв от {user_name}:</b>\n\n“{text}”",
+                parse_mode='HTML'
             )
 
-            await context.bot.send_message(
-                chat_id=user_id,
-                text=f"🎉 Спасибо!\n\nВаш отзыв добавлен на сайт:\n👉 https://hieronn.github.io/SIvanovoNews.github.io/otzyvy.html\n\nСпасибо за участие! ❤️"
-            )
-            await update.message.reply_text(f"✅ Отзыв от {user_name} добавлен и появится на сайте.")
+            # 🔥 ГОТОВЫЙ HTML-БЛОК ДЛЯ ОТЗЫВА
+            html_block = f'''
+<!-- Отзыв жителя -->
+<div class="col-12 mb-4">
+  <div class="review-card" style="transition-delay: 0ms;">
+    <div class="p-4">
+      <div class="review-header">
+        <i class="fas fa-user-circle review-avatar"></i>
+        <div>
+          <p class="review-name">{user_name}</p>
+          <p class="review-username">{username}</p>
+        </div>
+      </div>
+      <p class="review-text">{text}</p>
+      <div class="review-date">
+        <i class="fas fa-calendar-alt"></i>
+        <span>{now}</span>
+      </div>
+    </div>
+  </div>
+</div>
+            '''
 
         else:
             # Это новость
@@ -231,12 +288,44 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 message_id=last_msg["message_id"]
             )
 
-            await context.bot.send_message(
-                chat_id=user_id,
-                text=f"🎉 Поздравляем!\n\nВаша новость опубликована:\n👉 https://t.me/nseloivanovo\n\nОна уже на сайте:\n🌐 https://hieronn.github.io/SIvanovoNews.github.io/\n\nСпасибо! ❤️"
-            )
-            await update.message.reply_text(f"✅ Новость от {user_name} добавлена и опубликована в канале.")
+            # 🔥 ГОТОВЫЙ HTML-БЛОК ДЛЯ НОВОСТИ
+            html_block = f'''
+<!-- Карточка новости -->
+<div class="col-md-6 col-lg-4 animate-on-scroll">
+  <div class="news-card">
+    <div class="p-4">
+      <span class="date-badge" style="background: #4CAF50;">{now}</span>
+      <h5>{text[:60]}{"..." if len(text) > 60 else ""}</h5>
+      <p class="text-muted">Автор: {user_name}</p>
+      <a href="https://t.me/nseloivanovo" target="_blank" class="btn btn-sm btn-outline-primary">
+        Подробнее
+      </a>
+    </div>
+  </div>
+</div>
+            '''
 
+        # ✅ Отправляем HTML-код админу
+        await context.bot.send_message(
+            chat_id=ADMIN_USER_ID,
+            text=f"✅ <b>Готовый HTML-блок для сайта:</b>\n\n"
+                 f"<pre>{html_block}</pre>\n\n"
+                 f"<i>Скопируйте и вставьте в index.html или otzyvy.html</i>",
+            parse_mode='HTML'
+        )
+
+        # ✅ Отправляем уведомление автору
+        await context.bot.send_message(
+            chat_id=user_id,
+            text=f"🎉 Спасибо!\n\n"
+                 f"Ваш отзыв добавлен на сайт:\n👉 https://hieronn.github.io/SIvanovoNews.github.io/otzyvy.html\n\n"
+                 f"Спасибо за участие! ❤️"
+        )
+
+        # ✅ Автопуш в GitHub
+        await push_to_github()
+
+        await update.message.reply_text(f"✅ Отзыв от {user_name} опубликован и отправлен на сайт.")
         user_published[user_id] = user_published.get(user_id, 0) + 1
 
     except Exception as e:
