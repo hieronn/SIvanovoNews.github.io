@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Новости села Иваново</title>
@@ -15,325 +14,8 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
-  <style>
-    :root {
-      --primary: #4CAF50;
-      --secondary: #FF9800;
-      --accent: #2196F3;
-      --light: #FFF9C4;
-      --dark: #3E2723;
-    }
-
-    body {
-      font-family: 'Segoe UI', 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #f0f7ff, #f4f9e9);
-      color: #333;
-      line-height: 1.8;
-      overflow-x: hidden;
-    }
-
-    /* Анимированный градиентный логотип */
-    .navbar-brand {
-      font-weight: 800;
-      font-size: 1.5rem;
-      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3, #4CAF50);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradientFlow 6s ease infinite;
-    }
-    @keyframes gradientFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Главный баннер */
-    .hero {
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                  url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
-      background-size: cover;
-      height: 650px;
-      display: flex;
-      align-items: center;
-      text-align: center;
-      color: white;
-    }
-    .hero h1 {
-      font-size: 3.8rem;
-      font-weight: 900;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
-    }
-    .hero p {
-      font-size: 1.4rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    /* Градиентные кнопки */
-    .btn-gradient {
-      background: linear-gradient(45deg, #4CAF50, #8BC34A);
-      border: none;
-      color: white;
-      padding: 14px 32px;
-      border-radius: 60px;
-      font-weight: 600;
-      transition: all 0.4s;
-      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-    }
-    .btn-gradient:hover {
-      transform: scale(1.08);
-      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
-    }
-
-    /* Карточки новостей */
-    .news-card {
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-      transition: all 0.4s ease;
-      background: white;
-      border-left: 6px solid var(--primary);
-    }
-    .news-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
-      border-left-color: var(--secondary);
-    }
-    .news-img {
-      height: 190px;
-      object-fit: cover;
-      transition: 0.4s;
-    }
-    .news-card:hover .news-img {
-      transform: scale(1.12);
-    }
-
-    /* Метки дат */
-    .date-badge {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 12px;
-    }
-    .date-badge-1 { background: #4CAF50; }
-    .date-badge-2 { background: #FF9800; }
-    .date-badge-3 { background: #2196F3; }
-
-    /* Улучшенная секция "О селе" */
-    .section-about {
-      background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
-      padding: 100px 0;
-      position: relative;
-    }
-    .section-about::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.92);
-      z-index: 1;
-    }
-    .section-about > .container {
-      position: relative;
-      z-index: 2;
-    }
-    .about-card {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-      padding: 30px;
-      backdrop-filter: blur(10px);
-      border: 1px solid #eee;
-    }
-    .about-card h4 {
-      color: var(--primary);
-    }
-
-    /* Магазин */
-    .section-shop {
-      background: linear-gradient(135deg, #FFF3E0, #E1F5FE);
-      padding: 90px 0;
-      text-align: center;
-    }
-
-    /* Контакты */
-    .contact-item {
-      transition: transform 0.3s;
-    }
-    .contact-item:hover {
-      transform: scale(1.1);
-      color: var(--secondary);
-    }
-
-    /* Подвал */
-    .footer {
-      background: linear-gradient(135deg, #2E7D32, #1B5E20);
-      color: #FFF9C4;
-      padding: 70px 0 30px;
-    }
-    .footer a {
-      color: #FFF9C4;
-      transition: color 0.3s;
-    }
-    .footer a:hover {
-      color: #FFCC80;
-    }
-
-    /* Анимация появления */
-    .animate-on-scroll {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.9s ease;
-    }
-    .animate-on-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Улучшенная секция "Прислать новость" */
-    .card-news {
-      border: none;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.18);
-    }
-    .bg-new-gradient {
-      background: linear-gradient(90deg, #E91E63, #9C27B0, #673AB7, #E91E63);
-      background-size: 300% 300%;
-      animation: gradientShift 5s ease infinite;
-      color: white;
-      text-align: center;
-      padding: 25px;
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .btn-telegram {
-      background: linear-gradient(45deg, #D81B60, #8E24AA);
-      color: white;
-      font-weight: 600;
-      padding: 14px 40px;
-      border: none;
-      border-radius: 60px;
-      font-size: 1.15rem;
-      box-shadow: 0 6px 20px rgba(136, 64, 142, 0.4);
-    }
-    .btn-telegram:hover {
-      transform: scale(1.1);
-      box-shadow: 0 10px 30px rgba(136, 64, 142, 0.6);
-    }
-    .text-orange {
-      color: #EF6C00;
-      font-weight: 600;
-    }
-
-    /* RSS-лента */
-    .rss-card {
-      border-left: 5px solid var(--accent);
-      transition: all 0.3s;
-    }
-    .rss-card:hover {
-      transform: translateX(8px);
-    }
-
-    /* Отзывы — стили */
-    @keyframes pulse-shadow {
-      0%, 100% { box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6); }
-      50% { box-shadow: 0 15px 40px rgba(76, 175, 80, 0.8); }
-    }
-
-    .review-card {
-      background: linear-gradient(135deg, #ffffff, #f8fbf8);
-      border-radius: 24px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
-      border-left: 6px solid #4CAF50;
-      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-      height: 100%;
-      opacity: 0;
-      transform: translateY(40px);
-      position: relative;
-      overflow: hidden;
-    }
-    .review-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
-    .review-card:hover::before {
-      opacity: 1;
-    }
-    .review-card:hover {
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-      border-left-color: #FF9800;
-      background: linear-gradient(135deg, #e8f5e8, #e3f2fd);
-    }
-    .review-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .review-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    .review-avatar {
-      font-size: 2.3rem;
-      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      background-size: 200% 200%;
-      animation: gradient-shift 4s ease infinite;
-    }
-    .review-name {
-      font-weight: 700;
-      color: #2E7D32;
-      margin: 0;
-      font-size: 1.3rem;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-    }
-    .review-username {
-      font-size: 0.9rem;
-      color: #555;
-      margin: 0;
-    }
-    .review-text {
-      color: #333;
-      font-weight: 600;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      margin-bottom: 16px;
-      text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
-    }
-    .review-date {
-      font-size: 0.9rem;
-      color: #555;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .review-date i {
-      color: #FFD700;
-    }
-  </style>
+  <!-- Подключаем свой CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -353,7 +35,6 @@
           <li class="nav-item"><a class="nav-link" href="#about">О селе</a></li>
           <li class="nav-item"><a class="nav-link" href="#shop">🛒 Магазин</a></li>
           <li class="nav-item"><a class="nav-link" href="#send-news">📬 Прислать новость</a></li>
-          <li class="nav-item"><a class="nav-link" href="#reviews">📝 Отзывы</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Контакты</a></li>
         </ul>
       </div>
@@ -373,17 +54,7 @@
   <section id="news" class="container my-5">
     <h2 class="text-center mb-5 fw-bold" style="color: #2E7D32;">Последние новости</h2>
     <div class="row" id="news-container">
-      <div class="col-md-6 col-lg-4 animate-on-scroll">
-  <div class="news-card">
-    <div class="p-4">
-      <span class="date-badge" style="background: #4CAF50;">23.08.2025</span>
-      <h5>новости топ</h5>
-      <p class="text-muted">Автор: 私はばかです</p>
-      <a href="https://t.me/nseloivanovo" target="_blank" class="btn btn-sm btn-outline-primary">Подробнее</a>
-    </div>
-  </div>
-</div>
-            
+      <!-- Новости загрузятся сюда -->
     </div>
   </section>
 
@@ -498,40 +169,6 @@
     </div>
   </section>
 
-  <!-- Отзывы -->
-  <section id="reviews" 
-    class="position-relative py-5 mx-auto"
-    style="max-width: 800px; background: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed; 
-           background-size: cover; border-radius: 24px; overflow: hidden;">
-    
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-                background: linear-gradient(135deg, rgba(76, 175, 80, 0.85), rgba(255, 152, 0, 0.7));
-                z-index: 1; border-radius: 24px;"></div>
-
-    <div class="position-relative z-3 text-center px-4" style="color: white;">
-      <h2 class="h1 fw-bold mb-4" style="font-size: 2.5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
-        <i class="fas fa-comments me-3"></i>Отзывы жителей
-      </h2>
-      <p class="lead mb-5" style="font-size: 1.2rem; text-shadow: 1px 1px 6px rgba(0,0,0,0.6);">
-        Что думают люди о жизни в селе и нашем проекте
-      </p>
-    </div>
-
-    <div id="reviews-container" class="row g-4 px-4" style="margin: 0 auto; max-width: 750px;">
-      <!-- Сюда загрузятся отзывы -->
-    </div>
-
-    <div class="text-center mt-5 mb-4">
-      <a href="otzyvy.html" 
-         class="btn btn-lg px-5 py-3 shadow-lg"
-         style="background: linear-gradient(45deg, #4CAF50, #8BC34A, #4CAF50); background-size: 200% 200%; color: white; border: none; border-radius: 60px; font-weight: 700; font-size: 1.2rem; box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6); animation: gradient-shift 4s ease infinite, pulse-shadow 2s infinite; transition: transform 0.3s ease;"
-         onmouseover="this.style.transform='scale(1.1)';"
-         onmouseout="this.style.transform='scale(1)';">
-        <i class="fas fa-arrow-right me-2"></i> Смотреть все отзывы
-      </a>
-    </div>
-  </section>
-
   <!-- RSS-лента из Telegram -->
   <section id="news-from-tg" class="container my-5 animate-on-scroll">
     <h2 class="text-center mb-4 fw-bold" style="color: #2E7D32;">
@@ -566,7 +203,7 @@
           </div>
         </div>
         <div class="text-center mt-4">
-          <p><strong>Присылайте новости и отзывы!</strong> Вы можете стать автором на нашем сайте.</p>
+          <p><strong>Присылайте новости!</strong> Вы можете стать автором на нашем сайте.</p>
           <a href="mailto:seloivanovo33@mail.ru" class="btn btn-outline-primary">Написать письмо</a>
         </div>
       </div>
@@ -605,196 +242,66 @@
   <!-- Подключаем скрипты -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-    // Анимация появления при скролле
+    // Анимация появления
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.1 });
-
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-      observer.observe(el);
-    });
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
     // Загрузка новостей из Telegram
-    // $(document).ready(function() {
-    //   $.get('https://rss.telega.link/channel.php?channel=nseloivanovo', function(data) {
-    //     $('#rss-feed').empty();
-    //     const $items = $(data).find('item').slice(0, 3);
-        
-    //     if ($items.length === 0) {
-    //       $('#rss-feed').html('<p>Нет новостей в канале. Опубликуйте первый пост!</p>');
-    //       return;
-    //     }
-
-    //     $items.each(function() {
-    //       const title = $(this).find('title').text() || 'Без заголовка';
-    //       const link = $(this).find('link').text();
-    //       $('#rss-feed').append(`
-    //         <div class="card mb-4 rss-card shadow-sm">
-    //           <div class="card-body">
-    //             <h5 class="card-title">${title}</h5>
-    //             <a href="${link}" target="_blank" class="btn btn-outline-primary btn-sm">
-    //               <i class="fab fa-telegram me-1"></i> Читать в Telegram
-    //             </a>
-    //           </div>
-    //         </div>
-    //       `);
-    //     });
-    //   }).fail(function() {
-    //     $('#rss-feed').html('<p class="text-danger">Не удалось загрузить новости. Проверьте канал <a href="https://t.me/nseloivanovo" target="_blank">@nseloivanovo</a>.</p>');
-    //   });
-    // });
-
-    // Загрузка отзывов
-    fetch('reviews.json')
-      .then(r => r.json())
-      .then(reviews => {
-        const container = document.getElementById('reviews-container');
-        const toShow = reviews.slice(0, 3);
-
-        toShow.forEach((review, index) => {
-          const delay = index * 350;
-          const col = document.createElement('div');
-          col.className = 'col-12 mb-4';
-          col.innerHTML = `
-            <div class="review-card" style="transition-delay: ${delay}ms;">
-              <div class="p-4">
-                <div class="review-header">
-                  <i class="fas fa-user-circle review-avatar"></i>
-                  <div>
-                    <p class="review-name">${review.name}</p>
-                    <p class="review-username">${review.username}</p>
-                  </div>
-                </div>
-                <p class="review-text">${review.text}</p>
-                <div class="review-date">
-                  <i class="fas fa-calendar-alt"></i>
-                  <span>${review.date}</span>
-                </div>
+    $(document).ready(function() {
+      $.get('https://rss.telega.link/channel.php?channel=nseloivanovo', function(data) {
+        $('#rss-feed').empty();
+        const $items = $(data).find('item').slice(0, 3);
+        if ($items.length === 0) {
+          $('#rss-feed').html('<p>Нет новостей в канале.</p>');
+          return;
+        }
+        $items.each(function() {
+          const title = $(this).find('title').text() || 'Без заголовка';
+          const link = $(this).find('link').text();
+          $('#rss-feed').append(`
+            <div class="card mb-4 rss-card shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">${title}</h5>
+                <a href="${link}" target="_blank" class="btn btn-outline-primary btn-sm">
+                  <i class="fab fa-telegram me-1"></i> Читать в Telegram
+                </a>
               </div>
             </div>
-          `;
-          container.appendChild(col);
-
-          setTimeout(() => {
-            col.querySelector('.review-card').classList.add('visible');
-          }, delay + 150);
+          `);
         });
-
-        const button = document.querySelector('#reviews a[href="otzyvy.html"]');
-        if (reviews.length <= 3) {
-          button.style.display = 'none';
-        }
-      })
-      .catch(err => {
-        console.error('Ошибка загрузки отзывов:', err);
-        document.getElementById('reviews-container').innerHTML = `
-          <div class="col-12 text-center">
-            <i class="far fa-comment-slash fa-3x text-white mb-3" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);"></i>
-            <p class="text-white fs-5" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">Пока нет отзывов. Будьте первым!</p>
-          </div>
-        `;
+      }).fail(() => {
+        $('#rss-feed').html('<p class="text-danger">Не удалось загрузить новости.</p>');
       });
-  </script>
+    });
 
-  <!-- ✅ СКРИПТ ЗАГРУЗКИ НОВОСТЕЙ ИЗ news.json -->
-  <script>
+    // Загрузка новостей с сайта
     fetch('news.json')
       .then(r => r.json())
       .then(news => {
         const container = document.getElementById('news-container');
-        container.innerHTML = ''; // очищаем "Загрузка..."
-
-        if (news.length === 0) {
-          container.innerHTML = '<div class="col-12 text-center"><p>Пока нет новостей.</p></div>';
-          return;
-        }
-
-        news.slice(0, 6).forEach(n => {
-          const col = document.createElement('div');
-          col.className = 'col-md-6 col-lg-4 animate-on-scroll';
-          col.innerHTML = `
-            <div class="news-card">
-              <div class="p-4">
-                <h5>${n.text.substring(0, 60)}...</h5>
-                <p class="text-muted">${n.name}</p>
-                <small class="text-secondary">${n.date}</small>
-              </div>
-            </div>
-          `;
-          container.appendChild(col);
-        });
-      })
-      .catch(err => {
-        console.error('Ошибка загрузки news.json:', err);
-        document.getElementById('news-container').innerHTML = '<p class="text-danger">Ошибка загрузки новостей.</p>';
-      });
-  </script>
-  <script>
-  // Загрузка новостей
-  fetch('news.json')
-    .then(r => r.json())
-    .then(news => {
-      const container = document.getElementById('news-container');
-      news.slice(0, 3).forEach((n, i) => {
-        setTimeout(() => {
-          const col = document.createElement('div');
-          col.className = 'col-md-6 col-lg-4 animate-on-scroll';
-          col.innerHTML = `
-            <div class="news-card">
-              <div class="p-4">
-                <h5>${n.text.substring(0, 50)}${n.text.length > 50 ? '...' : ''}</h5>
-                <p class="text-muted">${n.name}</p>
-                <small class="text-secondary">${n.date}</small>
-              </div>
-            </div>
-          `;
-          container.appendChild(col);
-          col.querySelector('.news-card').style.opacity = 0;
-          setTimeout(() => col.querySelector('.news-card').style.opacity = 1, 100);
-        }, i * 300);
-      });
-    });
-
-  // Загрузка отзывов
-  fetch('reviews.json')
-    .then(r => r.json())
-    .then(reviews => {
-      const container = document.getElementById('reviews-container');
-      const toShow = reviews.slice(0, 3);
-      toShow.forEach((r, i) => {
-        const delay = i * 350;
-        const col = document.createElement('div');
-        col.className = 'col-12 mb-4';
-        col.innerHTML = `
-          <div class="review-card" style="transition-delay: ${delay}ms;">
-            <div class="p-4">
-              <div class="review-header">
-                <i class="fas fa-user-circle review-avatar"></i>
-                <div>
-                  <p class="review-name">${r.name}</p>
-                  <p class="review-username">${r.username}</p>
+        news.slice(0, 3).forEach((n, i) => {
+          setTimeout(() => {
+            const col = document.createElement('div');
+            col.className = 'col-md-6 col-lg-4 animate-on-scroll';
+            col.innerHTML = `
+              <div class="news-card">
+                <div class="p-4">
+                  <span class="date-badge" style="background: #4CAF50;">${n.date}</span>
+                  <h5>${n.text.substring(0, 50)}${n.text.length > 50 ? '...' : ''}</h5>
+                  <p class="text-muted">Автор: ${n.name}</p>
                 </div>
               </div>
-              <p class="review-text">${r.text}</p>
-              <div class="review-date">
-                <i class="fas fa-calendar-alt"></i>
-                <span>${r.date}</span>
-              </div>
-            </div>
-          </div>
-        `;
-        container.appendChild(col);
-        setTimeout(() => col.querySelector('.review-card').classList.add('visible'), delay + 100);
+            `;
+            container.appendChild(col);
+            col.querySelector('.news-card').style.opacity = 0;
+            setTimeout(() => col.querySelector('.news-card').style.opacity = 1, 100);
+          }, i * 300);
+        });
       });
-      if (reviews.length <= 3) {
-        const btn = document.querySelector('#reviews a[href="otzyvy.html"]');
-        if (btn) btn.style.display = 'none';
-      }
-    });
-</script>
+  </script>
 </body>
 </html>
