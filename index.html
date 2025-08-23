@@ -640,43 +640,6 @@
       });
     });
 
-    // Загрузка новостей с сайта (из news.json)
-    fetch('news.json')
-      .then(r => r.json())
-      .then(news => {
-        const container = document.getElementById('news-container');
-        container.innerHTML = ''; // Очищаем "Загрузка..."
-
-        if (news.length === 0) {
-          container.innerHTML = '<div class="col-12 text-center"><p>Пока нет новостей. Подпишитесь на канал!</p></div>';
-          return;
-        }
-
-        news.slice(0, 6).forEach((n, i) => {
-          const delay = i * 200;
-          const col = document.createElement('div');
-          col.className = 'col-md-6 col-lg-4 animate-on-scroll';
-          col.innerHTML = `
-            <div class="news-card" style="transition-delay: ${delay}ms;">
-              <div class="p-4">
-                <h5>${n.text.substring(0, 60)}${n.text.length > 60 ? '...' : ''}</h5>
-                <p class="text-muted">${n.name}</p>
-                <small class="text-secondary">${n.date}</small>
-              </div>
-            </div>
-          `;
-          container.appendChild(col);
-
-          setTimeout(() => {
-            col.querySelector('.news-card').style.opacity = 1;
-          }, delay + 100);
-        });
-      })
-      .catch(err => {
-        console.error('Ошибка загрузки news.json:', err);
-        document.getElementById('news-container').innerHTML = '<div class="col-12 text-center"><p class="text-danger">Ошибка загрузки новостей.</p></div>';
-      });
-
     // Загрузка отзывов
     fetch('reviews.json')
       .then(r => r.json())
@@ -726,6 +689,40 @@
             <p class="text-white fs-5" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">Пока нет отзывов. Будьте первым!</p>
           </div>
         `;
+      });
+  </script>
+
+  <!-- ✅ СКРИПТ ЗАГРУЗКИ НОВОСТЕЙ ИЗ news.json -->
+  <script>
+    fetch('news.json')
+      .then(r => r.json())
+      .then(news => {
+        const container = document.getElementById('news-container');
+        container.innerHTML = ''; // очищаем "Загрузка..."
+
+        if (news.length === 0) {
+          container.innerHTML = '<div class="col-12 text-center"><p>Пока нет новостей.</p></div>';
+          return;
+        }
+
+        news.slice(0, 6).forEach(n => {
+          const col = document.createElement('div');
+          col.className = 'col-md-6 col-lg-4 animate-on-scroll';
+          col.innerHTML = `
+            <div class="news-card">
+              <div class="p-4">
+                <h5>${n.text.substring(0, 60)}...</h5>
+                <p class="text-muted">${n.name}</p>
+                <small class="text-secondary">${n.date}</small>
+              </div>
+            </div>
+          `;
+          container.appendChild(col);
+        });
+      })
+      .catch(err => {
+        console.error('Ошибка загрузки news.json:', err);
+        document.getElementById('news-container').innerHTML = '<p class="text-danger">Ошибка загрузки новостей.</p>';
       });
   </script>
 </body>
