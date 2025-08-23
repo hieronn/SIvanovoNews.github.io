@@ -5,51 +5,20 @@ import logging
 from telegram import Update, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 import subprocess
-import os
-
-# Настройки GitHub
-GITHUB_REPO = "https://github.com/hieronn/SIvanovoNews.github.io.git"
-LOCAL_REPO_PATH = "./site_repo"  # Локальная папка для клонирования
-GITHUB_TOKEN = "ghp_..."  # ⚠️ Замени на твой токен (Settings → Developer settings → Personal access tokens)
-
-def prepare_github_repo():
-    """Клонирует или обновляет репозиторий"""
-    if not os.path.exists(LOCAL_REPO_PATH):
-        os.makedirs(LOCAL_REPO_PATH)
-        subprocess.run(["git", "clone", f"https://{GITHUB_TOKEN}@github.com/hieronn/SIvanovoNews.github.io.git", "."], cwd=LOCAL_REPO_PATH)
-    else:
-        subprocess.run(["git", "pull"], cwd=LOCAL_REPO_PATH)
-
-def copy_files_to_repo():
-    """Копируем нужные файлы в локальный репозиторий"""
-    import shutil
-    for file in ["news.json", "reviews.json", "index.html", "otzyvy.html"]:
-        if os.path.exists(file):
-            shutil.copy(file, os.path.join(LOCAL_REPO_PATH, file))
-
-async def push_to_github():
-    """Автоматически пушит изменения в GitHub"""
-    try:
-        prepare_github_repo()
-        copy_files_to_repo()
-
-        # Делаем коммит
-        subprocess.run(["git", "add", "."], cwd=LOCAL_REPO_PATH)
-        subprocess.run(["git", "commit", "-m", "🔄 Автообновление: новость/отзыв опубликован"], cwd=LOCAL_REPO_PATH)
-        subprocess.run(["git", "push"], cwd=LOCAL_REPO_PATH)
-
-        print("✅ Файлы успешно отправлены в GitHub")
-    except Exception as e:
-        print(f"❌ Ошибка автопуша: {e}")
 
 # === НАСТРОЙКИ ===
-BOT_TOKEN = "8299964233:AAFa4I3gFSjWxodUWQMx8j5W0yWkPRRhx6M"  # ⚠️ Убедись, что токен правильный
-ADMIN_USER_ID = 5207981986  # ⚠️ Твой ID
-CHANNEL_ID = "-1002995985111"  # ID канала
+BOT_TOKEN = "8299964233:AAFa4I3gFSjWxodUWQMx8j5W0yWkPRRhx6M"
+ADMIN_USER_ID = 5207981986
+CHANNEL_ID = "-1002995985111"
 
 # Файлы для хранения
 NEWS_FILE = "news.json"
 REVIEWS_FILE = "reviews.json"
+
+# Настройки GitHub
+GITHUB_REPO = "https://github.com/hieronn/SIvanovoNews.github.io.git"
+LOCAL_REPO_PATH = "./site_repo"
+GITHUB_TOKEN = "ghp_..."  # ⚠️ Замени на свой токен
 
 # Включаем логирование
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -68,6 +37,37 @@ def load_json(filename):
 def save_json(filename, data):
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+# === GitHub: клон, копия, пуш ===
+def prepare_github_repo():
+    """Клонируем или обновляем репозиторий"""
+    if not os.path.exists(LOCAL_REPO_PATH):
+        os.makedirs(LOCAL_REPO_PATH)
+        subprocess.run(["git", "clone", f"https://{GITHUB_TOKEN}@github.com/hieronn/SIvanovoNews.github.io.git", "."], cwd=LOCAL_REPO_PATH)
+    else:
+        subprocess.run(["git", "pull"], cwd=LOCAL_REPO_PATH)
+
+def copy_files_to_repo():
+    """Копируем нужные файлы в локальный репозиторий"""
+    import shutil
+    for file in ["news.json", "reviews.json"]:
+        if os.path.exists(file):
+            shutil.copy(file, os.path.join(LOCAL_REPO_PATH, file))
+
+async def push_to_github():
+    """Автоматически пушит изменения в GitHub"""
+    try:
+        prepare_github_repo()
+        copy_files_to_repo()
+
+        # Добавляем, коммитим, пушим
+        subprocess.run(["git", "add", "."], cwd=LOCAL_REPO_PATH)
+        subprocess.run(["git", "commit", "-m", "🔄 Автообновление: новость/отзыв опубликован"], cwd=LOCAL_REPO_PATH)
+        subprocess.run(["git", "push"], cwd=LOCAL_REPO_PATH)
+
+        logging.info("✅ Файлы успешно отправлены в GitHub")
+    except Exception as e:
+        logging.error(f"❌ Ошибка автопуша: {e}")
 
 # === КЛАВИАТУРА ===
 def get_main_menu():
@@ -104,7 +104,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     await update.message.reply_text(help_text, parse_mode='HTML', reply_markup=get_main_menu())
 
-# /my_news — статистика пользователя
+# /my_news
 async def my_news(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     total = user_news_count.get(user.id, 0)
@@ -123,7 +123,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
     text_content = message.text or message.caption or "[без текста]"
 
-    # === 🔥 СОХРАНЯЕМ СООБЩЕНИЕ ДО ОТПРАВКИ АДМИНУ ===
+    # Сохраняем последнее сообщение
     context.bot_data[f"last_message_{user.id}"] = {
         "from_chat_id": message.chat_id,
         "message_id": message.message_id,
@@ -131,9 +131,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "has_photo": bool(message.photo),
         "has_video": bool(message.video)
     }
-    # ================================================
 
-    # Обработка: "Оставить отзыв"
+    # "Оставить отзыв"
     if text_content == "📝 Оставить отзыв":
         await message.reply_text(
             "💬 Отлично!\n\n"
@@ -144,10 +143,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data['awaiting_review'] = True
         return
 
-    # Если идёт приём отзыва
+    # Приём самого отзыва
     if context.user_data.get('awaiting_review'):
         context.user_data['awaiting_review'] = False
-
         review_msg = (
             f"📬 НОВЫЙ ОТЗЫВ НА МОДЕРАЦИИ\n"
             f"👤 {user.full_name} ({'@'+user.username if user.username else 'аноним'})\n"
@@ -167,7 +165,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await message.reply_text("⚠️ Не удалось отправить отзыв. Попробуйте позже.")
         return
 
-    # Обработка фото без текста
+    # Фото без текста
     if message.photo and not message.caption:
         await message.reply_text(
             "📸 Вы отправили фото, но не написали, что на нём.\n"
@@ -178,7 +176,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Приём новости
     user_news_count[user.id] = user_news_count.get(user.id, 0) + 1
-
     admin_msg = (
         f"📬 НОВАЯ НОВОСТЬ НА МОДЕРАЦИИ\n"
         f"👤 {user.full_name} ({'@'+user.username if user.username else 'нет юзернейма'})\n"
@@ -205,6 +202,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logging.error(f"Ошибка: {e}")
         await message.reply_text("⚠️ Ошибка при отправке. Попробуйте позже.")
 
+# /publish <user_id> — публикуем
 async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         await update.message.reply_text("❌ У вас нет прав.")
@@ -219,16 +217,16 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_info = await context.bot.get_chat(user_id)
         user_name = user_info.full_name
         username = f"@{user_info.username}" if user_info.username else "аноним"
-
         last_msg = context.bot_data.get(f"last_message_{user_id}")
+
         if not last_msg:
             await update.message.reply_text("❌ Не удалось найти сообщение пользователя.")
             return
 
         text = last_msg["text"]
         is_review = any(word in text.lower() for word in ["отзыв", "нравится", "можно улучшить", "предложение", "мнение"])
-
         now = datetime.now().strftime("%d.%m.%Y")
+
         item = {
             "user_id": user_id,
             "name": user_name,
@@ -238,24 +236,21 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "timestamp": datetime.now().isoformat()
         }
 
-        html_block = ""  # Готовый HTML-код
-
+        # --- ПУБЛИКАЦИЯ ---
         if is_review:
-            # Это отзыв
+            # Отзыв
             reviews = load_json(REVIEWS_FILE)
             reviews.insert(0, item)
             save_json(REVIEWS_FILE, reviews)
 
-            # Отправляем в канал
             await context.bot.send_message(
                 chat_id=CHANNEL_ID,
                 text=f"💬 <b>Новый отзыв от {user_name}:</b>\n\n“{text}”",
                 parse_mode='HTML'
             )
 
-            # 🔥 ГОТОВЫЙ HTML-БЛОК ДЛЯ ОТЗЫВА
+            # ✅ ГОТОВЫЙ HTML-БЛОК (БЕЗ <!--, чтобы не было ошибок)
             html_block = f'''
-<!-- Отзыв жителя -->
 <div class="col-12 mb-4">
   <div class="review-card" style="transition-delay: 0ms;">
     <div class="p-4">
@@ -275,9 +270,8 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
   </div>
 </div>
             '''
-
         else:
-            # Это новость
+            # Новость
             news = load_json(NEWS_FILE)
             news.insert(0, item)
             save_json(NEWS_FILE, news)
@@ -288,24 +282,20 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 message_id=last_msg["message_id"]
             )
 
-            # 🔥 ГОТОВЫЙ HTML-БЛОК ДЛЯ НОВОСТИ
             html_block = f'''
-<!-- Карточка новости -->
 <div class="col-md-6 col-lg-4 animate-on-scroll">
   <div class="news-card">
     <div class="p-4">
       <span class="date-badge" style="background: #4CAF50;">{now}</span>
       <h5>{text[:60]}{"..." if len(text) > 60 else ""}</h5>
       <p class="text-muted">Автор: {user_name}</p>
-      <a href="https://t.me/nseloivanovo" target="_blank" class="btn btn-sm btn-outline-primary">
-        Подробнее
-      </a>
+      <a href="https://t.me/nseloivanovo" target="_blank" class="btn btn-sm btn-outline-primary">Подробнее</a>
     </div>
   </div>
 </div>
             '''
 
-        # ✅ Отправляем HTML-код админу
+        # ✅ Отправляем HTML-код админу (в <pre> — безопасно!)
         await context.bot.send_message(
             chat_id=ADMIN_USER_ID,
             text=f"✅ <b>Готовый HTML-блок для сайта:</b>\n\n"
@@ -314,7 +304,7 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode='HTML'
         )
 
-        # ✅ Отправляем уведомление автору
+        # ✅ Уведомление автору
         await context.bot.send_message(
             chat_id=user_id,
             text=f"🎉 Спасибо!\n\n"
@@ -331,7 +321,7 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"❌ Ошибка: {e}")
 
-# /reject <user_id> — отклонить
+# /reject
 async def rejected(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         await update.message.reply_text("❌ У вас нет прав.")
@@ -351,7 +341,7 @@ async def rejected(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"❌ Ошибка: {e}")
 
-# /stats — статистика
+# /stats
 async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_USER_ID:
         return
@@ -380,11 +370,11 @@ async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(msg)
 
-# /rss — последние посты из канала
+# /rss
 async def rss_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         import feedparser
-        feed_url = f"https://rss.telega.link/channel.php?channel=nseloivanovo"
+        feed_url = "https://rss.telega.link/channel.php?channel=nseloivanovo"
         feed = feedparser.parse(feed_url)
         if feed.entries:
             msg = "🗞 <b>Последние новости из канала:</b>\n\n"
