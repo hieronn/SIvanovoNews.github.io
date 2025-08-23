@@ -611,34 +611,34 @@
     });
 
     // Загрузка новостей из Telegram
-    $(document).ready(function() {
-      $.get('https://rss.telega.link/channel.php?channel=nseloivanovo', function(data) {
-        $('#rss-feed').empty();
-        const $items = $(data).find('item').slice(0, 3);
+    // $(document).ready(function() {
+    //   $.get('https://rss.telega.link/channel.php?channel=nseloivanovo', function(data) {
+    //     $('#rss-feed').empty();
+    //     const $items = $(data).find('item').slice(0, 3);
         
-        if ($items.length === 0) {
-          $('#rss-feed').html('<p>Нет новостей в канале. Опубликуйте первый пост!</p>');
-          return;
-        }
+    //     if ($items.length === 0) {
+    //       $('#rss-feed').html('<p>Нет новостей в канале. Опубликуйте первый пост!</p>');
+    //       return;
+    //     }
 
-        $items.each(function() {
-          const title = $(this).find('title').text() || 'Без заголовка';
-          const link = $(this).find('link').text();
-          $('#rss-feed').append(`
-            <div class="card mb-4 rss-card shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title">${title}</h5>
-                <a href="${link}" target="_blank" class="btn btn-outline-primary btn-sm">
-                  <i class="fab fa-telegram me-1"></i> Читать в Telegram
-                </a>
-              </div>
-            </div>
-          `);
-        });
-      }).fail(function() {
-        $('#rss-feed').html('<p class="text-danger">Не удалось загрузить новости. Проверьте канал <a href="https://t.me/nseloivanovo" target="_blank">@nseloivanovo</a>.</p>');
-      });
-    });
+    //     $items.each(function() {
+    //       const title = $(this).find('title').text() || 'Без заголовка';
+    //       const link = $(this).find('link').text();
+    //       $('#rss-feed').append(`
+    //         <div class="card mb-4 rss-card shadow-sm">
+    //           <div class="card-body">
+    //             <h5 class="card-title">${title}</h5>
+    //             <a href="${link}" target="_blank" class="btn btn-outline-primary btn-sm">
+    //               <i class="fab fa-telegram me-1"></i> Читать в Telegram
+    //             </a>
+    //           </div>
+    //         </div>
+    //       `);
+    //     });
+    //   }).fail(function() {
+    //     $('#rss-feed').html('<p class="text-danger">Не удалось загрузить новости. Проверьте канал <a href="https://t.me/nseloivanovo" target="_blank">@nseloivanovo</a>.</p>');
+    //   });
+    // });
 
     // Загрузка отзывов
     fetch('reviews.json')
