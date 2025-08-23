@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Новости села Иваново</title>
@@ -735,5 +736,68 @@
         document.getElementById('news-container').innerHTML = '<p class="text-danger">Ошибка загрузки новостей.</p>';
       });
   </script>
+  <script>
+  // Загрузка новостей
+  fetch('news.json')
+    .then(r => r.json())
+    .then(news => {
+      const container = document.getElementById('news-container');
+      news.slice(0, 3).forEach((n, i) => {
+        setTimeout(() => {
+          const col = document.createElement('div');
+          col.className = 'col-md-6 col-lg-4 animate-on-scroll';
+          col.innerHTML = `
+            <div class="news-card">
+              <div class="p-4">
+                <h5>${n.text.substring(0, 50)}${n.text.length > 50 ? '...' : ''}</h5>
+                <p class="text-muted">${n.name}</p>
+                <small class="text-secondary">${n.date}</small>
+              </div>
+            </div>
+          `;
+          container.appendChild(col);
+          col.querySelector('.news-card').style.opacity = 0;
+          setTimeout(() => col.querySelector('.news-card').style.opacity = 1, 100);
+        }, i * 300);
+      });
+    });
+
+  // Загрузка отзывов
+  fetch('reviews.json')
+    .then(r => r.json())
+    .then(reviews => {
+      const container = document.getElementById('reviews-container');
+      const toShow = reviews.slice(0, 3);
+      toShow.forEach((r, i) => {
+        const delay = i * 350;
+        const col = document.createElement('div');
+        col.className = 'col-12 mb-4';
+        col.innerHTML = `
+          <div class="review-card" style="transition-delay: ${delay}ms;">
+            <div class="p-4">
+              <div class="review-header">
+                <i class="fas fa-user-circle review-avatar"></i>
+                <div>
+                  <p class="review-name">${r.name}</p>
+                  <p class="review-username">${r.username}</p>
+                </div>
+              </div>
+              <p class="review-text">${r.text}</p>
+              <div class="review-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>${r.date}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+        setTimeout(() => col.querySelector('.review-card').classList.add('visible'), delay + 100);
+      });
+      if (reviews.length <= 3) {
+        const btn = document.querySelector('#reviews a[href="otzyvy.html"]');
+        if (btn) btn.style.display = 'none';
+      }
+    });
+</script>
 </body>
 </html>

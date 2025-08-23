@@ -253,7 +253,7 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 parse_mode='HTML'
             )
 
-            # 🔥 HTML-БЛОК ДЛЯ ОТЗЫВА (БЕЗ <div>, <span> и т.д. — только безопасные символы)
+            # HTML-БЛОК ДЛЯ ОТЗЫВА
             html_block = f'''
 <div class="col-12 mb-4">
   <div class="review-card" style="transition-delay: 0ms;">
@@ -299,15 +299,15 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
 </div>
             '''
 
-        # ✅ ЭКРАНИРУЕМ HTML, ЧТОБЫ НЕ БЫЛО ОШИБОК
+        # ✅ ЭКРАНИРУЕМ HTML И ОТПРАВЛЯЕМ БЕЗ parse_mode
         html_escaped = html_block.replace('&', '&amp;').replace('<', '<').replace('>', '>')
 
         await context.bot.send_message(
             chat_id=ADMIN_USER_ID,
-            text=f"✅ <b>Готовый HTML-блок для сайта:</b>\n\n"
-                 f"<pre>{html_escaped}</pre>\n\n"
-                 f"<i>Скопируйте и вставьте в index.html или otzyvy.html</i>",
-            parse_mode='HTML'
+            text=f"✅ Готовый HTML-блок для сайта:\n\n"
+                 f"{html_escaped}\n\n"
+                 f"Скопируйте и вставьте в index.html или otzyvy.html",
+            parse_mode=None  # 🔥 КЛЮЧЕВОЕ: Никакого HTML-парсинга!
         )
 
         # ✅ Уведомление автору
