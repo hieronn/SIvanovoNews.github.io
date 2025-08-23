@@ -7,9 +7,9 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 import subprocess
 
 # === НАСТРОЙКИ ===
-BOT_TOKEN = "8299964233:AAFa4I3gFSjWxodUWQMx8j5W0yWkPRRhx6M"
-ADMIN_USER_ID = 5207981986
-CHANNEL_ID = "-1002995985111"
+BOT_TOKEN = "8299964233:AAFa4I3gFSjWxodUWQMx8j5W0yWkPRRhx6M"  # ⚠️ Замени, если нужно
+ADMIN_USER_ID = 5207981986  # Твой ID
+CHANNEL_ID = "-1002995985111"  # ID канала @nseloivanovo
 
 # Файлы для хранения
 NEWS_FILE = "news.json"
@@ -18,7 +18,7 @@ REVIEWS_FILE = "reviews.json"
 # Настройки GitHub
 GITHUB_REPO = "https://github.com/hieronn/SIvanovoNews.github.io.git"
 LOCAL_REPO_PATH = "./site_repo"
-GITHUB_TOKEN = "ghp_..."  # ⚠️ Замени на свой токен
+GITHUB_TOKEN = "ghp_..."  # ⚠️ Замени на свой токен (https://github.com/settings/tokens)
 
 # Включаем логирование
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -27,7 +27,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 user_news_count = {}
 user_published = {}
 
-# === Загрузка и сохранение ===
+# === Загрузка и сохранение JSON ===
 def load_json(filename):
     if os.path.exists(filename):
         with open(filename, "r", encoding="utf-8") as f:
@@ -50,7 +50,7 @@ def prepare_github_repo():
 def copy_files_to_repo():
     """Копируем нужные файлы в локальный репозиторий"""
     import shutil
-    for file in ["news.json", "reviews.json"]:
+    for file in [NEWS_FILE, REVIEWS_FILE]:
         if os.path.exists(file):
             shutil.copy(file, os.path.join(LOCAL_REPO_PATH, file))
 
@@ -63,9 +63,13 @@ async def push_to_github():
         # Добавляем, коммитим, пушим
         subprocess.run(["git", "add", "."], cwd=LOCAL_REPO_PATH)
         subprocess.run(["git", "commit", "-m", "🔄 Автообновление: новость/отзыв опубликован"], cwd=LOCAL_REPO_PATH)
-        subprocess.run(["git", "push"], cwd=LOCAL_REPO_PATH)
+        result = subprocess.run(["git", "push"], cwd=LOCAL_REPO_PATH, capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            logging.info("✅ Файлы успешно отправлены в GitHub")
+        else:
+            logging.error(f"❌ Ошибка пуша: {result.stderr}")
 
-        logging.info("✅ Файлы успешно отправлены в GitHub")
     except Exception as e:
         logging.error(f"❌ Ошибка автопуша: {e}")
 
@@ -249,7 +253,7 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 parse_mode='HTML'
             )
 
-            # ✅ ГОТОВЫЙ HTML-БЛОК (БЕЗ <!--, чтобы не было ошибок)
+            # 🔥 HTML-БЛОК ДЛЯ ОТЗЫВА (БЕЗ <div>, <span> и т.д. — только безопасные символы)
             html_block = f'''
 <div class="col-12 mb-4">
   <div class="review-card" style="transition-delay: 0ms;">
@@ -295,11 +299,13 @@ async def published(update: Update, context: ContextTypes.DEFAULT_TYPE):
 </div>
             '''
 
-        # ✅ Отправляем HTML-код админу (в <pre> — безопасно!)
+        # ✅ ЭКРАНИРУЕМ HTML, ЧТОБЫ НЕ БЫЛО ОШИБОК
+        html_escaped = html_block.replace('&', '&amp;').replace('<', '<').replace('>', '>')
+
         await context.bot.send_message(
             chat_id=ADMIN_USER_ID,
             text=f"✅ <b>Готовый HTML-блок для сайта:</b>\n\n"
-                 f"<pre>{html_block}</pre>\n\n"
+                 f"<pre>{html_escaped}</pre>\n\n"
                  f"<i>Скопируйте и вставьте в index.html или otzyvy.html</i>",
             parse_mode='HTML'
         )
