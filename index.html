@@ -448,30 +448,53 @@
       });
     });
 
-    // Загрузка новостей с сайта
-    fetch('news.json')
-      .then(r => r.json())
-      .then(news => {
-        const container = document.getElementById('news-container');
-        news.slice(0, 3).forEach((n, i) => {
-          setTimeout(() => {
-            const col = document.createElement('div');
-            col.className = 'col-md-6 col-lg-4 animate-on-scroll';
-            col.innerHTML = `
-              <div class="news-card">
-                <div class="p-4">
-                  <span class="date-badge" style="background: #4CAF50;">${n.date}</span>
-                  <h5>${n.text.substring(0, 50)}${n.text.length > 50 ? '...' : ''}</h5>
-                  <p class="text-muted">Автор: ${n.name}</p>
+    // Загрузка новостей с сайта (с обработкой ошибок)
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('news.json?v=' + Date.now())
+        .then(r => {
+          if (!r.ok) throw new Error('Файл news.json не найден или недоступен');
+          return r.json();
+        })
+        .then(news => {
+          const container = document.getElementById('news-container');
+          if (!container) {
+            console.error('❌ Ошибка: элемент #news-container не найден');
+            return;
+          }
+
+          news.slice(0, 3).forEach((n, i) => {
+            setTimeout(() => {
+              const col = document.createElement('div');
+              col.className = 'col-md-6 col-lg-4 animate-on-scroll';
+              col.innerHTML = `
+                <div class="news-card">
+                  <div class="p-4">
+                    <span class="date-badge" style="background: #4CAF50;">${n.date}</span>
+                    <h5>${n.text.substring(0, 50)}${n.text.length > 50 ? '...' : ''}</h5>
+                    <p class="text-muted">Автор: ${n.name}</p>
+                  </div>
                 </div>
-              </div>
-            `;
-            container.appendChild(col);
-            col.querySelector('.news-card').style.opacity = 0;
-            setTimeout(() => col.querySelector('.news-card').style.opacity = 1, 100);
-          }, i * 300);
+              `;
+              container.appendChild(col);
+              col.querySelector('.news-card').style.opacity = 0;
+              setTimeout(() => col.querySelector('.news-card').style.opacity = 1, 100);
+            }, i * 300);
+          });
+        })
+        .catch(err => {
+          console.error('❌ Ошибка загрузки новостей:', err);
+          const container = document.getElementById('news-container');
+          if (container) {
+            container.innerHTML = `
+              <div class="col-12">
+                <p class="text-danger text-center">
+                  <i class="fas fa-exclamation-triangle"></i><br>
+                  Не удалось загрузить новости. Проверьте файл <code>news.json</code>
+                </p>
+              </div>`;
+          }
         });
-      });
+    });
   </script>
 </body>
 </html>
