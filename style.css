@@ -92,3 +92,14 @@
   box-shadow: 0 10px 30px rgba(0, 136, 204, 0.5);
   background: linear-gradient(45deg, #006aa5, #3aa5e0);
 }
+/* Метка даты */
+.date-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 12px;
+  background: #4CAF50;
+}
