@@ -214,6 +214,13 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-bottom: 15px;
+      animation: rotateIn 1.5s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes rotateIn {
+      from { transform: rotate(-180deg) scale(0); opacity: 0; }
+      to { transform: rotate(0) scale(1); opacity: 1; }
     }
 
     @keyframes fadeInScale {
@@ -264,6 +271,11 @@
       box-shadow: 0 10px 30px rgba(255,255,255,0.4);
       transition: all 0.3s ease;
       animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
     .btn-bot:hover {
@@ -337,10 +349,35 @@
       border-radius: 12px;
       margin: 10px 0;
       border: 2px solid #e0f7fa;
+      transition: transform 0.3s ease;
+    }
+
+    .news-card:hover img {
+      transform: scale(1.03);
     }
 
     .card-text {
       transition: opacity 0.4s ease;
+    }
+
+    /* === ОТСТУП МЕЖДУ СЕКЦИЯМИ === */
+    #news {
+      margin-top: 100px;
+      padding: 80px 0;
+    }
+
+    /* === ПОЛНАЯ ШИРИНА === */
+    .container-fluid {
+      max-width: 100%;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    @media (max-width: 576px) {
+      .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
     }
   </style>
 </head>
@@ -348,7 +385,7 @@
 
   <!-- Навигация -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-    <div class="container">
+    <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <i class="fas fa-leaf"></i> Новости села Иваново
       </a>
@@ -370,7 +407,7 @@
 
   <!-- Главный баннер -->
   <section id="home" class="hero">
-    <div class="container">
+    <div class="container-fluid">
       <h1>
         <script>
           document.write(
@@ -396,62 +433,94 @@
   </section>
 
   <!-- Новости -->
-  <section id="news" class="container my-5">
-    <h2 class="text-center mb-5 fw-bold" style="background: linear-gradient(90deg, #2E7D32, #1B5E20, #4CAF50); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-      Последние новости
-    </h2>
-    <div class="row" id="news-container">
+  <section id="news" class="container-fluid">
+    <div class="container">
+      <h2 class="text-center mb-5 fw-bold" style="background: linear-gradient(90deg, #2E7D32, #1B5E20, #4CAF50); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Последние новости
+      </h2>
+      <div class="row" id="news-container">
 
-      <!-- НОВОСТЬ 1 -->
-      <div class="col-md-6 col-lg-4 animate-on-scroll">
-        <div class="news-card">
-          <div class="p-4">
-            <span class="date-badge">25.08.2025</span>
-            <h5 class="card-title">Игра "Знамя Войны" (Warbanner)</h5>
-            <p class="card-text">Игра "Знамя Войны" (Warbanner) — это достаточно нишевая тактическая стратегия. Поскольку игра не выпускалась в 2025 году, а была выпущена ранее, то возможность поиграть в нее в 2025 году будет зависеть от того, останется ли она доступной на платформах, где она была выпущена, или будет доступна через ретро-гейминг или эмуляторы.</p>
-            <img src="./img sela/photo_2025-08-25_13-57-16.jpg" alt="Фото из села" class="img-fluid">
-            <button class="read-more-btn">Подробнее</button>
-            <p class="text-muted mt-2">Автор: 私はばかです</p>
+        <!-- НОВОСТЬ 1 -->
+        <div class="col-md-6 col-lg-4 animate-on-scroll">
+          <div class="news-card">
+            <div class="p-4">
+              <span class="date-badge">25.08.2025</span>
+              <h5 class="card-title">Игра "Знамя Войны" (Warbanner)</h5>
+              <p class="card-text">Игра "Знамя Войны" (Warbanner) — это достаточно нишевая тактическая стратегия. Поскольку игра не выпускалась в 2025 году, а была выпущена ранее, то возможность поиграть в нее в 2025 году будет зависеть от того, останется ли она доступной на платформах, где она была выпущена, или будет доступна через ретро-гейминг или эмуляторы.</p>
+              <img src="./img sela/photo_2025-08-25_13-57-16.jpg" alt="Фото из села" class="img-fluid">
+              <button class="read-more-btn">Подробнее</button>
+              <p class="text-muted mt-2">Автор: 私はばかです</p>
+            </div>
           </div>
         </div>
-      </div>
 
-     
+        <!-- НОВОСТЬ 2 -->
+        <div class="col-md-6 col-lg-4 animate-on-scroll">
+          <div class="news-card">
+            <div class="p-4">
+              <span class="date-badge">24.08.2025</span>
+              <h5 class="card-title">Фестиваль урожая — праздник для всех!</h5>
+              <p class="card-text">Жители собрались на центральной площади. Было много музыки, танцев и местных блюд. Все остались довольны.</p>
+              <button class="read-more-btn">Подробнее</button>
+              <p class="text-muted mt-2">Автор: Мария</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- НОВОСТЬ 3 -->
+        <div class="col-md-6 col-lg-4 animate-on-scroll">
+          <div class="news-card">
+            <div class="p-4">
+              <span class="date-badge">23.08.2025</span>
+              <h5 class="card-title">Новая детская площадка открыта</h5>
+              <p class="card-text">Современная, безопасная и яркая. Дети уже в восторге. Проект реализован при поддержке жителей.</p>
+              <button class="read-more-btn">Подробнее</button>
+              <p class="text-muted mt-2">Автор: Алексей</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- О селе -->
   <section id="about" class="section-about">
-    <div class="container">
-      <h2 class="text-center mb-5 fw-bold animate-on-scroll" style="background: linear-gradient(90deg, #4CAF50, #8BC34A, #2196F3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-        О селе Иваново
-      </h2>
-      <div class="row align-items-center justify-content-center">
-        <div class="col-lg-10">
-          <div class="about-card animate-on-scroll">
-            <div class="row text-center">
-              <div class="col-md-4 mb-4">
-                <div class="feature-icon"><i class="fas fa-tree"></i></div>
-                <h5>Чистый воздух</h5>
-                <p>Живёте в экологически чистом районе с хвойными и лиственными лесами.</p>
+    <div class="container-fluid">
+      <div class="container">
+        <h2 class="text-center mb-5 fw-bold animate-on-scroll" style="background: linear-gradient(90deg, #4CAF50, #8BC34A, #2196F3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          О селе Иваново
+        </h2>
+        <div class="row align-items-center justify-content-center">
+          <div class="col-lg-10">
+            <div class="about-card animate-on-scroll">
+              <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                  <div class="feature-icon"><i class="fas fa-tree"></i></div>
+                  <h5>Чистый воздух</h5>
+                  <p>Живёте в экологически чистом районе с хвойными и лиственными лесами.</p>
+                </div>
+                <div class="col-md-4 mb-4" style="animation-delay: 0.2s;">
+                  <div class="feature-icon"><i class="fas fa-users"></i></div>
+                  <h5>Дружелюбная община</h5>
+                  <p>Здесь каждый знает каждого. Всегда готовы помочь и поддержать.</p>
+                </div>
+                <div class="col-md-4 mb-4" style="animation-delay: 0.4s;">
+                  <div class="feature-icon"><i class="fas fa-church"></i></div>
+                  <h5>Старинная церковь</h5>
+                  <p>Богородице-Рождественская церковь 1833 года — символ села.</p>
+                </div>
               </div>
-              <div class="col-md-4 mb-4">
-                <div class="feature-icon"><i class="fas fa-users"></i></div>
-                <h5>Дружелюбная община</h5>
-                <p>Здесь каждый знает каждого. Всегда готовы помочь и поддержать.</p>
-              </div>
-              <div class="col-md-4 mb-4">
-                <div class="feature-icon"><i class="fas fa-church"></i></div>
-                <h5>Старинная церковь</h5>
-                <p>Богородице-Рождественская церковь 1833 года — символ села.</p>
-              </div>
-            </div>
-            <hr class="my-4">
-            <div class="row">
-              <div class="col-md-6">
-                <h4><i class="fas fa-history me-2 text-success"></i> История</h4>
-                <p>Село Иваново впервые упоминается в 1628 году как вотчина князя Хилкова. Здесь стоит старинная Богородице-Рождественская церковь (1833 г.), а станция Эсино — часть железнодорожной ветки Ковров—Муром — вдохновляла даже Михаила Булгакова.</p>
-              </div>
-              <div class="col-md-6">
-                <h4><i class="fas fa-home me-2 text-primary"></i> Сегодня</h4>
-                <p>Село живёт: работает школа, детский сад «Родничок», дом культуры и поликлиника. Здесь каждый знает каждого, а природа дарит покой и вдохновение.</p>
+              <hr class="my-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <h4><i class="fas fa-history me-2 text-success"></i> История</h4>
+                  <p>Село Иваново впервые упоминается в 1628 году как вотчина князя Хилкова. Здесь стоит старинная Богородице-Рождественская церковь (1833 г.), а станция Эсино — часть железнодорожной ветки Ковров—Муром — вдохновляла даже Михаила Булгакова.</p>
+                </div>
+                <div class="col-md-6">
+                  <h4><i class="fas fa-home me-2 text-primary"></i> Сегодня</h4>
+                  <p>Село живёт: работает школа, детский сад «Родничок», дом культуры и поликлиника. Здесь каждый знает каждого, а природа дарит покой и вдохновение.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -595,10 +664,6 @@
   </script>
 </body>
 </html>
-
-
-
-
 
 
 
