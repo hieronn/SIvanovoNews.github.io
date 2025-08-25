@@ -15,19 +15,12 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
   <style>
-    :root {
-      --primary: #4CAF50;
-      --secondary: #FF9800;
-      --accent: #2196F3;
-      --dark: #2E7D32;
-      --light: #FFF9C4;
-    }
-
+    /* === ГЛАВНЫЙ ФОН С ПЕРЕЛИВАНИЕМ === */
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #e8f5e8, #f3e5f5, #e1f5fe);
-      background-size: 400% 400%;
-      animation: gradientBG 18s ease infinite;
+      background: linear-gradient(135deg, #e8f5e8, #f3e5f5, #e1f5fe, #bbdefb, #f8bbd0);
+      background-size: 600% 600%;
+      animation: gradientBG 25s ease infinite;
       color: #333;
       line-height: 1.8;
       margin: 0;
@@ -41,34 +34,36 @@
       100% { background-position: 0% 50%; }
     }
 
+    /* === АНИМИРОВАННЫЙ ЛОГОТИП === */
     .navbar-brand {
       font-weight: 800;
       font-size: 1.7rem;
-      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3, #4CAF50);
+      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3, #E91E63, #9C27B0, #4CAF50);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      background-size: 300% 300%;
-      animation: gradientFlow 6s ease infinite;
+      background-size: 400% 100%;
+      animation: gradientFlow 8s ease infinite;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     @keyframes gradientFlow {
-      0% { background-position: 0% 50%; }
+      0%, 100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     .navbar-brand i {
       animation: float 3s ease-in-out infinite;
     }
+
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+      50% { transform: translateY(-10px); }
     }
 
+    /* === АНИМАЦИЯ КАЖДОГО СЛОВА В БАННЕРЕ === */
     .hero {
       background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
                   url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
@@ -80,71 +75,69 @@
       text-align: center;
       color: white;
     }
-    .hero h1 {
-      font-size: 3.8rem;
-      font-weight: 900;
-      text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
-      animation: slideInUp 1.2s ease forwards;
+
+    .hero h1 span, .hero p span {
+      display: inline-block;
       opacity: 0;
-    }
-    .hero p {
-      font-size: 1.4rem;
-      max-width: 800px;
-      margin: 0 auto;
-      animation: fadeIn 1.5s ease forwards 0.5s;
-      opacity: 0;
+      animation: wordFly 0.6s forwards;
     }
 
-    @keyframes slideInUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes fadeInUp {
+    .hero h1 span { animation-delay: calc(0.1s * var(--i)); }
+    .hero p span { animation-delay: calc(0.08s * var(--i) + 1s); }
+
+    @keyframes wordFly {
       from { transform: translateY(30px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
     .btn-gradient {
-      background: linear-gradient(45deg, #4CAF50, #8BC34A);
+      background: linear-gradient(45deg, #4CAF50, #8BC34A, #FF9800, #FFEB3B);
+      background-size: 300% 300%;
       color: white;
       border: none;
       padding: 14px 32px;
       border-radius: 60px;
       font-weight: 600;
-      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      opacity: 0;
-    }
-    .btn-gradient:hover {
-      transform: scale(1.1) translateY(-5px);
-      box-shadow: 0 15px 40px rgba(76, 175, 80, 0.6);
+      box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5);
+      transition: all 0.4s ease;
+      animation: pulseGradient 3s ease infinite;
     }
 
-.news-card {
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  border-left: 6px solid var(--primary);
-  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: hidden;
-  /* Убираем прозрачность и анимацию */
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  animation: none !important;
-}
-    .news-card:hover {
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-      border-left-width: 8px;
+    @keyframes pulseGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
+
+    .btn-gradient:hover {
+      transform: scale(1.12) translateY(-6px);
+      box-shadow: 0 15px 50px rgba(76, 175, 80, 0.7);
+    }
+
+    /* === АНИМИРОВАННЫЕ КАРТОЧКИ НОВОСТЕЙ === */
+    .news-card {
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      border-radius: 24px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+      border-left: 6px solid transparent;
+      border-image: linear-gradient(180deg, #4CAF50, #2196F3, #E91E63) 1;
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideUp 0.8s ease forwards;
+    }
+
     @keyframes slideUp {
       to { transform: translateY(0); opacity: 1; }
     }
 
+    .news-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.28);
+      border-left-width: 8px;
+    }
+
+    /* === АНИМИРОВАННЫЙ БЕЖИК ЦВЕТА === */
     .date-badge {
       display: inline-block;
       padding: 6px 14px;
@@ -153,15 +146,17 @@
       font-weight: 600;
       color: white;
       margin-bottom: 12px;
-      background: #4CAF50;
-      animation: bounceIn 0.8s ease forwards;
-    }
-    @keyframes bounceIn {
-      0% { transform: scale(0.7); opacity: 0; }
-      60% { transform: scale(1.05); }
-      100% { transform: scale(1); opacity: 1; }
+      background: linear-gradient(90deg, #4CAF50, #8BC34A, #4CAF50);
+      background-size: 200% 200%;
+      animation: badgePulse 2s ease infinite;
     }
 
+    @keyframes badgePulse {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* === СЕКЦИЯ "О СЕЛЕ" — ПЕРЕЛИВАЮЩАЯСЯ === */
     .section-about {
       background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
       background-attachment: fixed;
@@ -170,180 +165,163 @@
       padding: 120px 0;
       position: relative;
     }
+
     .section-about::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(5px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(200,230,255,0.95), rgba(255,240,245,0.9));
+      backdrop-filter: blur(10px);
       z-index: 1;
     }
-    .section-about > .container {
-      position: relative;
-      z-index: 2;
-    }
+
     .about-card {
-      background: white;
+      background: linear-gradient(135deg, #ffffff, #e8f5e8);
       border-radius: 24px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.18);
       padding: 40px;
-      border: 1px solid #eee;
-      animation: fadeInScale 1s ease forwards;
+      border: 1px solid transparent;
+      border-image: linear-gradient(45deg, #4CAF50, #2196F3) 1;
+      animation: fadeInScale 1.2s ease forwards;
       opacity: 0;
-      transform: scale(0.95);
+      transform: scale(0.9);
     }
+
     @keyframes fadeInScale {
       to { opacity: 1; transform: scale(1); }
     }
 
-    .about-card i {
-      animation: pulseIcon 2s infinite;
-    }
-    @keyframes pulseIcon {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-    }
-
+    /* === МАГАЗИН — АНИМИРОВАННЫЙ === */
     .section-shop {
-      background: linear-gradient(135deg, #FFF3E0, #E1F5FE);
+      background: linear-gradient(135deg, #FFF3E0, #E1F5FE, #F8BBF7);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
       padding: 100px 0;
       text-align: center;
     }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .section-shop i {
       animation: rotateIn 1.5s ease forwards;
       opacity: 0;
     }
+
     @keyframes rotateIn {
       from { transform: rotate(-180deg) scale(0); opacity: 0; }
       to { transform: rotate(0) scale(1); opacity: 1; }
     }
 
+    /* === БЛОК "БОТУ" — ПЕРЕЛИВАЮЩИЙСЯ === */
     .bot-section {
-      background: linear-gradient(135deg, #E91E63, #9C27B0, #673AB7);
-      background-size: 300% 300%;
-      animation: gradientShift 6s ease infinite, fadeIn 1.5s ease forwards;
+      background: linear-gradient(135deg, #E91E63, #9C27B0, #673AB7, #3F51B5);
+      background-size: 600% 600%;
+      animation: gradientWave 12s ease infinite;
       border-radius: 28px;
       padding: 70px 20px;
       text-align: center;
       color: white;
       margin: 100px 0;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-      opacity: 0;
-      transform: translateY(50px);
-      animation: slideInUp 1.5s ease forwards;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
     }
-    .bot-section h2 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
-      animation: bounceIn 1s ease forwards;
-      opacity: 0;
+
+    @keyframes gradientWave {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
+
     .btn-bot {
-      background: white;
+      background: linear-gradient(45deg, #ffffff, #ffebee, #f8bbd0);
       color: #E91E63;
       font-weight: 700;
       padding: 16px 45px;
       border-radius: 60px;
       font-size: 1.25rem;
-      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 30px rgba(255,255,255,0.4);
       transition: all 0.3s ease;
       animation: pulse 2s infinite;
     }
+
     .btn-bot:hover {
-      transform: scale(1.15) rotate(2deg);
-      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.6);
+      transform: scale(1.15) rotate(3deg);
+      box-shadow: 0 18px 50px rgba(255,255,255,0.6);
     }
 
-    .rss-card {
-      border-left: 5px solid var(--accent);
-      transform: translateX(-20px);
-      opacity: 0;
-      animation: slideInRight 0.6s ease forwards;
-    }
-    @keyframes slideInRight {
-      to { transform: translateX(0); opacity: 1; }
-    }
-    .rss-card:hover {
-      transform: translateX(10px) scale(1.01);
-    }
-
-    .contact-icon {
-      animation: swing 2s ease-in-out infinite;
-    }
-    @keyframes swing {
-      20% { transform: rotate(15deg); }
-      40% { transform: rotate(-10deg); }
-      60% { transform: rotate(8deg); }
-      80% { transform: rotate(-4deg); }
-      100% { transform: rotate(0); }
+    /* === КНОПКА "ПОДРОБНЕЕ" === */
+    .read-more-btn {
+      background: linear-gradient(90deg, #4CAF50, #8BC34A);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      border: 1px solid transparent;
+      font-size: 0.85rem;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s ease;
     }
 
+    .read-more-btn:hover {
+      background: #4CAF50;
+      color: white !important;
+      transform: scale(1.1);
+    }
+
+    /* === ПОДВАЛ С ПЕРЕЛИВАНИЕМ === */
     .footer {
-      background: linear-gradient(135deg, #2E7D32, #1B5E20);
+      background: linear-gradient(135deg, #2E7D32, #1B5E20, #0D47A1, #1A237E);
+      background-size: 400% 400%;
+      animation: footerGradient 15s ease infinite;
       color: #FFF9C4;
       padding: 80px 0 40px;
-      background-size: 200% 200%;
-      animation: gradientFooter 12s ease infinite;
     }
-    @keyframes gradientFooter {
+
+    @keyframes footerGradient {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
     .footer a {
       color: #FFF9C4;
       transition: all 0.3s ease;
     }
+
     .footer a:hover {
       color: #FFCC80;
-      transform: scale(1.1);
-    }
-    .footer i {
-      transition: all 0.3s ease;
-    }
-    .footer i:hover {
-      transform: scale(1.2) rotate(10deg);
+      transform: scale(1.15) rotate(5deg);
     }
 
+    /* === ОБЩАЯ АНИМАЦИЯ ПОЯВЛЕНИЯ === */
     .animate-on-scroll {
       opacity: 0;
-      transform: translateY(50px);
-      transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transform: translateY(60px);
+      transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
+
     .animate-on-scroll.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* === КНОПКА "ПОДРОБНЕЕ" === */
-    .read-more-btn {
-      border-color: var(--primary);
-      color: var(--primary);
-      font-size: 0.85rem;
-      padding: 6px 16px;
-      border-radius: 50px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-    }
-    .read-more-btn:hover {
-      background: var(--primary);
-      color: white !important;
-      transform: scale(1.05);
-    }
-
-    /* Плавная анимация текста */
-    .card-text {
-      transition: opacity 0.3s ease;
-    }
-
-    /* Ограничение высоты фото */
+    /* === ОГРАНИЧЕНИЕ ВЫСОТЫ ФОТО === */
     .news-card img {
       max-height: 200px;
       object-fit: cover;
       width: 100%;
       border-radius: 12px;
       margin: 10px 0;
+      border: 2px solid transparent;
+      border-image: linear-gradient(45deg, #4CAF50, #2196F3) 1;
+    }
+
+    .card-text {
+      transition: opacity 0.4s ease;
     }
   </style>
 </head>
@@ -374,11 +352,25 @@
   <!-- Главный баннер -->
   <section id="home" class="hero">
     <div class="container">
-      <h1 class="animate__animated animate__fadeInDown">Добро пожаловать в Иваново!</h1>
-      <p class="lead animate__animated animate__fadeInUp">
-        Самые свежие новости, события и традиции — прямо из сердца нашей деревни
+      <h1>
+        <script>
+          document.write(
+            "Добро пожаловать в Иваново!".split(" ").map((word, i) => 
+              `<span style="--i:${i}">${word}</span>`
+            ).join(" ")
+          );
+        </script>
+      </h1>
+      <p class="lead">
+        <script>
+          document.write(
+            "Самые свежие новости, события и традиции — прямо из сердца нашей деревни".split(" ").map((word, i) => 
+              `<span style="--i:${i}">${word}</span>`
+            ).join(" ")
+          );
+        </script>
       </p>
-      <a href="#news" class="btn btn-gradient mt-4 animate__animated animate__fadeInUp" style="animation-delay: 1s; animation-duration: 1s;">
+      <a href="#news" class="btn btn-gradient mt-4">
         <i class="fas fa-newspaper me-2"></i> Читать новости
       </a>
     </div>
@@ -386,40 +378,35 @@
 
   <!-- Новости -->
   <section id="news" class="container my-5">
-    <h2 class="text-center mb-5 fw-bold" style="color: var(--dark);">Последние новости</h2>
+    <h2 class="text-center mb-5 fw-bold" style="background: linear-gradient(90deg, #2E7D32, #1B5E20, #4CAF50); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      Последние новости
+    </h2>
     <div class="row" id="news-container">
 
       <!-- НОВОСТЬ 1 -->
-<div class="col-md-6 col-lg-4 animate-on-scroll">
-  <div class="news-card" style="animation: fadeInUp 0.6s ease;">
-    <div class="p-4">
-      <span class="date-badge">25.08.2025</span>
-      <h5>Солнце клонилось к горизонту, окрашивая небо в багряные и золотые тона. Легкий ветерок шелестел в листве старых деревьев, разнося аромат опавших листьев и влажной земли. На вершине холма стоял одинокий путник, взгляд которого был устремлен вдаль, туда, где горизонт сливался с небом. В его глазах отражались тысячи пройденных дорог и долгие годы странствий. Он знал, что впереди его ждет еще много испытаний, но в его сердце царил покой. Путь воина не бывает легким, но каждый пройденный шаг закаляет дух и приближает к цели. Он глубоко вдохнул прохладный вечерний воздух и, повернувшись, зашагал вниз по склону, навстречу новым приключениям.</h5>
-      <p class="text-muted">Автор: 私はばかです</p>
-      <div class="text-center mt-3 text-muted">
-        <small>c:\Users\alexa\Desktop\news ivanovo\img sela\photo_2025-08-25_13-57-16.jpg</small>
-      </div>
-    </div>
-  </div>
-</div>
 
       <!-- НОВОСТЬ 2 -->
-      
+
 
       <!-- НОВОСТЬ 3 -->
-      
+
+
+    </div>
+  </section>
 
   <!-- О селе -->
   <section id="about" class="section-about">
     <div class="container">
-      <h2 class="text-center mb-5 fw-bold text-success animate-on-scroll">О селе Иваново</h2>
+      <h2 class="text-center mb-5 fw-bold text-success animate-on-scroll" style="background: linear-gradient(90deg, #4CAF50, #8BC34A, #2196F3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        О селе Иваново
+      </h2>
       <div class="row align-items-center">
         <div class="col-lg-12">
           <div class="about-card animate-on-scroll">
-            <h4><i class="fas fa-history me-2 text-primary"></i> История села</h4>
+            <h4><i class="fas fa-history me-2"></i> История села</h4>
             <p>Село Иваново в Ковровском районе Владимирской области впервые упоминается в 1628 году как вотчина князя Хилкова. Здесь стоит старинная Богородице-Рождественская церковь (1833 г.), а станция Эсино — часть железнодорожной ветки Ковров—Муром — вдохновляла даже Михаила Булгакова.</p>
 
-            <h4 class="mt-4"><i class="fas fa-home me-2 text-success"></i> Жизнь сегодня</h4>
+            <h4 class="mt-4"><i class="fas fa-home me-2"></i> Жизнь сегодня</h4>
             <p>Село живёт: работает школа, детский сад «Родничок», дом культуры и поликлиника. Здесь каждый знает каждого, а природа дарит покой и вдохновение.</p>
 
             <div class="row text-center mt-4">
@@ -445,7 +432,7 @@
   <!-- Магазин -->
   <section id="shop" class="section-shop">
     <div class="container">
-      <i class="fas fa-store fa-4x text-warning mb-4"></i>
+      <i class="fas fa-store fa-4x mb-4" style="background: linear-gradient(90deg, #FF9800, #FF5722); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
       <h2 class="fw-bold animate-on-scroll">🛒 Наш магазин — скоро откроется!</h2>
       <p class="lead animate-on-scroll" style="animation-delay: 0.3s;">
         Покупайте <strong>местные продукты</strong>: мёд, овощи, ягоды, варенье, грибы, сувениры ручной работы и так далее.
@@ -476,35 +463,26 @@
     </div>
   </section>
 
-  <!-- RSS-лента из Telegram -->
-  <section id="news-from-tg" class="container my-5 animate-on-scroll">
-    <h2 class="text-center mb-4 fw-bold" style="color: var(--dark);">
-      <i class="fab fa-telegram me-2" style="color: var(--accent);"></i>
-      Последние новости в Telegram
-    </h2>
-    <div id="rss-feed" class="text-center">
-      <p>Загрузка новостей...</p>
-    </div>
-  </section>
-
   <!-- Контакты -->
   <section id="contact" class="container my-5 animate-on-scroll">
-    <h2 class="text-center mb-5 fw-bold" style="color: var(--accent);">Связаться с нами</h2>
+    <h2 class="text-center mb-5 fw-bold" style="background: linear-gradient(90deg, #2196F3, #1976D2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      Связаться с нами
+    </h2>
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="row text-center">
           <div class="col-md-4 mb-4">
-            <i class="fas fa-envelope fa-2x text-primary mb-3 contact-icon"></i>
+            <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
             <h5>Email</h5>
             <p>seloivanovo33@mail.ru</p>
           </div>
           <div class="col-md-4 mb-4">
-            <i class="fas fa-phone fa-2x text-success mb-3 contact-icon" style="animation-delay: 0.1s;"></i>
+            <i class="fas fa-phone fa-2x text-success mb-3"></i>
             <h5>Телефон</h5>
             <p>Не указан</p>
           </div>
           <div class="col-md-4 mb-4">
-            <i class="fas fa-map-marker-alt fa-2x text-danger mb-3 contact-icon" style="animation-delay: 0.2s;"></i>
+            <i class="fas fa-map-marker-alt fa-2x text-danger mb-3"></i>
             <h5>Адрес</h5>
             <p>Село Иваново, Ковровский район, Владимирская область</p>
           </div>
@@ -552,26 +530,21 @@
     // Анимация появления при скролле
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          if (entry.target.classList.contains('news-card')) {
-            entry.target.style.transitionDelay = `${Array.from(document.querySelectorAll('.news-card')).indexOf(entry.target) * 0.15}s`;
-          }
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-    // Логика кнопки "Подробнее" для каждой новости
+    // Логика кнопки "Подробнее"
     document.querySelectorAll('.news-card').forEach(card => {
       const textEl = card.querySelector('.card-text');
       const btn = card.querySelector('.read-more-btn');
+      if (!textEl || !btn) return;
+
       const fullText = textEl.textContent;
       const maxLength = 80;
-      const isLong = fullText.length > maxLength;
 
-      if (isLong) {
+      if (fullText.length > maxLength) {
         textEl.textContent = fullText.substring(0, maxLength) + '...';
         btn.style.display = 'inline-block';
 
@@ -589,7 +562,7 @@
       }
     });
 
-    // Загрузка новостей из Telegram (для RSS)
+    // Загрузка новостей из Telegram
     $(document).ready(function() {
       $.get('https://rss.telega.link/channel.php?channel=nseloivanovo', function(data) {
         $('#rss-feed').empty();
@@ -603,7 +576,7 @@
           const link = $(this).find('link').text();
           setTimeout(() => {
             $('#rss-feed').append(`
-              <div class="card mb-4 rss-card shadow-sm">
+              <div class="card mb-4 shadow-sm">
                 <div class="card-body">
                   <h5 class="card-title">${title}</h5>
                   <a href="${link}" target="_blank" class="btn btn-outline-primary btn-sm">
