@@ -271,6 +271,7 @@
       box-shadow: 0 10px 30px rgba(255,255,255,0.4);
       transition: all 0.3s ease;
       animation: pulse 2s infinite;
+      text-decoration: none;
     }
 
     @keyframes pulse {
@@ -299,7 +300,7 @@
     }
 
     .read-more-btn:hover {
-      background: #4CAF50;
+      background: #dfe3df;
       color: white !important;
       transform: scale(1.1);
     }
@@ -456,6 +457,32 @@
         padding: 0.5rem 1rem !important;
       }
     }
+
+    /* === АНИМАЦИИ КНОПОК ПРИ НАВЕДЕНИИ === */
+    .btn-gradient:hover {
+      transform: scale(1.12) translateY(-6px);
+      box-shadow: 0 15px 50px rgba(76, 175, 80, 0.7);
+    }
+
+    .read-more-btn:hover {
+      background: #4CAF50;
+      color: white !important;
+      transform: scale(1.1);
+    }
+
+    .btn-bot:hover {
+      transform: scale(1.15) rotate(3deg);
+      box-shadow: 0 18px 50px rgba(255,255,255,0.6);
+    }
+
+    .nav-link:hover {
+      background: #e8f5e8;
+      transform: translateX(5px);
+    }
+
+    .btn-outline-primary:hover {
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -463,16 +490,21 @@
   <!-- Навигация -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <i class="fas fa-leaf"></i> Новости села Иваново
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-      </button>
+      <!-- Логотип и бургер слева -->
+      <div class="d-flex align-items-center">
+        <a class="navbar-brand" href="#">
+          <i class="fas fa-leaf"></i> Новости села Иваново
+        </a>
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Меню справа (на ПК), а на мобильных — в collapse -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#home">Главная</a></li>
@@ -596,7 +628,7 @@
         Напишите нашему боту — и мы опубликуем новость!
       </p>
       <a href="https://t.me/SIvanovoNewsBot" target="_blank" rel="noopener" class="btn-bot">
-        <i class="fab fa-telegram me-2"></i> Написать боту @SIvanovoNewsBot
+        <i class="fab fa-telegram me-2"></i> Написать боту 
       </a>
       <p class="mt-3 small">
         Можно писать анонимно. Вы получите уведомление, когда новость появится на сайте.
@@ -705,8 +737,6 @@
   </script>
 </body>
 </html>
-
-
 
 
 
