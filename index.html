@@ -23,7 +23,6 @@
       --light: #FFF9C4;
     }
 
-    /* === ГЛАВНЫЙ АНИМИРОВАННЫЙ ФОН === */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #e8f5e8, #f3e5f5, #e1f5fe);
@@ -42,7 +41,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* === АНИМИРОВАННЫЙ ЛОГОТИП === */
     .navbar-brand {
       font-weight: 800;
       font-size: 1.7rem;
@@ -63,7 +61,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* === ПЛАВАЮЩИЙ ЭФФЕКТ ДЛЯ ЛОГОТИПА === */
     .navbar-brand i {
       animation: float 3s ease-in-out infinite;
     }
@@ -72,7 +69,6 @@
       50% { transform: translateY(-8px); }
     }
 
-    /* === ГЕРОЙ-СЕКЦИЯ С АНИМАЦИЕЙ === */
     .hero {
       background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
                   url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
@@ -116,7 +112,6 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* === АНИМИРОВАННАЯ КНОПКА === */
     .btn-gradient {
       background: linear-gradient(45deg, #4CAF50, #8BC34A);
       color: white;
@@ -138,7 +133,6 @@
       50% { box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6); }
     }
 
-    /* === АНИМИРОВАННЫЕ КАРТОЧКИ НОВОСТЕЙ === */
     .news-card {
       background: white;
       border-radius: 20px;
@@ -176,7 +170,6 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* === СЕКЦИЯ "О СЕЛЕ" С ПАРАЛЛАКС-ЭФФЕКТОМ === */
     .section-about {
       background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
       background-attachment: fixed;
@@ -211,7 +204,6 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* === АНИМИРОВАННЫЕ ИКОНКИ В КАРТОЧКЕ === */
     .about-card i {
       animation: pulseIcon 2s infinite;
     }
@@ -220,7 +212,6 @@
       50% { transform: scale(1.15); }
     }
 
-    /* === МАГАЗИН === */
     .section-shop {
       background: linear-gradient(135deg, #FFF3E0, #E1F5FE);
       padding: 100px 0;
@@ -235,7 +226,6 @@
       to { transform: rotate(0) scale(1); opacity: 1; }
     }
 
-    /* === АНИМИРОВАННЫЙ БОТ === */
     .bot-section {
       background: linear-gradient(135deg, #E91E63, #9C27B0, #673AB7);
       background-size: 300% 300%;
@@ -273,7 +263,6 @@
       box-shadow: 0 15px 40px rgba(255, 255, 255, 0.6);
     }
 
-    /* === RSS-КАРТОЧКИ === */
     .rss-card {
       border-left: 5px solid var(--accent);
       transform: translateX(-20px);
@@ -287,7 +276,6 @@
       transform: translateX(10px) scale(1.01);
     }
 
-    /* === КОНТАКТЫ === */
     .contact-icon {
       animation: swing 2s ease-in-out infinite;
     }
@@ -299,7 +287,6 @@
       100% { transform: rotate(0); }
     }
 
-    /* === ПОДВАЛ === */
     .footer {
       background: linear-gradient(135deg, #2E7D32, #1B5E20);
       color: #FFF9C4;
@@ -327,7 +314,6 @@
       transform: scale(1.2) rotate(10deg);
     }
 
-    /* === АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ === */
     .animate-on-scroll {
       opacity: 0;
       transform: translateY(50px);
@@ -341,7 +327,7 @@
 </head>
 <body>
 
-  <!-- Навигация с анимацией -->
+  <!-- Навигация -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
       <a class="navbar-brand" href="#">
@@ -367,8 +353,12 @@
   <section id="home" class="hero">
     <div class="container">
       <h1 class="animate__animated animate__fadeInDown">Добро пожаловать в Иваново!</h1>
-      <p class="lead animate__animated animate__fadeInUp">Самые свежие новости, события и традиции — прямо из сердца нашей деревни</p>
-      <a href="#news" class="btn btn-gradient mt-4 animate__animated animate__zoomIn">Читать новости</a>
+      <p class="lead animate__animated animate__fadeInUp">
+        Самые свежие новости, события и традиции — прямо из сердца нашей деревни
+      </p>
+      <a href="#news" class="btn btn-gradient mt-4 animate__animated animate__fadeInUp" style="animation-delay: 1s; animation-duration: 1s;">
+        <i class="fas fa-newspaper me-2"></i> Читать новости
+      </a>
     </div>
   </section>
 
@@ -428,7 +418,7 @@
     </div>
   </section>
 
-  <!-- ✅ АНИМИРОВАННЫЙ БЛОК "НАПИСАТЬ БОТУ" -->
+  <!-- Блок "Написать боту" -->
   <section class="bot-section animate-on-scroll">
     <div class="container">
       <h2><i class="fab fa-telegram me-3"></i> Прислать новость</h2>
@@ -439,7 +429,7 @@
         Напишите нашему боту — и мы опубликуем новость!
       </p>
       <a href="https://t.me/SIvanovoNewsBot" target="_blank" rel="noopener" class="btn-bot">
-        <i class="fab fa-telegram me-2"></i> Написать боту
+        <i class="fab fa-telegram me-2"></i> Написать боту @SIvanovoNewsBot
       </a>
       <p class="mt-3 small">
         Можно писать анонимно. Вы получите уведомление, когда новость появится на сайте.
@@ -525,9 +515,8 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          // Добавляем задержку для эффекта "по одному"
           if (entry.target.classList.contains('news-card')) {
-            entry.target.style.transitionDelay = `${Array.from(document.querySelectorAll('.news-card')).indexOf(entry.target) * 0.2}s`;
+            entry.target.style.transitionDelay = `${Array.from(document.querySelectorAll('.news-card')).indexOf(entry.target) * 0.15}s`;
           }
         }
       });
@@ -565,7 +554,7 @@
       });
     });
 
-    // Загрузка новостей с сайта
+    // Загрузка новостей с сайта (теперь 6 штук)
     document.addEventListener('DOMContentLoaded', () => {
       fetch('news.json?v=' + Date.now())
         .then(r => {
@@ -576,11 +565,12 @@
           const container = document.getElementById('news-container');
           if (!container) return;
 
-          news.slice(0, 3).forEach((n, i) => {
+          // Показываем 6 последних новостей
+          news.slice(0, 6).forEach((n, i) => {
             setTimeout(() => {
               const col = document.createElement('div');
               col.className = 'col-md-6 col-lg-4 animate-on-scroll';
-              col.style.animationDelay = `${i * 0.3}s`;
+              col.style.animationDelay = `${i * 0.2}s`;
               col.innerHTML = `
                 <div class="news-card">
                   <div class="p-4">
@@ -591,7 +581,7 @@
                 </div>
               `;
               container.appendChild(col);
-            }, i * 400);
+            }, i * 300); // Плавная загрузка
           });
         })
         .catch(err => {
