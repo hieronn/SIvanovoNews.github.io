@@ -121,7 +121,7 @@
       font-weight: 600;
       box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      /* animation: pulse-shadow 2s infinite; */
+      animation: pulse-shadow 2s infinite;
     }
     .btn-gradient:hover {
       transform: scale(1.1) translateY(-5px);
@@ -323,6 +323,27 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* === КНОПКА "ПОДРОБНЕЕ" === */
+    .read-more-btn {
+      border-color: var(--primary);
+      color: var(--primary);
+      font-size: 0.85rem;
+      padding: 6px 16px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    .read-more-btn:hover {
+      background: var(--primary);
+      color: white !important;
+      transform: scale(1.05);
+    }
+
+    /* Плавная анимация текста */
+    .card-text {
+      transition: opacity 0.3s ease;
+    }
   </style>
 </head>
 <body>
@@ -366,15 +387,7 @@
   <section id="news" class="container my-5">
     <h2 class="text-center mb-5 fw-bold" style="color: var(--dark);">Последние новости</h2>
     <div class="row" id="news-container">
-<div class="col-md-6 col-lg-4 animate-on-scroll">
-  <div class="news-card">
-    <div class="p-4">
-      <span class="date-badge">25.08.2025</span>
-      <h5>я питр</h5>
-      <p class="text-muted">Автор: 私はばかです</p>
-    </div>
-  </div>
-</div>
+      <!-- Новости загружаются динамически -->
     </div>
   </section>
 
@@ -562,7 +575,7 @@
       });
     });
 
-    // Загрузка новостей с сайта (теперь 6 штук)
+    // Загрузка новостей с сайта (6 штук) + кнопка "Подробнее"
     document.addEventListener('DOMContentLoaded', () => {
       fetch('news.json?v=' + Date.now())
         .then(r => {
@@ -579,17 +592,49 @@
               const col = document.createElement('div');
               col.className = 'col-md-6 col-lg-4 animate-on-scroll';
               col.style.animationDelay = `${i * 0.2}s`;
+
+              // Лимит символов
+              const maxLength = 80;
+              const isLong = n.text.length > maxLength;
+              const shortText = isLong ? n.text.substring(0, maxLength) + '...' : n.text;
+
               col.innerHTML = `
                 <div class="news-card">
                   <div class="p-4">
-                    <span class="date-badge">${n.date}</span>
-                    <h5>${n.text.substring(0, 50)}${n.text.length > 50 ? '...' : ''}</h5>
-                    <p class="text-muted">Автор: ${n.name}</p>
+                    <span class="date-badge">${n.date || 'Сегодня'}</span>
+                    <p class="card-text">${shortText}</p>
+                    <p class="text-muted mb-2">Автор: ${n.name || 'Аноним'}</p>
+                    <button class="btn read-more-btn" style="display: ${isLong ? 'inline-block' : 'none'};">
+                      Подробнее
+                    </button>
                   </div>
                 </div>
               `;
+
               container.appendChild(col);
-            }, i * 300); // Плавная загрузка
+
+              // Логика кнопки "Подробнее"
+              const btn = col.querySelector('.read-more-btn');
+              const textEl = col.querySelector('.card-text');
+              let isExpanded = false;
+
+              if (btn) {
+                btn.addEventListener('click', function () {
+                  if (!isExpanded) {
+                    textEl.textContent = n.text;
+                    btn.textContent = 'Скрыть';
+                    isExpanded = true;
+                  } else {
+                    textEl.textContent = shortText;
+                    btn.textContent = 'Подробнее';
+                    isExpanded = false;
+                  }
+                  // Плавное появление
+                  textEl.style.opacity = 0;
+                  setTimeout(() => textEl.style.opacity = 1, 100);
+                });
+              }
+            }, i * 300);
           });
         })
         .catch(err => {
