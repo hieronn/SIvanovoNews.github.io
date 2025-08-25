@@ -15,6 +15,14 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
   <style>
+    :root {
+      --primary: #4CAF50;
+      --accent: #2196F3;
+      --danger: #E91E63;
+      --dark: #2E7D32;
+      --light: #FFF9C4;
+    }
+
     /* === ГЛАВНЫЙ ФОН С ПЕРЕЛИВАНИЕМ === */
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -38,7 +46,7 @@
     .navbar-brand {
       font-weight: 800;
       font-size: 1.7rem;
-      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3, #E91E63, #9C27B0, #4CAF50);
+      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3, #E91E63, #9C27B0);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -134,7 +142,6 @@
     .news-card:hover {
       transform: translateY(-10px) scale(1.03);
       box-shadow: 0 25px 60px rgba(0,0,0,0.28);
-      border-left-width: 8px;
     }
 
     /* === АНИМИРОВАННЫЙ БЕЖИК ЦВЕТА === */
@@ -156,42 +163,64 @@
       50% { background-position: 100% 50%; }
     }
 
-    /* === СЕКЦИЯ "О СЕЛЕ" — ПЕРЕЛИВАЮЩАЯСЯ === */
+    /* === СЕКЦИЯ "О СЕЛЕ" — СОВРЕМЕННЫЙ ДИЗАЙН === */
     .section-about {
-      background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
       padding: 120px 0;
+      background: #f9f9f9;
       position: relative;
+      overflow: hidden;
     }
 
     .section-about::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(200,230,255,0.95), rgba(255,240,245,0.9));
-      backdrop-filter: blur(10px);
-      z-index: 1;
+      background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
     }
 
     .about-card {
-      background: linear-gradient(135deg, #ffffff, #e8f5e8);
+      background: white;
       border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
       padding: 40px;
-      border: 1px solid transparent;
-      border-image: linear-gradient(45deg, #4CAF50, #2196F3) 1;
+      border: 1px solid #e0f7fa;
       animation: fadeInScale 1.2s ease forwards;
       opacity: 0;
-      transform: scale(0.9);
+      transform: scale(0.95);
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-card h4 {
+      background: linear-gradient(90deg, #4CAF50, #2196F3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .about-card p {
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #4CAF50, #2196F3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
     }
 
     @keyframes fadeInScale {
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* === МАГАЗИН — АНИМИРОВАННЫЙ === */
+    /* === МАГАЗИН === */
     .section-shop {
       background: linear-gradient(135deg, #FFF3E0, #E1F5FE, #F8BBF7);
       background-size: 400% 400%;
@@ -206,17 +235,7 @@
       100% { background-position: 0% 50%; }
     }
 
-    .section-shop i {
-      animation: rotateIn 1.5s ease forwards;
-      opacity: 0;
-    }
-
-    @keyframes rotateIn {
-      from { transform: rotate(-180deg) scale(0); opacity: 0; }
-      to { transform: rotate(0) scale(1); opacity: 1; }
-    }
-
-    /* === БЛОК "БОТУ" — ПЕРЕЛИВАЮЩИЙСЯ === */
+    /* === БЛОК "БОТУ" === */
     .bot-section {
       background: linear-gradient(135deg, #E91E63, #9C27B0, #673AB7, #3F51B5);
       background-size: 600% 600%;
@@ -264,6 +283,7 @@
       border-radius: 50px;
       font-weight: 500;
       transition: all 0.3s ease;
+      display: none;
     }
 
     .read-more-btn:hover {
@@ -272,7 +292,7 @@
       transform: scale(1.1);
     }
 
-    /* === ПОДВАЛ С ПЕРЕЛИВАНИЕМ === */
+    /* === ПОДВАЛ === */
     .footer {
       background: linear-gradient(135deg, #2E7D32, #1B5E20, #0D47A1, #1A237E);
       background-size: 400% 400%;
@@ -309,15 +329,14 @@
       transform: translateY(0);
     }
 
-    /* === ОГРАНИЧЕНИЕ ВЫСОТЫ ФОТО === */
+    /* === ФОТО В НОВОСТИ === */
     .news-card img {
       max-height: 200px;
       object-fit: cover;
       width: 100%;
       border-radius: 12px;
       margin: 10px 0;
-      border: 2px solid transparent;
-      border-image: linear-gradient(45deg, #4CAF50, #2196F3) 1;
+      border: 2px solid #e0f7fa;
     }
 
     .card-text {
@@ -384,81 +403,55 @@
     <div class="row" id="news-container">
 
       <!-- НОВОСТЬ 1 -->
-       <div class="col-md-6 col-lg-4 animate-on-scroll">
-  <div class="news-card" style="animation: fadeInUp 0.6s ease;">
-    <div class="p-4">
-      <span class="date-badge">25.08.2025</span>
-      <h5>Игра "Знамя Войны" (Warbanner) — это достаточно нишевая тактическая стратегия. Поскольку игра не выпускалась в 2025 году, а была выпущена ранее, то возможность поиграть в нее в 2025 году будет зависеть от того, останется ли она доступной на платформах, где она была выпущена, или будет доступна через ретро-гейминг или эмуляторы.
-
-Насколько мне известно, "Warbanner" была выпущена в 2008 году компанией Nival Interactive. Она выходила для ПК (Windows).
-
-Вот как вы можете попробовать поиграть в нее в 2025 году (или раньше, если вы планируете это сейчас):
-
-1. Поиск цифровых версий:
-    *   GOG.com (Good Old Games): Это один из лучших ресурсов для поиска старых игр, которые уже не продаются в обычных цифровых магазинах. GOG.com специализируется на играх для ПК, которые были адаптированы для работы на современных операционных системах. Проверьте их каталог.
-    *   Steam: Хотя Steam в основном ориентирован на новые игры, иногда старые хиты туда тоже попадают. Стоит проверить, нет ли там "Warbanner".
-    *   Другие цифровые магазины: Иногда игры можно найти на специализированных платформах или даже на сайтах самих разработчиков/издателей, если они поддерживают свои старые проекты.
-
-2. Физические копии (если сможете найти):
-    *   Если игра выходила на дисках, вы можете поискать ее на аукционах вроде eBay, Avito или в местных магазинах подержанных игр. Однако, установка с диска на современные Windows может потребовать дополнительных усилий (например, поиска патчей совместимости или использования виртуальных приводов).
-
-3. Ретро-гейминг и эмуляторы (если игра была на других платформах):
-    *   "Warbanner" была PC-игрой. Для нее не нужны эмуляторы консолей. Однако, если вы столкнетесь с проблемами совместимости на Windows 10/11, могут потребоваться "кряки" или патчи, которые позволят игре работать на современных системах. Эти патчи часто создаются сообществом энтузиастов. Будьте осторожны при скачивании файлов из непроверенных источников.
-
-4. Системные требования:
-    "Warbanner" была выпущена в 2008 году, поэтому ее системные требования очень низкие по современным меркам. Она должна без проблем работать даже на самых слабых компьютерах. Основная проблема — это совместимость с операционной системой.
-
-Что нужно сделать, чтобы подготовиться:
-
-*   Заранее поищите информацию: Зайдите на форумы, посвященные ретро-геймингу, или на сайты, где обсуждаются старые игры (например, PCGamingWiki), чтобы узнать, как успешно запустить "Warbanner" на современных Windows. Там часто есть руководства, ссылки на патчи и обсуждения проблем.
-*   Проверьте доступность: Начните поиски как можно раньше. Старые игры могут быть трудны для поиска, особенно если они не были переизданы.
-
-Итак, в 2025 году, как и сейчас, основной способ поиграть в "Warbanner" — это найти ее цифровую копию на таких платформах, как GOG.com, и убедиться, что она совместима с вашей операционной системой, возможно, с помощью фанатских патчей.</h5>
-      <p class="text-muted">Автор: 私はばかです</p>
-      <div class="text-center mt-3 text-muted">
-        <small><img src="./img sela/photo_2025-08-25_13-57-16.jpg" alt=""></small>
+      <div class="col-md-6 col-lg-4 animate-on-scroll">
+        <div class="news-card">
+          <div class="p-4">
+            <span class="date-badge">25.08.2025</span>
+            <h5 class="card-title">Игра "Знамя Войны" (Warbanner)</h5>
+            <p class="card-text">Игра "Знамя Войны" (Warbanner) — это достаточно нишевая тактическая стратегия. Поскольку игра не выпускалась в 2025 году, а была выпущена ранее, то возможность поиграть в нее в 2025 году будет зависеть от того, останется ли она доступной на платформах, где она была выпущена, или будет доступна через ретро-гейминг или эмуляторы.</p>
+            <img src="./img sela/photo_2025-08-25_13-57-16.jpg" alt="Фото из села" class="img-fluid">
+            <button class="read-more-btn">Подробнее</button>
+            <p class="text-muted mt-2">Автор: 私はばかです</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
 
-
-      <!-- НОВОСТЬ 2 -->
-
-
-      <!-- НОВОСТЬ 3 -->
-
-
-    </div>
-  </section>
-
+     
   <!-- О селе -->
   <section id="about" class="section-about">
     <div class="container">
-      <h2 class="text-center mb-5 fw-bold text-success animate-on-scroll" style="background: linear-gradient(90deg, #4CAF50, #8BC34A, #2196F3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      <h2 class="text-center mb-5 fw-bold animate-on-scroll" style="background: linear-gradient(90deg, #4CAF50, #8BC34A, #2196F3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         О селе Иваново
       </h2>
-      <div class="row align-items-center">
-        <div class="col-lg-12">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-lg-10">
           <div class="about-card animate-on-scroll">
-            <h4><i class="fas fa-history me-2"></i> История села</h4>
-            <p>Село Иваново в Ковровском районе Владимирской области впервые упоминается в 1628 году как вотчина князя Хилкова. Здесь стоит старинная Богородице-Рождественская церковь (1833 г.), а станция Эсино — часть железнодорожной ветки Ковров—Муром — вдохновляла даже Михаила Булгакова.</p>
-
-            <h4 class="mt-4"><i class="fas fa-home me-2"></i> Жизнь сегодня</h4>
-            <p>Село живёт: работает школа, детский сад «Родничок», дом культуры и поликлиника. Здесь каждый знает каждого, а природа дарит покой и вдохновение.</p>
-
-            <div class="row text-center mt-4">
-              <div class="col-md-4 animate-on-scroll">
-                <i class="fas fa-tree fa-3x text-success mb-3"></i>
-                <h6>Чистый воздух</h6>
+            <div class="row text-center">
+              <div class="col-md-4 mb-4">
+                <div class="feature-icon"><i class="fas fa-tree"></i></div>
+                <h5>Чистый воздух</h5>
+                <p>Живёте в экологически чистом районе с хвойными и лиственными лесами.</p>
               </div>
-              <div class="col-md-4 animate-on-scroll" style="animation-delay: 0.2s;">
-                <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                <h6>Дружелюбная община</h6>
+              <div class="col-md-4 mb-4">
+                <div class="feature-icon"><i class="fas fa-users"></i></div>
+                <h5>Дружелюбная община</h5>
+                <p>Здесь каждый знает каждого. Всегда готовы помочь и поддержать.</p>
               </div>
-              <div class="col-md-4 animate-on-scroll" style="animation-delay: 0.4s;">
-                <i class="fas fa-church fa-3x text-danger mb-3"></i>
-                <h6>Старинная церковь</h6>
+              <div class="col-md-4 mb-4">
+                <div class="feature-icon"><i class="fas fa-church"></i></div>
+                <h5>Старинная церковь</h5>
+                <p>Богородице-Рождественская церковь 1833 года — символ села.</p>
+              </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+              <div class="col-md-6">
+                <h4><i class="fas fa-history me-2 text-success"></i> История</h4>
+                <p>Село Иваново впервые упоминается в 1628 году как вотчина князя Хилкова. Здесь стоит старинная Богородице-Рождественская церковь (1833 г.), а станция Эсино — часть железнодорожной ветки Ковров—Муром — вдохновляла даже Михаила Булгакова.</p>
+              </div>
+              <div class="col-md-6">
+                <h4><i class="fas fa-home me-2 text-primary"></i> Сегодня</h4>
+                <p>Село живёт: работает школа, детский сад «Родничок», дом культуры и поликлиника. Здесь каждый знает каждого, а природа дарит покой и вдохновение.</p>
               </div>
             </div>
           </div>
@@ -580,7 +573,7 @@
       if (!textEl || !btn) return;
 
       const fullText = textEl.textContent;
-      const maxLength = 80;
+      const maxLength = 100;
 
       if (fullText.length > maxLength) {
         textEl.textContent = fullText.substring(0, maxLength) + '...';
@@ -599,36 +592,56 @@
         });
       }
     });
-
-    // Загрузка новостей из Telegram
-    $(document).ready(function() {
-      $.get('https://rss.telega.link/channel.php?channel=nseloivanovo', function(data) {
-        $('#rss-feed').empty();
-        const $items = $(data).find('item').slice(0, 3);
-        if ($items.length === 0) {
-          $('#rss-feed').html('<p>Нет новостей в канале.</p>');
-          return;
-        }
-        $items.each(function(index) {
-          const title = $(this).find('title').text() || 'Без заголовка';
-          const link = $(this).find('link').text();
-          setTimeout(() => {
-            $('#rss-feed').append(`
-              <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                  <h5 class="card-title">${title}</h5>
-                  <a href="${link}" target="_blank" class="btn btn-outline-primary btn-sm">
-                    <i class="fab fa-telegram me-1"></i> Читать в Telegram
-                  </a>
-                </div>
-              </div>
-            `);
-          }, index * 400);
-        });
-      }).fail(() => {
-        $('#rss-feed').html('<p class="text-danger">Не удалось загрузить новости.</p>');
-      });
-    });
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- <div class="col-md-6 col-lg-4 animate-on-scroll">
+  <div class="news-card" style="animation: fadeInUp 0.6s ease;">
+    <div class="p-4">
+      <span class="date-badge">25.08.2025</span>
+      <h5>Игра "Знамя Войны" (Warbanner) — это достаточно нишевая тактическая стратегия. Поскольку игра не выпускалась в 2025 году, а была выпущена ранее, то возможность поиграть в нее в 2025 году будет зависеть от того, останется ли она доступной на платформах, где она была выпущена, или будет доступна через ретро-гейминг или эмуляторы.
+
+Насколько мне известно, "Warbanner" была выпущена в 2008 году компанией Nival Interactive. Она выходила для ПК (Windows).
+
+Вот как вы можете попробовать поиграть в нее в 2025 году (или раньше, если вы планируете это сейчас):
+
+1. Поиск цифровых версий:
+    *   GOG.com (Good Old Games): Это один из лучших ресурсов для поиска старых игр, которые уже не продаются в обычных цифровых магазинах. GOG.com специализируется на играх для ПК, которые были адаптированы для работы на современных операционных системах. Проверьте их каталог.
+    *   Steam: Хотя Steam в основном ориентирован на новые игры, иногда старые хиты туда тоже попадают. Стоит проверить, нет ли там "Warbanner".
+    *   Другие цифровые магазины: Иногда игры можно найти на специализированных платформах или даже на сайтах самих разработчиков/издателей, если они поддерживают свои старые проекты.
+
+2. Физические копии (если сможете найти):
+    *   Если игра выходила на дисках, вы можете поискать ее на аукционах вроде eBay, Avito или в местных магазинах подержанных игр. Однако, установка с диска на современные Windows может потребовать дополнительных усилий (например, поиска патчей совместимости или использования виртуальных приводов).
+
+3. Ретро-гейминг и эмуляторы (если игра была на других платформах):
+    *   "Warbanner" была PC-игрой. Для нее не нужны эмуляторы консолей. Однако, если вы столкнетесь с проблемами совместимости на Windows 10/11, могут потребоваться "кряки" или патчи, которые позволят игре работать на современных системах. Эти патчи часто создаются сообществом энтузиастов. Будьте осторожны при скачивании файлов из непроверенных источников.
+
+4. Системные требования:
+    "Warbanner" была выпущена в 2008 году, поэтому ее системные требования очень низкие по современным меркам. Она должна без проблем работать даже на самых слабых компьютерах. Основная проблема — это совместимость с операционной системой.
+
+Что нужно сделать, чтобы подготовиться:
+
+*   Заранее поищите информацию: Зайдите на форумы, посвященные ретро-геймингу, или на сайты, где обсуждаются старые игры (например, PCGamingWiki), чтобы узнать, как успешно запустить "Warbanner" на современных Windows. Там часто есть руководства, ссылки на патчи и обсуждения проблем.
+*   Проверьте доступность: Начните поиски как можно раньше. Старые игры могут быть трудны для поиска, особенно если они не были переизданы.
+
+Итак, в 2025 году, как и сейчас, основной способ поиграть в "Warbanner" — это найти ее цифровую копию на таких платформах, как GOG.com, и убедиться, что она совместима с вашей операционной системой, возможно, с помощью фанатских патчей.</h5>
+      <p class="text-muted">Автор: 私はばかです</p>
+      <div class="text-center mt-3 text-muted">
+        <small><img src="./img sela/photo_2025-08-25_13-57-16.jpg" alt=""></small>
+      </div>
+    </div>
+  </div>
+</div> -->
