@@ -383,6 +383,23 @@
 
     /* === МОБИЛЬНОЕ МЕНЮ (БУРГЕР) === */
     /* УДАЛЁН, КАК ЗАПРОШЕНО */
+
+    /* === ЗВЁЗДЫ === */
+    .star-rating {
+      display: inline-flex;
+      gap: 4px;
+      margin: 8px 0;
+    }
+    .star-rating i {
+      font-size: 1.5rem;
+      color: #ddd;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .star-rating i:hover,
+    .star-rating i.active {
+      color: #FFD700;
+    }
   </style>
 </head>
 <body>
@@ -400,7 +417,7 @@
           <li class="nav-item"><a class="nav-link" href="#news">Новости</a></li>
           <li class="nav-item"><a class="nav-link" href="#about">О селе</a></li>
           <li class="nav-item"><a class="nav-link" href="#shop">🛒 Магазин</a></li>
-          <li class="nav-item"><a class="nav-link" href="#send-news">📬 Прислать</a></li>
+          <li class="nav-item"><a class="nav-link" href="#reviews">💬 Отзывы</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Контакты</a></li>
         </ul>
       </div>
@@ -503,6 +520,46 @@
               onclick="alert('Скоро! Подпишитесь на рассылку, чтобы первыми узнать об открытии.')">
         Узнать первым об открытии
       </button>
+    </div>
+  </section>
+
+  <!-- Отзывы жителей -->
+  <section id="reviews" class="container my-5">
+    <h2 class="text-center mb-5 fw-bold" style="background: linear-gradient(90deg, #E91E63, #9C27B0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      💬 Отзывы жителей
+    </h2>
+
+    <!-- Форма для отзыва -->
+    <div class="card mb-5 shadow-sm animate-on-scroll">
+      <div class="card-body">
+        <h5 class="card-title">Оставить отзыв</h5>
+        <form id="review-form">
+          <div class="mb-3">
+            <label for="review-name" class="form-label">Ваше имя</label>
+            <input type="text" class="form-control" id="review-name" required placeholder="Как вас зовут?">
+          </div>
+          <div class="mb-3">
+            <label for="review-rating" class="form-label">Оценка</label>
+            <div class="star-rating" id="review-rating">
+              <i class="far fa-star" data-value="1"></i>
+              <i class="far fa-star" data-value="2"></i>
+              <i class="far fa-star" data-value="3"></i>
+              <i class="far fa-star" data-value="4"></i>
+              <i class="far fa-star" data-value="5"></i>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="review-text" class="form-label">Ваш отзыв</label>
+            <textarea class="form-control" id="review-text" rows="3" required placeholder="Что вы думаете о селе или сайте?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-gradient">Отправить отзыв</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Список отзывов -->
+    <div id="reviews-list" class="row">
+      <!-- Отзывы будут добавляться сюда -->
     </div>
   </section>
 
@@ -623,6 +680,99 @@
         });
       }
     });
+
+    // === ОТЗЫВЫ ===
+    const reviewsList = document.getElementById('reviews-list');
+    const reviewForm = document.getElementById('review-form');
+    const reviewName = document.getElementById('review-name');
+    const reviewText = document.getElementById('review-text');
+    const stars = document.querySelectorAll('#review-rating i');
+    let selectedRating = 0;
+
+    // Выбор звезд
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.dataset.value);
+        stars.forEach(s => {
+          s.classList.remove('fas', 'active');
+          s.classList.add('far');
+        });
+        for (let i = 0; i < selectedRating; i++) {
+          stars[i].classList.remove('far');
+          stars[i].classList.add('fas', 'active');
+        }
+      });
+    });
+
+    // Загрузка отзывов
+    function loadReviews() {
+      const reviews = JSON.parse(localStorage.getItem('ivanovoPublishedReviews')) || [];
+      reviewsList.innerHTML = '';
+      reviews.forEach(review => {
+        const reviewEl = document.createElement('div');
+        reviewEl.className = 'col-md-6 col-lg-4 mb-4';
+        const starsHtml = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+        reviewEl.innerHTML = `
+          <div class="card h-100 shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
+            <div class="card-body">
+              <h6 class="fw-bold text-success">${review.name}</h6>
+              <div class="star-rating-static">${starsHtml}</div>
+              <p class="text-muted small mb-2">Написан: ${review.date}</p>
+              <p class="card-text">${review.text}</p>
+            </div>
+          </div>
+        `;
+        reviewsList.appendChild(reviewEl);
+      });
+    }
+
+    // Отправка отзыва (в бот)
+    reviewForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const name = reviewName.value.trim();
+      const text = reviewText.value.trim();
+      const date = new Date().toLocaleDateString('ru-RU');
+
+      if (!name || !text || selectedRating === 0) {
+        alert('Пожалуйста, заполните все поля и выберите оценку.');
+        return;
+      }
+
+      // Отправка в Telegram-бот (пример)
+      const message = `📬 НОВЫЙ ОТЗЫВ НА МОДЕРАЦИИ\n\n👤 ${name}\n⭐ ${selectedRating} из 5\n💬 ${text}\n📅 ${date}`;
+      const botToken = '8299964233:AAFa4I3gFSjWxodUWQMx8j5W0yWkPRRhx6M';
+      const adminChatId = 5207981986;
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      
+      try {
+        await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: adminChatId,
+            text: message,
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "✅ Опубликовать", callback_data: `approve_review_${name}_${selectedRating}_${text}_${date}` }],
+                [{ text: "❌ Отклонить", callback_data: "reject_review" }]
+              ]
+            }
+          })
+        });
+        alert('Спасибо за отзыв! Он отправлен на модерацию.');
+        reviewForm.reset();
+        stars.forEach(s => {
+          s.classList.remove('fas', 'active');
+          s.classList.add('far');
+        });
+        selectedRating = 0;
+      } catch (error) {
+        alert('Ошибка отправки отзыва. Попробуйте позже.');
+      }
+    });
+
+    // Загрузить опубликованные отзывы при старте
+    loadReviews();
   </script>
 </body>
 </html>
