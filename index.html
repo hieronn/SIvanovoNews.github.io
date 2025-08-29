@@ -34,7 +34,6 @@
       --glow: 0 0 15px rgba(76, 175, 80, 0.6);
     }
 
-    /* === ТЕМНАЯ ТЕМА ПО УМОЛЧАНИЮ === */
     body {
       font-family: 'Poppins', sans-serif;
       background: var(--dark-bg);
@@ -54,7 +53,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* === СВЕТЛАЯ ТЕМА === */
     body.light-theme {
       background: var(--light-bg);
       animation: none;
@@ -644,6 +642,7 @@
       💬 Отзывы жителей
     </h2>
 
+    <!-- Форма для отзыва -->
     <div class="card bg-transparent border-0 mb-5 animate-on-scroll">
       <div class="card-body">
         <h5 class="card-title text-white">Оставить отзыв</h5>
@@ -668,6 +667,7 @@
       </div>
     </div>
 
+    <!-- Список отзывов -->
     <div id="reviews-list" class="row"></div>
   </section>
 
@@ -814,7 +814,7 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-    // === ЗВЁЗДЫ В ОТЗЫВАХ ===
+    // === ЗВЁЗДЫ ===
     const stars = document.querySelectorAll('#review-rating i');
     let selectedRating = 0;
     stars.forEach(star => {
@@ -831,12 +831,13 @@
       });
     });
 
-    // === ОТЗЫВЫ ===
+    // === ОТЗЫВЫ (БЕЗ ТЕЛЕГРАМ) ===
     const reviewsList = document.getElementById('reviews-list');
     const reviewForm = document.getElementById('review-form');
     const reviewName = document.getElementById('review-name');
     const reviewText = document.getElementById('review-text');
 
+    // Загрузка отзывов
     function loadReviews() {
       const reviews = JSON.parse(localStorage.getItem('ivanovoPublishedReviews')) || [];
       reviewsList.innerHTML = '';
@@ -858,7 +859,8 @@
       });
     }
 
-    reviewForm.addEventListener('submit', async function (e) {
+    // Отправка отзыва (сохранение в localStorage, без Telegram)
+    reviewForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const name = reviewName.value.trim();
       const text = reviewText.value.trim();
@@ -869,35 +871,25 @@
         return;
       }
 
-      const message = `📬 НОВЫЙ ОТЗЫВ НА МОДЕРАЦИИ\n\n👤 ${name}\n⭐ ${selectedRating} из 5\n💬 ${text}\n📅 ${date}`;
-      const botToken = '8299964233:AAFa4I3gFSjWxodUWQMx8j5W0yWkPRRhx6M';
-      const adminChatId = 5207981986;
-      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      // Сохраняем отзыв в локальное хранилище
+      const reviews = JSON.parse(localStorage.getItem('ivanovoPublishedReviews')) || [];
+      reviews.push({ name, text, rating: selectedRating, date });
+      localStorage.setItem('ivanovoPublishedReviews', JSON.stringify(reviews));
 
-      try {
-        await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: adminChatId,
-            text: message,
-            reply_markup: {
-              inline_keyboard: [
-                [{ text: "✅ Опубликовать", callback_data: `approve_review_${name}_${selectedRating}_${text}_${date}` }],
-                [{ text: "❌ Отклонить", callback_data: "reject_review" }]
-              ]
-            }
-          })
-        });
-        alert('Спасибо за отзыв! Он отправлен на модерацию.');
-        reviewForm.reset();
-        stars.forEach(s => { s.classList.remove('fas', 'active'); s.classList.add('far'); });
-        selectedRating = 0;
-      } catch (error) {
-        alert('Ошибка отправки отзыва.');
-      }
+      // Очищаем форму
+      alert('Спасибо за отзыв! Он будет опубликован после проверки.');
+      reviewForm.reset();
+      stars.forEach(s => {
+        s.classList.remove('fas', 'active');
+        s.classList.add('far');
+      });
+      selectedRating = 0;
+
+      // Перезагружаем список
+      loadReviews();
     });
 
+    // Загрузить отзывы при старте
     loadReviews();
   </script>
 </body>
