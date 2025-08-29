@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Новости села Иваново</title>
 
-  <!-- Google Fonts: Montserrat, Poppins -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
@@ -134,7 +134,7 @@
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.05"/></svg>');
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.05"/></svg>');
       opacity: 0.3;
       pointer-events: none;
     }
@@ -493,28 +493,6 @@
       display: none;
     }
 
-    /* === КНОПКА "ПОДРОБНЕЕ" === */
-    .read-more-btn {
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      border: none;
-      font-size: 0.85rem;
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: none;
-    }
-
-    .read-more-btn:hover {
-      background: #4CAF50;
-      color: white !important;
-      transform: scale(1.1);
-    }
-
     /* === АДМИН-ПАНЕЛЬ === */
     .admin-panel {
       position: fixed;
@@ -564,8 +542,17 @@
       padding: 15px;
       border-radius: 15px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    @media (min-width: 768px) {
+      .review-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
 
     .review-actions button {
@@ -574,6 +561,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-size: 0.9rem;
     }
 
     .btn-approve { background: #4CAF50; color: white; }
@@ -834,13 +822,23 @@
   <div class="admin-panel" id="admin-panel">
     <div class="admin-login" id="admin-login">
       <h4>🔐 Вход в админ-панель</h4>
-      <input type="password" id="admin-password" placeholder="Введите пароль">
+      <input type="tel" id="admin-phone" placeholder="Телефон: +79991234567" class="form-control mb-2">
+      <input type="password" id="admin-password" placeholder="Пароль" class="form-control mb-2">
       <button class="btn btn-gradient" onclick="checkAdminPassword()">Войти</button>
     </div>
+
     <div class="admin-reviews" id="admin-reviews" style="display: none;">
       <h4>📋 Модерация отзывов</h4>
+      <div class="mb-3">
+        <button class="btn btn-danger btn-sm" onclick="deleteAllReviews()">
+          🗑️ Удалить все отзывы
+        </button>
+        <button class="btn btn-outline-light btn-sm ms-2" onclick="loadPendingReviews()">
+          🔄 Обновить
+        </button>
+      </div>
       <div id="admin-reviews-list"></div>
-      <button class="btn btn-danger mt-3" onclick="closeAdminPanel()">Выйти</button>
+      <button class="btn btn-warning mt-3" onclick="closeAdminPanel()">← Назад</button>
     </div>
   </div>
 
@@ -915,7 +913,7 @@
     const reviewName = document.getElementById('review-name');
     const reviewText = document.getElementById('review-text');
 
-    // Загрузка ОПУБЛИКОВАННЫХ отзывов
+    // Загрузка опубликованных отзывов
     function loadPublishedReviews() {
       const reviews = JSON.parse(localStorage.getItem('ivanovoPublishedReviews')) || [];
       reviewsList.innerHTML = '';
@@ -937,11 +935,15 @@
       });
     }
 
-    // Загрузка НЕПРОВЕРЕННЫХ отзывов (для админа)
+    // Загрузка ожидающих отзывов
     function loadPendingReviews() {
       const reviews = JSON.parse(localStorage.getItem('ivanovoPendingReviews')) || [];
       const list = document.getElementById('admin-reviews-list');
       list.innerHTML = '';
+      if (reviews.length === 0) {
+        list.innerHTML = '<p>Нет отзывов на модерации.</p>';
+        return;
+      }
       reviews.forEach((review, index) => {
         const starsHtml = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
         const reviewEl = document.createElement('div');
@@ -954,14 +956,14 @@
           </div>
           <div class="review-actions">
             <button class="btn-approve" onclick="approveReview(${index})">✅ Опубликовать</button>
-            <button class="btn-reject" onclick="rejectReview(${index})">❌ Удалить</button>
+            <button class="btn-reject" onclick="rejectReview(${index})">🗑️ Удалить</button>
           </div>
         `;
         list.appendChild(reviewEl);
       });
     }
 
-    // Отправка отзыва (в пул на модерацию)
+    // Отправка отзыва
     reviewForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const name = reviewName.value.trim();
@@ -969,7 +971,7 @@
       const date = new Date().toLocaleDateString('ru-RU');
 
       if (!name || !text || selectedRating === 0) {
-        alert('Пожалуйста, заполните все поля и выберите оценку.');
+        alert('Заполните все поля и выберите оценку.');
         return;
       }
 
@@ -977,7 +979,7 @@
       reviews.push({ name, text, rating: selectedRating, date });
       localStorage.setItem('ivanovoPendingReviews', JSON.stringify(reviews));
 
-      alert('Спасибо за отзыв! Он будет опубликован после проверки.');
+      alert('Спасибо! Отзыв отправлен на модерацию.');
       reviewForm.reset();
       stars.forEach(s => {
         s.classList.remove('fas', 'active');
@@ -990,9 +992,10 @@
     const adminPanel = document.getElementById('admin-panel');
     const adminLogin = document.getElementById('admin-login');
     const adminReviews = document.getElementById('admin-reviews');
+    const adminPhone = document.getElementById('admin-phone');
     const adminPassword = document.getElementById('admin-password');
 
-    // Показать панель (нажми /admin в любом месте)
+    // Открыть панель: нажмите `/` или `т`
     document.addEventListener('keydown', (e) => {
       if (e.key === '/' || e.key === 'т') {
         e.preventDefault();
@@ -1000,16 +1003,26 @@
       }
     });
 
+    // Вход по телефону и паролю
     function checkAdminPassword() {
-      if (adminPassword.value === 'admin123') { // ← измени пароль!
+      const phone = adminPhone.value.trim();
+      const password = adminPassword.value;
+
+      // Разрешённые телефоны
+      const allowedPhones = ['+79991234567', '89991234567', '79991234567'];
+      const cleanPhone = phone.replace(/\D/g, '');
+
+      if (allowedPhones.includes(cleanPhone) && password === 'admin123') {
+        alert('✅ Добро пожаловать, администратор!');
         adminLogin.style.display = 'none';
         adminReviews.style.display = 'block';
         loadPendingReviews();
       } else {
-        alert('Неверный пароль!');
+        alert('❌ Неверный телефон или пароль!');
       }
     }
 
+    // Опубликовать отзыв
     function approveReview(index) {
       const pending = JSON.parse(localStorage.getItem('ivanovoPendingReviews')) || [];
       const published = JSON.parse(localStorage.getItem('ivanovoPublishedReviews')) || [];
@@ -1019,22 +1032,39 @@
       localStorage.setItem('ivanovoPublishedReviews', JSON.stringify(published));
       loadPendingReviews();
       loadPublishedReviews();
+      alert('✅ Отзыв опубликован!');
     }
 
+    // Удалить один отзыв
     function rejectReview(index) {
       const pending = JSON.parse(localStorage.getItem('ivanovoPendingReviews')) || [];
       pending.splice(index, 1);
       localStorage.setItem('ivanovoPendingReviews', JSON.stringify(pending));
       loadPendingReviews();
+      alert('🗑️ Отзыв удалён.');
     }
 
+    // Удалить все отзывы
+    function deleteAllReviews() {
+      if (confirm('Вы уверены, что хотите удалить ВСЕ отзывы? Это нельзя отменить!')) {
+        localStorage.removeItem('ivanovoPendingReviews');
+        localStorage.removeItem('ivanovoPublishedReviews');
+        loadPendingReviews();
+        loadPublishedReviews();
+        alert('✅ Все отзывы удалены.');
+      }
+    }
+
+    // Закрыть панель
     function closeAdminPanel() {
       adminPanel.style.display = 'none';
       adminLogin.style.display = 'block';
       adminReviews.style.display = 'none';
+      adminPhone.value = '';
+      adminPassword.value = '';
     }
 
-    // Загрузить всё при старте
+    // Загрузка при старте
     loadPublishedReviews();
   </script>
 </body>
