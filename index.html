@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Новости села Иваново</title>
 
+  <!-- Google Fonts: Montserrat, Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-
-  <!-- Animate.css -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
 
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
@@ -19,18 +19,20 @@
       --primary: #4CAF50;
       --accent: #2196F3;
       --danger: #E91E63;
-      --dark: #2E7D32;
-      --light: #FFF9C4;
+      --dark: #1e1e2d;
+      --light: #ffffff;
+      --gradient-primary: linear-gradient(135deg, #4CAF50, #8BC34A);
+      --gradient-accent: linear-gradient(135deg, #2196F3, #64B5F6);
+      --gradient-danger: linear-gradient(135deg, #E91E63, #EC407A);
     }
 
-    /* === ГЛАВНЫЙ ФОН С ПЕРЕЛИВАНИЕМ === */
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #e8f5e8, #f3e5f5, #e1f5fe, #bbdefb, #f8bbd0);
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       background-size: 600% 600%;
-      animation: gradientBG 25s ease infinite;
-      color: #333;
-      line-height: 1.8;
+      animation: gradientBG 30s ease infinite;
+      color: #e0e0e0;
+      line-height: 1.7;
       margin: 0;
       padding: 0;
       overflow-x: hidden;
@@ -44,17 +46,18 @@
 
     /* === АНИМИРОВАННЫЙ ЛОГОТИП === */
     .navbar-brand {
-      font-weight: 800;
-      font-size: 1.7rem;
-      background: linear-gradient(90deg, #4CAF50, #FF9800, #2196F3, #E91E63, #9C27B0);
+      font-weight: 700;
+      font-size: 1.6rem;
+      background: linear-gradient(90deg, #4CAF50, #2196F3, #E91E63, #9C27B0);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       background-size: 400% 100%;
-      animation: gradientFlow 8s ease infinite;
+      animation: gradientFlow 6s ease infinite;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      letter-spacing: 0.5px;
     }
 
     @keyframes gradientFlow {
@@ -64,19 +67,24 @@
 
     .navbar-brand i {
       animation: float 3s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar-brand i:hover {
+      transform: rotate(20deg) scale(1.1);
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
 
-    /* === АНИМАЦИЯ КАЖДОГО СЛОВА В БАННЕРЕ === */
+    /* === БАННЕР === */
     .hero {
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
                   url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
       background-size: cover;
-      height: 80vh;
+      height: 100vh;
       min-height: 600px;
       display: flex;
       align-items: center;
@@ -87,28 +95,43 @@
     .hero h1 span, .hero p span {
       display: inline-block;
       opacity: 0;
-      animation: wordFly 0.6s forwards;
+      animation: wordFly 0.5s forwards;
     }
 
     .hero h1 span { animation-delay: calc(0.1s * var(--i)); }
     .hero p span { animation-delay: calc(0.08s * var(--i) + 1s); }
 
     @keyframes wordFly {
-      from { transform: translateY(30px); opacity: 0; }
+      from { transform: translateY(40px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
     .btn-gradient {
-      background: linear-gradient(45deg, #4CAF50, #8BC34A, #FF9800, #FFEB3B);
+      background: linear-gradient(45deg, #4CAF50, #2196F3, #9C27B0);
       background-size: 300% 300%;
       color: white;
       border: none;
       padding: 14px 32px;
       border-radius: 60px;
       font-weight: 600;
-      box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5);
+      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
       transition: all 0.4s ease;
       animation: pulseGradient 3s ease infinite;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: 0.5s;
+    }
+
+    .btn-gradient:hover::before {
+      left: 100%;
     }
 
     @keyframes pulseGradient {
@@ -117,21 +140,21 @@
     }
 
     .btn-gradient:hover {
-      transform: scale(1.12) translateY(-6px);
+      transform: scale(1.1) translateY(-6px);
       box-shadow: 0 15px 50px rgba(76, 175, 80, 0.7);
     }
 
-    /* === АНИМИРОВАННЫЕ КАРТОЧКИ НОВОСТЕЙ === */
+    /* === НОВОСТИ === */
     .news-card {
-      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
       border-radius: 24px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
-      border-left: 6px solid transparent;
-      border-image: linear-gradient(180deg, #4CAF50, #2196F3, #E91E63) 1;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.1);
       transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
       overflow: hidden;
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(50px);
       animation: slideUp 0.8s ease forwards;
     }
 
@@ -140,20 +163,19 @@
     }
 
     .news-card:hover {
-      transform: translateY(-10px) scale(1.03);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.28);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
     }
 
-    /* === АНИМИРОВАННЫЙ БЕЖИК ЦВЕТА === */
     .date-badge {
       display: inline-block;
       padding: 6px 14px;
       border-radius: 50px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: white;
       margin-bottom: 12px;
-      background: linear-gradient(90deg, #4CAF50, #8BC34A, #4CAF50);
+      background: var(--gradient-primary);
       background-size: 200% 200%;
       animation: badgePulse 2s ease infinite;
     }
@@ -163,73 +185,52 @@
       50% { background-position: 100% 50%; }
     }
 
-    /* === СЕКЦИЯ "О СЕЛЕ" — СОВРЕМЕННЫЙ ДИЗАЙН === */
+    /* === О СЕЛЕ === */
     .section-about {
       padding: 120px 0;
-      background: #f9f9f9;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .section-about::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.15;
-      z-index: 0;
+      background: rgba(30, 30, 45, 0.8);
+      backdrop-filter: blur(10px);
     }
 
     .about-card {
-      background: white;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
       border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
       padding: 40px;
-      border: 1px solid #e0f7fa;
+      border: 1px solid rgba(255,255,255,0.1);
       animation: fadeInScale 1.2s ease forwards;
       opacity: 0;
-      transform: scale(0.95);
-      position: relative;
-      z-index: 2;
-    }
-
-    .about-card h4 {
-      background: linear-gradient(90deg, #4CAF50, #2196F3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .about-card p {
-      color: #555;
-      line-height: 1.7;
-    }
-
-    .feature-icon {
-      font-size: 2.5rem;
-      background: linear-gradient(135deg, #4CAF50, #2196F3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 15px;
-      animation: rotateIn 1.5s ease forwards;
-      opacity: 0;
-    }
-
-    @keyframes rotateIn {
-      from { transform: rotate(-180deg) scale(0); opacity: 0; }
-      to { transform: rotate(0) scale(1); opacity: 1; }
+      transform: scale(0.9);
     }
 
     @keyframes fadeInScale {
       to { opacity: 1; transform: scale(1); }
     }
 
+    .feature-icon {
+      font-size: 3rem;
+      background: linear-gradient(135deg, #4CAF50, #2196F3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+      transition: transform 0.4s ease;
+    }
+
+    .feature-icon:hover {
+      transform: rotate(10deg) scale(1.1);
+      animation: pulse 1s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
     /* === МАГАЗИН === */
     .section-shop {
-      background: linear-gradient(135deg, #FFF3E0, #E1F5FE, #F8BBF7);
+      background: linear-gradient(135deg, #2e1b4d, #1b2e4d);
       background-size: 400% 400%;
       animation: gradientShift 15s ease infinite;
       padding: 100px 0;
@@ -242,9 +243,9 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* === БЛОК "БОТУ" === */
+    /* === БОТ-СЕКЦИЯ === */
     .bot-section {
-      background: linear-gradient(135deg, #E91E63, #9C27B0, #673AB7, #3F51B5);
+      background: linear-gradient(135deg, #3a0a5a, #5a0a3a);
       background-size: 600% 600%;
       animation: gradientWave 12s ease infinite;
       border-radius: 28px;
@@ -262,7 +263,7 @@
     }
 
     .btn-bot {
-      background: linear-gradient(45deg, #ffffff, #ffebee, #f8bbd0);
+      background: linear-gradient(45deg, #ffffff, #ffebee);
       color: #E91E63;
       font-weight: 700;
       padding: 16px 45px;
@@ -270,13 +271,8 @@
       font-size: 1.25rem;
       box-shadow: 0 10px 30px rgba(255,255,255,0.4);
       transition: all 0.3s ease;
-      animation: pulse 2s infinite;
       text-decoration: none;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      display: inline-block;
     }
 
     .btn-bot:hover {
@@ -284,34 +280,31 @@
       box-shadow: 0 18px 50px rgba(255,255,255,0.6);
     }
 
-    /* === КНОПКА "ПОДРОБНЕЕ" === */
-    .read-more-btn {
-      background: linear-gradient(90deg, #4CAF50, #8BC34A);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      border: 1px solid transparent;
-      font-size: 0.85rem;
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-weight: 500;
+    /* === ОТЗЫВЫ === */
+    .star-rating i, .star-rating-static {
       transition: all 0.3s ease;
-      display: none;
+      cursor: pointer;
     }
 
-    .read-more-btn:hover {
-      background: #4CAF50;
-      color: white !important;
-      transform: scale(1.1);
+    .star-rating i:hover,
+    .star-rating i.active {
+      transform: scale(1.2) rotate(10deg);
+      color: #FFD700 !important;
+    }
+
+    .star-rating-static {
+      font-size: 1.2rem;
+      color: #FFD700;
     }
 
     /* === ПОДВАЛ === */
     .footer {
-      background: linear-gradient(135deg, #2E7D32, #1B5E20, #0D47A1, #1A237E);
+      background: linear-gradient(135deg, #1e1e2d, #2d1e2e);
       background-size: 400% 400%;
       animation: footerGradient 15s ease infinite;
       color: #FFF9C4;
       padding: 80px 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
 
     @keyframes footerGradient {
@@ -330,7 +323,17 @@
       transform: scale(1.15) rotate(5deg);
     }
 
-    /* === ОБЩАЯ АНИМАЦИЯ ПОЯВЛЕНИЯ === */
+    .footer i {
+      transition: all 0.4s ease;
+      font-size: 1.5rem;
+    }
+
+    .footer i:hover {
+      transform: rotate(15deg) scale(1.2);
+      color: #4CAF50;
+    }
+
+    /* === ОБЩАЯ АНИМАЦИЯ === */
     .animate-on-scroll {
       opacity: 0;
       transform: translateY(60px);
@@ -349,76 +352,69 @@
       width: 100%;
       border-radius: 12px;
       margin: 10px 0;
-      border: 2px solid #e0f7fa;
-      transition: transform 0.3s ease;
+      border: 2px solid rgba(255,255,255,0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
 
     .news-card:hover img {
-      transform: scale(1.03);
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .card-text {
-      transition: opacity 0.4s ease;
+    /* === ШРИФТЫ И СТИЛИ === */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
     }
 
-    /* === ОТСТУП МЕЖДУ СЕКЦИЯМИ === */
-    #news {
-      margin-top: 100px;
-      padding: 80px 0;
+    p, li, a {
+      font-family: 'Poppins', sans-serif;
     }
 
-    /* === ПОЛНАЯ ШИРИНА === */
-    .container-fluid {
-      max-width: 100%;
-      padding-left: 30px;
-      padding-right: 30px;
+    /* === УБРАТЬ БУРГЕР-МЕНЮ === */
+    .navbar-toggler {
+      display: none;
     }
 
-    @media (max-width: 576px) {
-      .container-fluid {
-        padding-left: 15px;
-        padding-right: 15px;
-      }
-    }
-
-    /* === МОБИЛЬНОЕ МЕНЮ (БУРГЕР) === */
-    /* УДАЛЁН, КАК ЗАПРОШЕНО */
-
-    /* === ЗВЁЗДЫ === */
-    .star-rating {
-      display: inline-flex;
-      gap: 4px;
-      margin: 8px 0;
-    }
-    .star-rating i {
-      font-size: 1.5rem;
-      color: #ddd;
+    /* === КНОПКА "ПОДРОБНЕЕ" === */
+    .read-more-btn {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      border: none;
+      font-size: 0.85rem;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-weight: 500;
       cursor: pointer;
-      transition: color 0.2s;
+      transition: all 0.3s ease;
+      display: none;
     }
-    .star-rating i:hover,
-    .star-rating i.active {
-      color: #FFD700;
+
+    .read-more-btn:hover {
+      background: #4CAF50;
+      color: white !important;
+      transform: scale(1.1);
     }
   </style>
 </head>
 <body>
 
   <!-- Навигация -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <i class="fas fa-leaf"></i> Новости села Иваново
+        <i class="fas fa-leaf"></i> Иваново.News
       </a>
-      <!-- Меню (без бургера) -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#home">Главная</a></li>
-          <li class="nav-item"><a class="nav-link" href="#news">Новости</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">О селе</a></li>
-          <li class="nav-item"><a class="nav-link" href="#shop">🛒 Магазин</a></li>
-          <li class="nav-item"><a class="nav-link" href="#reviews">💬 Отзывы</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Контакты</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="#home">Главная</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="#news">Новости</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="#about">О селе</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="#shop">🛒 Магазин</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="#reviews">💬 Отзывы</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="#contact">Контакты</a></li>
         </ul>
       </div>
     </div>
@@ -427,7 +423,7 @@
   <!-- Главный баннер -->
   <section id="home" class="hero">
     <div class="container-fluid">
-      <h1>
+      <h1 class="display-3 fw-bold mb-4">
         <script>
           document.write(
             "Добро пожаловать в Иваново!".split(" ").map((word, i) => 
@@ -436,7 +432,7 @@
           );
         </script>
       </h1>
-      <p class="lead">
+      <p class="lead fs-4 mb-5">
         <script>
           document.write(
             "Самые свежие новости, события и традиции — прямо из сердца нашей деревни".split(" ").map((word, i) => 
@@ -445,16 +441,16 @@
           );
         </script>
       </p>
-      <a href="#news" class="btn btn-gradient mt-4">
+      <a href="#news" class="btn btn-gradient mt-4 animate__animated animate__pulse animate__infinite">
         <i class="fas fa-newspaper me-2"></i> Читать новости
       </a>
     </div>
   </section>
 
   <!-- Новости -->
-  <section id="news" class="container-fluid">
+  <section id="news" class="container-fluid py-5">
     <div class="container">
-      <h2 class="text-center mb-5 fw-bold" style="background: linear-gradient(90deg, #2E7D32, #1B5E20, #4CAF50); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      <h2 class="text-center mb-5 fw-bold" style="background: linear-gradient(90deg, #4CAF50, #2196F3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         Последние новости
       </h2>
       <div class="row" id="news-container">
@@ -479,25 +475,25 @@
                   <h5>Чистый воздух</h5>
                   <p>Живёте в экологически чистом районе с хвойными и лиственными лесами.</p>
                 </div>
-                <div class="col-md-4 mb-4" style="animation-delay: 0.2s;">
+                <div class="col-md-4 mb-4">
                   <div class="feature-icon"><i class="fas fa-users"></i></div>
                   <h5>Дружелюбная община</h5>
                   <p>Здесь каждый знает каждого. Всегда готовы помочь и поддержать.</p>
                 </div>
-                <div class="col-md-4 mb-4" style="animation-delay: 0.4s;">
+                <div class="col-md-4 mb-4">
                   <div class="feature-icon"><i class="fas fa-church"></i></div>
                   <h5>Старинная церковь</h5>
                   <p>Богородице-Рождественская церковь 1833 года — символ села.</p>
                 </div>
               </div>
-              <hr class="my-4">
+              <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
               <div class="row">
                 <div class="col-md-6">
-                  <h4><i class="fas fa-history me-2 text-success"></i> История</h4>
+                  <h4><i class="fas fa-history me-2"></i> История</h4>
                   <p>Село Иваново впервые упоминается в 1628 году как вотчина князя Хилкова. Здесь стоит старинная Богородице-Рождественская церковь (1833 г.), а станция Эсино — часть железнодорожной ветки Ковров—Муром — вдохновляла даже Михаила Булгакова.</p>
                 </div>
                 <div class="col-md-6">
-                  <h4><i class="fas fa-home me-2 text-primary"></i> Сегодня</h4>
+                  <h4><i class="fas fa-home me-2"></i> Сегодня</h4>
                   <p>Село живёт: работает школа, детский сад «Родничок», дом культуры и поликлиника. Здесь каждый знает каждого, а природа дарит покой и вдохновение.</p>
                 </div>
               </div>
@@ -511,7 +507,7 @@
   <!-- Магазин -->
   <section id="shop" class="section-shop">
     <div class="container">
-      <i class="fas fa-store fa-4x mb-4" style="background: linear-gradient(90deg, #FF9800, #FF5722); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+      <i class="fas fa-store fa-4x mb-4"></i>
       <h2 class="fw-bold animate-on-scroll">🛒 Наш магазин — скоро откроется!</h2>
       <p class="lead animate-on-scroll" style="animation-delay: 0.3s;">
         Покупайте <strong>местные продукты</strong>: мёд, овощи, ягоды, варенье, грибы, сувениры ручной работы и так далее.
@@ -523,23 +519,20 @@
     </div>
   </section>
 
-  <!-- Отзывы жителей -->
+  <!-- Отзывы -->
   <section id="reviews" class="container my-5">
     <h2 class="text-center mb-5 fw-bold" style="background: linear-gradient(90deg, #E91E63, #9C27B0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
       💬 Отзывы жителей
     </h2>
 
-    <!-- Форма для отзыва -->
-    <div class="card mb-5 shadow-sm animate-on-scroll">
+    <div class="card bg-transparent border-0 mb-5 animate-on-scroll">
       <div class="card-body">
-        <h5 class="card-title">Оставить отзыв</h5>
+        <h5 class="card-title text-white">Оставить отзыв</h5>
         <form id="review-form">
           <div class="mb-3">
-            <label for="review-name" class="form-label">Ваше имя</label>
-            <input type="text" class="form-control" id="review-name" required placeholder="Как вас зовут?">
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="review-name" required placeholder="Как вас зовут?">
           </div>
           <div class="mb-3">
-            <label for="review-rating" class="form-label">Оценка</label>
             <div class="star-rating" id="review-rating">
               <i class="far fa-star" data-value="1"></i>
               <i class="far fa-star" data-value="2"></i>
@@ -549,21 +542,17 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="review-text" class="form-label">Ваш отзыв</label>
-            <textarea class="form-control" id="review-text" rows="3" required placeholder="Что вы думаете о селе или сайте?"></textarea>
+            <textarea class="form-control bg-dark text-light border-secondary" id="review-text" rows="3" required placeholder="Что вы думаете о селе или сайте?"></textarea>
           </div>
           <button type="submit" class="btn btn-gradient">Отправить отзыв</button>
         </form>
       </div>
     </div>
 
-    <!-- Список отзывов -->
-    <div id="reviews-list" class="row">
-      <!-- Отзывы будут добавляться сюда -->
-    </div>
+    <div id="reviews-list" class="row"></div>
   </section>
 
-  <!-- Блок "Написать боту" -->
+  <!-- Бот -->
   <section class="bot-section animate-on-scroll">
     <div class="container">
       <h2><i class="fab fa-telegram me-3"></i> Прислать новость</h2>
@@ -574,7 +563,7 @@
         Напишите нашему боту — и мы опубликуем новость!
       </p>
       <a href="https://t.me/SIvanovoNewsBot" target="_blank" rel="noopener" class="btn-bot">
-        <i class="fab fa-telegram me-2"></i> Написать боту 
+        <i class="fab fa-telegram me-2"></i> Написать боту
       </a>
       <p class="mt-3 small">
         Можно писать анонимно. Вы получите уведомление, когда новость появится на сайте.
@@ -591,24 +580,24 @@
       <div class="col-lg-8">
         <div class="row text-center">
           <div class="col-md-4 mb-4">
-            <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+            <i class="fas fa-envelope fa-2x mb-3"></i>
             <h5>Email</h5>
             <p>seloivanovo33@mail.ru</p>
           </div>
           <div class="col-md-4 mb-4">
-            <i class="fas fa-phone fa-2x text-success mb-3"></i>
+            <i class="fas fa-phone fa-2x mb-3"></i>
             <h5>Телефон</h5>
             <p>Не указан</p>
           </div>
           <div class="col-md-4 mb-4">
-            <i class="fas fa-map-marker-alt fa-2x text-danger mb-3"></i>
+            <i class="fas fa-map-marker-alt fa-2x mb-3"></i>
             <h5>Адрес</h5>
             <p>Село Иваново, Ковровский район, Владимирская область</p>
           </div>
         </div>
         <div class="text-center mt-4">
           <p><strong>Присылайте новости!</strong> Вы можете стать автором на нашем сайте.</p>
-          <a href="mailto:seloivanovo33@mail.ru" class="btn btn-outline-primary">Написать письмо</a>
+          <a href="mailto:seloivanovo33@mail.ru" class="btn btn-outline-light">Написать письмо</a>
         </div>
       </div>
     </div>
@@ -624,16 +613,16 @@
         </div>
         <div class="col-md-6 text-md-end">
           <h5>Мы в соцсетях</h5>
-          <a href="https://vk.com/ivanovo_selo" class="me-3 fs-4" target="_blank" rel="noopener">
+          <a href="https://vk.com/ivanovo_selo" class="me-3" target="_blank" rel="noopener">
             <i class="fab fa-vk"></i>
           </a>
-          <a href="https://t.me/nseloivanovo" class="me-3 fs-4" target="_blank" rel="noopener">
+          <a href="https://t.me/nseloivanovo" class="me-3" target="_blank" rel="noopener">
             <i class="fab fa-telegram"></i>
           </a>
-          <a href="https://youtube.com/@ivanovoTV" class="me-3 fs-4" target="_blank" rel="noopener">
+          <a href="https://youtube.com/@ivanovoTV" class="me-3" target="_blank" rel="noopener">
             <i class="fab fa-youtube"></i>
           </a>
-          <a href="https://instagram.com/ivanovo_life" class="fs-4" target="_blank" rel="noopener">
+          <a href="https://instagram.com/ivanovo_life" class="me-3" target="_blank" rel="noopener">
             <i class="fab fa-instagram"></i>
           </a>
         </div>
@@ -646,7 +635,7 @@
   <!-- Подключаем jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-    // Анимация появления при скролле
+    // Анимация появления
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -654,42 +643,9 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-    // Логика кнопки "Подробнее"
-    document.querySelectorAll('.news-card').forEach(card => {
-      const textEl = card.querySelector('.card-text');
-      const btn = card.querySelector('.read-more-btn');
-      if (!textEl || !btn) return;
-
-      const fullText = textEl.textContent;
-      const maxLength = 100;
-
-      if (fullText.length > maxLength) {
-        textEl.textContent = fullText.substring(0, maxLength) + '...';
-        btn.style.display = 'inline-block';
-
-        btn.addEventListener('click', function () {
-          if (btn.textContent === 'Подробнее') {
-            textEl.textContent = fullText;
-            btn.textContent = 'Скрыть';
-          } else {
-            textEl.textContent = fullText.substring(0, maxLength) + '...';
-            btn.textContent = 'Подробнее';
-          }
-          textEl.style.opacity = 0;
-          setTimeout(() => textEl.style.opacity = 1, 100);
-        });
-      }
-    });
-
-    // === ОТЗЫВЫ ===
-    const reviewsList = document.getElementById('reviews-list');
-    const reviewForm = document.getElementById('review-form');
-    const reviewName = document.getElementById('review-name');
-    const reviewText = document.getElementById('review-text');
+    // Звёзды
     const stars = document.querySelectorAll('#review-rating i');
     let selectedRating = 0;
-
-    // Выбор звезд
     stars.forEach(star => {
       star.addEventListener('click', () => {
         selectedRating = parseInt(star.dataset.value);
@@ -704,7 +660,12 @@
       });
     });
 
-    // Загрузка отзывов
+    // Отзывы
+    const reviewsList = document.getElementById('reviews-list');
+    const reviewForm = document.getElementById('review-form');
+    const reviewName = document.getElementById('review-name');
+    const reviewText = document.getElementById('review-text');
+
     function loadReviews() {
       const reviews = JSON.parse(localStorage.getItem('ivanovoPublishedReviews')) || [];
       reviewsList.innerHTML = '';
@@ -713,7 +674,7 @@
         reviewEl.className = 'col-md-6 col-lg-4 mb-4';
         const starsHtml = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
         reviewEl.innerHTML = `
-          <div class="card h-100 shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
+          <div class="card h-100 shadow-sm border-0" style="border-radius: 20px; overflow: hidden; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
             <div class="card-body">
               <h6 class="fw-bold text-success">${review.name}</h6>
               <div class="star-rating-static">${starsHtml}</div>
@@ -726,7 +687,6 @@
       });
     }
 
-    // Отправка отзыва (в бот)
     reviewForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       const name = reviewName.value.trim();
@@ -738,12 +698,11 @@
         return;
       }
 
-      // Отправка в Telegram-бот (пример)
       const message = `📬 НОВЫЙ ОТЗЫВ НА МОДЕРАЦИИ\n\n👤 ${name}\n⭐ ${selectedRating} из 5\n💬 ${text}\n📅 ${date}`;
       const botToken = '8299964233:AAFa4I3gFSjWxodUWQMx8j5W0yWkPRRhx6M';
       const adminChatId = 5207981986;
       const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-      
+
       try {
         await fetch(url, {
           method: 'POST',
@@ -761,22 +720,17 @@
         });
         alert('Спасибо за отзыв! Он отправлен на модерацию.');
         reviewForm.reset();
-        stars.forEach(s => {
-          s.classList.remove('fas', 'active');
-          s.classList.add('far');
-        });
+        stars.forEach(s => { s.classList.remove('fas', 'active'); s.classList.add('far'); });
         selectedRating = 0;
       } catch (error) {
-        alert('Ошибка отправки отзыва. Попробуйте позже.');
+        alert('Ошибка отправки отзыва.');
       }
     });
 
-    // Загрузить опубликованные отзывы при старте
     loadReviews();
   </script>
 </body>
 </html>
-
 
 
  <!-- <div class="col-md-6 col-lg-4 animate-on-scroll">
