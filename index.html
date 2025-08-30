@@ -20,11 +20,11 @@
       --accent: #2196F3;
       --danger: #E91E63;
       --dark-bg: #0f0c29;
-      --light-bg: #f8f9fa;
+      --light-bg: #ffffff;
       --dark-text: #e0e0e0;
       --light-text: #333;
       --card-bg-dark: rgba(255, 255, 255, 0.08);
-      --card-bg-light: white;
+      --card-bg-light: #f9f9f9;
       --card-border-dark: rgba(255,255,255,0.1);
       --card-border-light: #e0e0e0;
       --gradient-primary: linear-gradient(135deg, #4CAF50, #8BC34A);
@@ -55,13 +55,13 @@
 
     body.light-theme {
       background: var(--light-bg);
-      animation: none;
       color: var(--light-text);
+      animation: none;
     }
 
     body.light-theme .news-card,
     body.light-theme .about-card {
-      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
     /* === ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ === */
@@ -118,85 +118,6 @@
     .music-toggle:hover {
       transform: scale(1.1) rotate(10deg);
       box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
-    }
-
-    /* === АНИМИРОВАННЫЙ БЛОК "КОНТАКТЫ" === */
-    #contact {
-      background: linear-gradient(135deg, #1e1e2d, #2d1e2e, #3a0a5a);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-      padding: 100px 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #contact::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.05"/></svg>');
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
-    .contact-icon {
-      font-size: 2.5rem;
-      background: var(--gradient-rainbow);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      background-size: 300% 100%;
-      animation: rainbow 3s ease infinite;
-      transition: all 0.4s ease;
-      display: inline-block;
-    }
-
-    .contact-icon:hover {
-      transform: scale(1.3) rotate(20deg);
-      animation: none;
-      background: #4CAF50;
-      -webkit-text-fill-color: #4CAF50;
-    }
-
-    @keyframes rainbow {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* === АНИМИРОВАННЫЙ ЛОГОТИП === */
-    .navbar-brand {
-      font-weight: 700;
-      font-size: 1.6rem;
-      background: var(--gradient-rainbow);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      background-size: 400% 100%;
-      animation: rainbow 4s ease infinite;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      letter-spacing: 0.5px;
-    }
-
-    .navbar-brand i {
-      animation: float 3s ease-in-out infinite;
-      transition: transform 0.3s ease;
-    }
-
-    .navbar-brand i:hover {
-      transform: rotate(20deg) scale(1.1);
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
     }
 
     /* === БАННЕР === */
@@ -311,16 +232,26 @@
       backdrop-filter: blur(10px);
     }
 
+    body.light-theme .section-about {
+      background: #f0f5f0;
+    }
+
     .about-card {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       border-radius: 24px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.2);
       padding: 40px;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid var(--card-border-dark);
       animation: fadeInScale 1.2s ease forwards;
       opacity: 0;
       transform: scale(0.9);
+    }
+
+    body.light-theme .about-card {
+      background: var(--card-bg-light);
+      border: 1px solid var(--card-border-light);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
     }
 
     @keyframes fadeInScale {
@@ -339,12 +270,6 @@
 
     .feature-icon:hover {
       transform: rotate(10deg) scale(1.1);
-      animation: pulse 1s ease infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
     }
 
     /* === МАГАЗИН === */
@@ -354,6 +279,10 @@
       animation: gradientShift 15s ease infinite;
       padding: 100px 0;
       text-align: center;
+    }
+
+    body.light-theme .section-shop {
+      background: #f8f9fa;
     }
 
     /* === БОТ-СЕКЦИЯ === */
@@ -369,10 +298,10 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.35);
     }
 
-    @keyframes gradientWave {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    body.light-theme .bot-section {
+      background: #f0f5f0;
+      color: #333;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
     .btn-bot {
@@ -388,26 +317,48 @@
       display: inline-block;
     }
 
+    body.light-theme .btn-bot {
+      background: var(--gradient-primary);
+      color: white;
+    }
+
     .btn-bot:hover {
       transform: scale(1.15) rotate(3deg);
       box-shadow: 0 18px 50px rgba(255,255,255,0.6);
     }
 
-    /* === ОТЗЫВЫ === */
-    .star-rating i, .star-rating-static {
-      transition: all 0.3s ease;
-      cursor: pointer;
+    body.light-theme .btn-bot:hover {
+      box-shadow: 0 18px 50px rgba(76, 175, 80, 0.7);
     }
 
-    .star-rating i:hover,
-    .star-rating i.active {
-      transform: scale(1.2) rotate(10deg);
-      color: #FFD700 !important;
+    /* === КОНТАКТЫ === */
+    #contact {
+      background: linear-gradient(135deg, #1e1e2d, #2d1e2e);
+      background-size: 400% 400%;
+      animation: footerGradient 15s ease infinite;
+      padding: 100px 0;
     }
 
-    .star-rating-static {
-      font-size: 1.2rem;
-      color: #FFD700;
+    body.light-theme #contact {
+      background: #f8f9fa;
+    }
+
+    .contact-icon {
+      font-size: 2.5rem;
+      background: var(--gradient-rainbow);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: transform 0.4s ease;
+    }
+
+    body.light-theme .contact-icon {
+      background: var(--primary);
+      -webkit-text-fill-color: var(--primary);
+    }
+
+    .contact-icon:hover {
+      transform: scale(1.3) rotate(20deg);
     }
 
     /* === ПОДВАЛ === */
@@ -420,10 +371,10 @@
       border-top: 1px solid rgba(255,255,255,0.1);
     }
 
-    @keyframes footerGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    body.light-theme .footer {
+      background: #f8f9fa;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
     }
 
     .footer a {
@@ -431,18 +382,17 @@
       transition: all 0.3s ease;
     }
 
+    body.light-theme .footer a {
+      color: #2196F3;
+    }
+
     .footer a:hover {
       color: #FFCC80;
       transform: scale(1.15) rotate(5deg);
     }
 
-    .footer i {
-      transition: all 0.4s ease;
-      font-size: 1.5rem;
-    }
-
-    .footer i:hover {
-      transform: rotate(15deg) scale(1.2);
+    body.light-theme .footer a:hover {
+      transform: scale(1.1) rotate(0);
       color: #4CAF50;
     }
 
@@ -492,80 +442,6 @@
     .navbar-toggler {
       display: none;
     }
-
-    /* === АДМИН-ПАНЕЛЬ === */
-    .admin-panel {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      color: white;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 20px;
-      display: none;
-    }
-
-    .admin-login {
-      background: rgba(255,255,255,0.1);
-      padding: 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      text-align: center;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .admin-login input {
-      margin: 10px 0;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 10px;
-    }
-
-    .admin-reviews {
-      max-height: 80vh;
-      overflow-y: auto;
-      width: 100%;
-      max-width: 800px;
-    }
-
-    .review-item {
-      background: rgba(255,255,255,0.1);
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    @media (min-width: 768px) {
-      .review-item {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
-
-    .review-actions button {
-      margin: 0 5px;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .btn-approve { background: #4CAF50; color: white; }
-    .btn-reject { background: #E91E63; color: white; }
   </style>
 </head>
 <body>
@@ -582,7 +458,6 @@
           <li class="nav-item"><a class="nav-link text-light" href="#news">Новости</a></li>
           <li class="nav-item"><a class="nav-link text-light" href="#about">О селе</a></li>
           <li class="nav-item"><a class="nav-link text-light" href="#shop">🛒 Магазин</a></li>
-          <li class="nav-item"><a class="nav-link text-light" href="#reviews">💬 Отзывы</a></li>
           <li class="nav-item"><a class="nav-link text-light" href="#contact">Контакты</a></li>
         </ul>
       </div>
@@ -688,41 +563,6 @@
     </div>
   </section>
 
-  <!-- Отзывы -->
-  <section id="reviews" class="container my-5">
-    <h2 class="text-center mb-5 fw-bold" style="background: var(--gradient-danger); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-      💬 Отзывы жителей
-    </h2>
-
-    <!-- Форма для отзыва -->
-    <div class="card bg-transparent border-0 mb-5 animate-on-scroll">
-      <div class="card-body">
-        <h5 class="card-title text-white">Оставить отзыв</h5>
-        <form id="review-form">
-          <div class="mb-3">
-            <input type="text" class="form-control bg-dark text-light border-secondary" id="review-name" required placeholder="Как вас зовут?">
-          </div>
-          <div class="mb-3">
-            <div class="star-rating" id="review-rating">
-              <i class="far fa-star" data-value="1"></i>
-              <i class="far fa-star" data-value="2"></i>
-              <i class="far fa-star" data-value="3"></i>
-              <i class="far fa-star" data-value="4"></i>
-              <i class="far fa-star" data-value="5"></i>
-            </div>
-          </div>
-          <div class="mb-3">
-            <textarea class="form-control bg-dark text-light border-secondary" id="review-text" rows="3" required placeholder="Что вы думаете о селе или сайте?"></textarea>
-          </div>
-          <button type="submit" class="btn btn-gradient">Отправить отзыв</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Список отзывов -->
-    <div id="reviews-list" class="row"></div>
-  </section>
-
   <!-- Бот -->
   <section class="bot-section animate-on-scroll">
     <div class="container">
@@ -813,34 +653,10 @@
     <i class="fas fa-volume-up"></i>
   </div>
 
-  <!-- Фоновая музыка -->
+  <!-- Фоновая музыка (спокойная, атмосферная) -->
   <audio id="background-music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/audio/2022/04/27/audio_3d3d6d6f9d.mp3" type="audio/mpeg">
   </audio>
-
-  <!-- АДМИН-ПАНЕЛЬ -->
-  <div class="admin-panel" id="admin-panel">
-    <div class="admin-login" id="admin-login">
-      <h4>🔐 Вход в админ-панель</h4>
-      <input type="tel" id="admin-phone" placeholder="Телефон: +79991234567" class="form-control mb-2">
-      <input type="password" id="admin-password" placeholder="Пароль" class="form-control mb-2">
-      <button class="btn btn-gradient" onclick="checkAdminPassword()">Войти</button>
-    </div>
-
-    <div class="admin-reviews" id="admin-reviews" style="display: none;">
-      <h4>📋 Модерация отзывов</h4>
-      <div class="mb-3">
-        <button class="btn btn-danger btn-sm" onclick="deleteAllReviews()">
-          🗑️ Удалить все отзывы
-        </button>
-        <button class="btn btn-outline-light btn-sm ms-2" onclick="loadPendingReviews()">
-          🔄 Обновить
-        </button>
-      </div>
-      <div id="admin-reviews-list"></div>
-      <button class="btn btn-warning mt-3" onclick="closeAdminPanel()">← Назад</button>
-    </div>
-  </div>
 
   <!-- Подключаем jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -889,183 +705,6 @@
       });
     }, { threshold: 0.1 });
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-    // === ЗВЁЗДЫ ===
-    const stars = document.querySelectorAll('#review-rating i');
-    let selectedRating = 0;
-    stars.forEach(star => {
-      star.addEventListener('click', () => {
-        selectedRating = parseInt(star.dataset.value);
-        stars.forEach(s => {
-          s.classList.remove('fas', 'active');
-          s.classList.add('far');
-        });
-        for (let i = 0; i < selectedRating; i++) {
-          stars[i].classList.remove('far');
-          stars[i].classList.add('fas', 'active');
-        }
-      });
-    });
-
-    // === ОТЗЫВЫ ===
-    const reviewsList = document.getElementById('reviews-list');
-    const reviewForm = document.getElementById('review-form');
-    const reviewName = document.getElementById('review-name');
-    const reviewText = document.getElementById('review-text');
-
-    // Загрузка опубликованных отзывов
-    function loadPublishedReviews() {
-      const reviews = JSON.parse(localStorage.getItem('ivanovoPublishedReviews')) || [];
-      reviewsList.innerHTML = '';
-      reviews.forEach(review => {
-        const reviewEl = document.createElement('div');
-        reviewEl.className = 'col-md-6 col-lg-4 mb-4';
-        const starsHtml = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-        reviewEl.innerHTML = `
-          <div class="card h-100 shadow-sm border-0" style="border-radius: 20px; overflow: hidden; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
-            <div class="card-body">
-              <h6 class="fw-bold text-success">${review.name}</h6>
-              <div class="star-rating-static">${starsHtml}</div>
-              <p class="text-muted small mb-2">Написан: ${review.date}</p>
-              <p class="card-text">${review.text}</p>
-            </div>
-          </div>
-        `;
-        reviewsList.appendChild(reviewEl);
-      });
-    }
-
-    // Загрузка ожидающих отзывов
-    function loadPendingReviews() {
-      const reviews = JSON.parse(localStorage.getItem('ivanovoPendingReviews')) || [];
-      const list = document.getElementById('admin-reviews-list');
-      list.innerHTML = '';
-      if (reviews.length === 0) {
-        list.innerHTML = '<p>Нет отзывов на модерации.</p>';
-        return;
-      }
-      reviews.forEach((review, index) => {
-        const starsHtml = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-        const reviewEl = document.createElement('div');
-        reviewEl.className = 'review-item';
-        reviewEl.innerHTML = `
-          <div>
-            <strong>${review.name}</strong> (${review.date})
-            <div>${starsHtml}</div>
-            <p>${review.text}</p>
-          </div>
-          <div class="review-actions">
-            <button class="btn-approve" onclick="approveReview(${index})">✅ Опубликовать</button>
-            <button class="btn-reject" onclick="rejectReview(${index})">🗑️ Удалить</button>
-          </div>
-        `;
-        list.appendChild(reviewEl);
-      });
-    }
-
-    // Отправка отзыва
-    reviewForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const name = reviewName.value.trim();
-      const text = reviewText.value.trim();
-      const date = new Date().toLocaleDateString('ru-RU');
-
-      if (!name || !text || selectedRating === 0) {
-        alert('Заполните все поля и выберите оценку.');
-        return;
-      }
-
-      const reviews = JSON.parse(localStorage.getItem('ivanovoPendingReviews')) || [];
-      reviews.push({ name, text, rating: selectedRating, date });
-      localStorage.setItem('ivanovoPendingReviews', JSON.stringify(reviews));
-
-      alert('Спасибо! Отзыв отправлен на модерацию.');
-      reviewForm.reset();
-      stars.forEach(s => {
-        s.classList.remove('fas', 'active');
-        s.classList.add('far');
-      });
-      selectedRating = 0;
-    });
-
-    // === АДМИН-ПАНЕЛЬ ===
-    const adminPanel = document.getElementById('admin-panel');
-    const adminLogin = document.getElementById('admin-login');
-    const adminReviews = document.getElementById('admin-reviews');
-    const adminPhone = document.getElementById('admin-phone');
-    const adminPassword = document.getElementById('admin-password');
-
-    // Открыть панель: нажмите `/` или `т`
-    document.addEventListener('keydown', (e) => {
-      if (e.key === '/' || e.key === 'т') {
-        e.preventDefault();
-        adminPanel.style.display = 'flex';
-      }
-    });
-
-    // Вход по телефону и паролю
-    function checkAdminPassword() {
-      const phone = adminPhone.value.trim();
-      const password = adminPassword.value;
-
-      // Разрешённые телефоны
-      const allowedPhones = ['89910969042'];
-      const cleanPhone = phone.replace(/\D/g, '');
-
-      if (allowedPhones.includes(cleanPhone) && password === 'qpwoeiruty140820100') {
-        alert('✅ Добро пожаловать, администратор!');
-        adminLogin.style.display = 'none';
-        adminReviews.style.display = 'block';
-        loadPendingReviews();
-      } else {
-        alert('❌ Неверный телефон или пароль!');
-      }
-    }
-
-    // Опубликовать отзыв
-    function approveReview(index) {
-      const pending = JSON.parse(localStorage.getItem('ivanovoPendingReviews')) || [];
-      const published = JSON.parse(localStorage.getItem('ivanovoPublishedReviews')) || [];
-      const review = pending.splice(index, 1)[0];
-      published.push(review);
-      localStorage.setItem('ivanovoPendingReviews', JSON.stringify(pending));
-      localStorage.setItem('ivanovoPublishedReviews', JSON.stringify(published));
-      loadPendingReviews();
-      loadPublishedReviews();
-      alert('✅ Отзыв опубликован!');
-    }
-
-    // Удалить один отзыв
-    function rejectReview(index) {
-      const pending = JSON.parse(localStorage.getItem('ivanovoPendingReviews')) || [];
-      pending.splice(index, 1);
-      localStorage.setItem('ivanovoPendingReviews', JSON.stringify(pending));
-      loadPendingReviews();
-      alert('🗑️ Отзыв удалён.');
-    }
-
-    // Удалить все отзывы
-    function deleteAllReviews() {
-      if (confirm('Вы уверены, что хотите удалить ВСЕ отзывы? Это нельзя отменить!')) {
-        localStorage.removeItem('ivanovoPendingReviews');
-        localStorage.removeItem('ivanovoPublishedReviews');
-        loadPendingReviews();
-        loadPublishedReviews();
-        alert('✅ Все отзывы удалены.');
-      }
-    }
-
-    // Закрыть панель
-    function closeAdminPanel() {
-      adminPanel.style.display = 'none';
-      adminLogin.style.display = 'block';
-      adminReviews.style.display = 'none';
-      adminPhone.value = '';
-      adminPassword.value = '';
-    }
-
-    // Загрузка при старте
-    loadPublishedReviews();
   </script>
 </body>
 </html>
@@ -1106,4 +745,7 @@
       </div>
     </div>
   </div>
+  https://docs.google.com/spreadsheets/d/e/2PACX-1vS5ls4VbyXr2jAyuBvHgefb8w9o6TcSqghIZpsKzyxTX2h6flr51JYy7uGNSZezB6HswYTFVQp87-ux/pub?output=csv  
 </div> -->
+
+  
