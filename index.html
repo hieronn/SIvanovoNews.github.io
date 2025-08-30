@@ -33,6 +33,16 @@
       --gradient-rainbow: linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #8B00FF);
       --glow: 0 0 15px rgba(76, 175, 80, 0.6);
     }
+    @keyframes floatUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) rotate(-15deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
 
     body {
       font-family: 'Poppins', sans-serif;
@@ -449,9 +459,24 @@
   <!-- Навигация -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <i class="fas fa-leaf"></i> Новости села Иваново
-      </a>
+<a class="navbar-brand" href="#">
+  <i class="fas fa-leaf"></i>
+  <span style="display: inline-block; margin-left: 10px;">
+    <script>
+      document.write(
+        "Новости села Иваново".split("").map((char, i) => 
+          `<span style="
+            display: inline-block;
+            opacity: 0;
+            animation: floatUp 0.6s ease-out forwards;
+            animation-delay: ${i * 0.03}s;
+            color: ${['#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FF9800', '#F44336'][i % 6]};
+          ">${char}</span>`
+        ).join("")
+      );
+    </script>
+  </span>
+</a>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link text-light" href="#home">Главная</a></li>
