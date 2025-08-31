@@ -15,6 +15,73 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
   <style>
+    /* === АНИМИРОВАННЫЙ ЛИСТОЧЕК === */
+.animated-leaf {
+  display: inline-block;
+  color: #4CAF50;
+  font-size: 1.8rem;
+  margin-right: 10px;
+  animation: sway 3s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
+}
+
+@keyframes sway {
+  0% { transform: rotate(-10deg); }
+  100% { transform: rotate(10deg); }
+}
+
+.animated-leaf:hover {
+  animation: none;
+  transform: rotate(20deg) scale(1.2);
+  filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.9));
+  transition: all 0.3s ease;
+}
+
+/* === АНИМИРОВАННЫЙ ЗАГОЛОВОК === */
+.animated-title {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39, #FFEB3B, #FF9800, #F44336, #E91E63);
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbowFlow 5s ease infinite;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+@keyframes rainbowFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-title:hover {
+  animation: rainbowFlow 2s ease;
+  transform: scale(1.05);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* === ЭФФЕКТ СВЕЧЕНИЯ ПРИ НАВЕДЕНИИ === */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 15px;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+  background: rgba(76, 175, 80, 0.1);
+  border-color: rgba(76, 175, 80, 0.3);
+}
     :root {
       --primary: #4CAF50;
       --accent: #2196F3;
@@ -456,38 +523,30 @@
 </head>
 <body>
 
-  <!-- Навигация -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
-    <div class="container-fluid">
-<a class="navbar-brand" href="#">
-  <i class="fas fa-leaf"></i>
-  <span style="display: inline-block; margin-left: 10px;">
-    <script>
-      document.write(
-        "Новости села Иваново".split("").map((char, i) => 
-          `<span style="
-            display: inline-block;
-            opacity: 0;
-            animation: floatUp 0.6s ease-out forwards;
-            animation-delay: ${i * 0.03}s;
-            color: ${['#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FF9800', '#F44336'][i % 6]};
-          ">${char}</span>`
-        ).join("")
-      );
-    </script>
-  </span>
-</a>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link text-light" href="#home">Главная</a></li>
-          <li class="nav-item"><a class="nav-link text-light" href="#news">Новости</a></li>
-          <li class="nav-item"><a class="nav-link text-light" href="#about">О селе</a></li>
-          <li class="nav-item"><a class="nav-link text-light" href="#shop">🛒 Магазин</a></li>
-          <li class="nav-item"><a class="nav-link text-light" href="#contact">Контакты</a></li>
-        </ul>
+<!-- АНИМИРОВАННАЯ НАВИГАЦИЯ -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <!-- Анимированный листочек -->
+      <div class="animated-leaf">
+        <i class="fas fa-leaf"></i>
       </div>
+      <!-- Анимированный текст -->
+      <span class="animated-title">
+        Новости села Иваново
+      </span>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-light" href="#home">Главная</a></li>
+        <li class="nav-item"><a class="nav-link text-light" href="#news">Новости</a></li>
+        <li class="nav-item"><a class="nav-link text-light" href="#about">О селе</a></li>
+        <li class="nav-item"><a class="nav-link text-light" href="#shop">🛒 Магазин</a></li>
+        <li class="nav-item"><a class="nav-link text-light" href="#contact">Контакты</a></li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
   <!-- Главный баннер -->
   <section id="home" class="hero">
