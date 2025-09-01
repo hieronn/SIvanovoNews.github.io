@@ -16,73 +16,72 @@
 
   <style>
     /* === АНИМИРОВАННЫЙ ЛИСТОЧЕК === */
-.animated-leaf {
-  display: inline-block;
-  color: #4CAF50;
-  font-size: 1.8rem;
-  margin-right: 10px;
-  animation: sway 3s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
-}
+    .animated-leaf {
+      display: inline-block;
+      color: #4CAF50;
+      font-size: 1.8rem;
+      margin-right: 10px;
+      animation: sway 3s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
+    }
 
-@keyframes sway {
-  0% { transform: rotate(-10deg); }
-  100% { transform: rotate(10deg); }
-}
+    @keyframes sway {
+      0% { transform: rotate(-10deg); }
+      100% { transform: rotate(10deg); }
+    }
 
-.animated-leaf:hover {
-  animation: none;
-  transform: rotate(20deg) scale(1.2);
-  filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.9));
-  transition: all 0.3s ease;
-}
+    .animated-leaf:hover {
+      animation: none;
+      transform: rotate(20deg) scale(1.2);
+      filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.9));
+      transition: all 0.3s ease;
+    }
 
-/* === АНИМИРОВАННЫЙ ЗАГОЛОВОК === */
-.animated-title {
-  display: inline-block;
-  font-size: 1.2rem;
-  font-weight: 600;
-  background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39, #FFEB3B, #FF9800, #F44336, #E91E63);
-  background-size: 400% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: rainbowFlow 5s ease infinite;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-}
+    /* === АНИМИРОВАННЫЙ ЗАГОЛОВОК === */
+    .animated-title {
+      display: inline-block;
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39, #FFEB3B, #FF9800, #F44336, #E91E63);
+      background-size: 400% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbowFlow 5s ease infinite;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
 
-@keyframes rainbowFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+    @keyframes rainbowFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-.animated-title:hover {
-  animation: rainbowFlow 2s ease;
-  transform: scale(1.05);
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-}
+    .animated-title:hover {
+      animation: rainbowFlow 2s ease;
+      transform: scale(1.05);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
 
-/* === ЭФФЕКТ СВЕЧЕНИЯ ПРИ НАВЕДЕНИИ === */
-.navbar-brand {
-  border: none;
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-  border-radius: 15px;
-  transition: all 0.4s ease;
-  backdrop-filter: blur(10px);
-  /* background: rgba(255, 255, 255, 0.05); */
-  /* border: 1px solid rgba(255, 255, 255, 0.1); */
-}
+    /* === ЭФФЕКТ СВЕЧЕНИЯ ПРИ НАВЕДЕНИИ === */
+    .navbar-brand {
+      border: none;
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      border-radius: 15px;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
 
-.navbar-brand:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
-  background: rgba(76, 175, 80, 0.1);
-  border-color: rgba(76, 175, 80, 0.3);
-}
+    .navbar-brand:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+      background: rgba(76, 175, 80, 0.1);
+      border-color: rgba(76, 175, 80, 0.3);
+    }
+
     :root {
       --primary: #4CAF50;
       --accent: #2196F3;
@@ -101,16 +100,6 @@
       --gradient-rainbow: linear-gradient(90deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #8B00FF);
       --glow: 0 0 15px rgba(76, 175, 80, 0.6);
     }
-    @keyframes floatUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px) rotate(-15deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(0);
-  }
-}
 
     body {
       font-family: 'Poppins', sans-serif;
@@ -520,6 +509,39 @@
     .navbar-toggler {
       display: none;
     }
+
+    /* === ТЕКСТ НОВОСТИ === */
+    .news-text {
+      white-space: pre-line;
+      margin: 10px 0;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .news-text.expanded {
+      -webkit-line-clamp: unset;
+      max-height: none;
+    }
+
+    /* === КНОПКА ПОДРОБНЕЕ === */
+    .read-more-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .read-more-btn:hover {
+      background: #388e3c;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -587,7 +609,7 @@
   <div class="news-card" style="animation: none; opacity: 1;">
     <div class="p-4">
       <span class="date-badge">31.08.2025</span>
-      <h5>Новости
+      <h5 class="news-text">Новости
 
 1. Минпросвещения составило график каникул на 2025/2026 учебный год.
 tass.ru/infographi...
@@ -598,7 +620,7 @@ edu.gov.ru/press/1027...
 3. В Государственной Думе предложили ввести в школах специальный модуль по устной речи
 ria.ru/20250820/r...
 
-Информация взята: https://vk.com/wall-102352642_7880</h5>
+Информация взята:     https://vk.com/wall-102352642_7880    </h5>
       <p class="text-muted">Автор: администрация сайта</p><div class="text-center mt-3 text-muted"><small>📷 Нет фото</small></div>
     </div>
   </div>
@@ -809,8 +831,39 @@ ria.ru/20250820/r...
       });
     }, { threshold: 0.1 });
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+    // === ОБРАБОТКА НОВОСТЕЙ ===
+    document.querySelectorAll('.news-text').forEach(el => {
+      const fullText = el.textContent;
+      
+      // Преобразуем ссылки в кликабельные
+      const withLinks = fullText
+        .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:#2196F3;text-decoration:underline;">$1</a>')
+        .replace(/\n/g, '<br>');
+      
+      // Проверяем длину
+      if (fullText.length > 80) {
+        el.innerHTML = fullText.substring(0, 80) + '...';
+        const btn = document.createElement('button');
+        btn.textContent = 'Подробнее';
+        btn.className = 'read-more-btn';
+        btn.onclick = function() {
+          if (el.classList.contains('expanded')) {
+            el.innerHTML = fullText.substring(0, 80) + '...';
+            this.textContent = 'Подробнее';
+            el.classList.remove('expanded');
+          } else {
+            el.innerHTML = withLinks;
+            this.textContent = 'Скрыть';
+            el.classList.add('expanded');
+          }
+        };
+        el.parentNode.appendChild(btn);
+      } else {
+        el.innerHTML = withLinks;
+      }
+    });
   </script>
-  
 </body>
 </html>
 
