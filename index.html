@@ -628,7 +628,7 @@ edu.gov.ru/press/1027...
 3. В Государственной Думе предложили ввести в школах специальный модуль по устной речи
 ria.ru/20250820/r...
 
-Информация взята: https://vk.com/wall-102352642_7880</h5>
+Информация взята:   https://vk.com/wall-102352642_7880  </h5>
               <p class="text-muted news-author">Автор: администрация сайта</p>
               <div class="text-center mt-3 text-muted"><small>📷 Нет фото</small></div>
             </div>
@@ -804,6 +804,7 @@ ria.ru/20250820/r...
     const musicIcon = musicToggle.querySelector('i');
     const music = document.getElementById('background-music');
 
+    // Загружаем сохранённую тему
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
       body.classList.add('light-theme');
@@ -821,6 +822,7 @@ ria.ru/20250820/r...
       }
     });
 
+    // === УПРАВЛЕНИЕ МУЗЫКОЙ ===
     musicToggle.addEventListener('click', () => {
       if (music.paused) {
         music.play();
@@ -831,6 +833,7 @@ ria.ru/20250820/r...
       }
     });
 
+    // === АНИМАЦИЯ ПОЯВЛЕНИЯ ===
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -844,15 +847,13 @@ ria.ru/20250820/r...
       const authorEl = card.querySelector('.news-author');
       if (!textEl || !authorEl) return;
 
-      const fullText = textEl.innerText.trim(); // Используем innerText, чтобы не затронуть HTML
+      const fullText = textEl.innerText.trim();
       const authorName = authorEl.textContent.replace('Автор: ', '').trim();
 
-      // Форматируем текст: ссылки + переносы
       const formattedText = fullText
         .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:#2196F3;text-decoration:underline;">$1</a>')
         .replace(/\n/g, '<br>');
 
-      // Если текст длинный — добавляем кнопку
       if (fullText.length > 80) {
         textEl.innerHTML = fullText.substring(0, 80) + '...';
         const btn = document.createElement('button');
