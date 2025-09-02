@@ -543,12 +543,13 @@
       transform: scale(1.05);
     }
 
-    /* === АВТОР НОВОСТИ === */
+    /* === УЛУЧШЕНИЕ АВТОРА === */
     .news-author {
-      font-size: 0.9rem;
-      color: #ccc;
-      font-style: italic;
-      margin-bottom: 10px;
+      font-weight: 600;
+      color: #4CAF50;
+      font-style: normal;
+      margin: 5px 0 10px 0;
+      display: block;
     }
   </style>
 </head>
@@ -613,11 +614,11 @@
         Последние новости
       </h2>
       <div class="row" id="news-container">
-        <div class="col-md-6 col-lg-4 animate-on-scroll visible">
-          <div class="news-card" style="animation: none; opacity: 1;">
-            <div class="p-4">
-              <span class="date-badge">31.08.2025</span>
-              <h5 class="news-text">Новости
+<div class="col-md-6 col-lg-4 animate-on-scroll visible">
+  <div class="news-card" style="animation: none; opacity: 1;">
+    <div class="p-4">
+      <span class="date-badge">31.08.2025</span>
+      <h5 class="news-text">Новости
 
 1. Минпросвещения составило график каникул на 2025/2026 учебный год.
 tass.ru/infographi...
@@ -628,12 +629,11 @@ edu.gov.ru/press/1027...
 3. В Государственной Думе предложили ввести в школах специальный модуль по устной речи
 ria.ru/20250820/r...
 
-Информация взята:   https://vk.com/wall-102352642_7880  </h5>
-              <p class="text-muted news-author">Автор: администрация сайта</p>
-              <div class="text-center mt-3 text-muted"><small>📷 Нет фото</small></div>
-            </div>
-          </div>
-        </div>
+Информация взята:       https://vk.com/wall-102352642_7880      </h5>
+      <p class="news-author">Автор: администрация сайта</p><div class="text-center mt-3 text-muted"><small>📷 Нет фото</small></div>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   </section>
@@ -788,7 +788,7 @@ ria.ru/20250820/r...
     <i class="fas fa-volume-up"></i>
   </div>
 
-  <!-- Фоновая музыка -->
+  <!-- Фоновая музыка (спокойная, атмосферная) -->
   <audio id="background-music" loop>
     <source src="https://cdn.pixabay.com/audio/2022/04/27/audio_3d3d6d6f9d.mp3" type="audio/mpeg">
   </audio>
@@ -842,35 +842,34 @@ ria.ru/20250820/r...
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
     // === ОБРАБОТКА НОВОСТЕЙ ===
-    document.querySelectorAll('.news-card').forEach(card => {
-      const textEl = card.querySelector('.news-text');
-      const authorEl = card.querySelector('.news-author');
-      if (!textEl || !authorEl) return;
-
-      const fullText = textEl.innerText.trim();
-      const authorName = authorEl.textContent.replace('Автор: ', '').trim();
-
-      const formattedText = fullText
+    document.querySelectorAll('.news-text').forEach(el => {
+      const fullText = el.textContent;
+      
+      // Преобразуем ссылки в кликабельные
+      const withLinks = fullText
         .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color:#2196F3;text-decoration:underline;">$1</a>')
         .replace(/\n/g, '<br>');
-
+      
+      // Проверяем длину
       if (fullText.length > 80) {
-        textEl.innerHTML = fullText.substring(0, 80) + '...';
+        el.innerHTML = fullText.substring(0, 80) + '...';
         const btn = document.createElement('button');
         btn.textContent = 'Подробнее';
         btn.className = 'read-more-btn';
         btn.onclick = function() {
-          if (this.textContent === 'Подробнее') {
-            textEl.innerHTML = formattedText;
-            this.textContent = 'Скрыть';
-          } else {
-            textEl.innerHTML = fullText.substring(0, 80) + '...';
+          if (el.classList.contains('expanded')) {
+            el.innerHTML = fullText.substring(0, 80) + '...';
             this.textContent = 'Подробнее';
+            el.classList.remove('expanded');
+          } else {
+            el.innerHTML = withLinks;
+            this.textContent = 'Скрыть';
+            el.classList.add('expanded');
           }
         };
-        card.querySelector('.p-4').appendChild(btn);
+        el.parentNode.appendChild(btn);
       } else {
-        textEl.innerHTML = formattedText;
+        el.innerHTML = withLinks;
       }
     });
   </script>
