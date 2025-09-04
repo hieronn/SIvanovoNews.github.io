@@ -23,6 +23,7 @@
       margin-right: 10px;
       animation: sway 3s ease-in-out infinite alternate;
       filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
+      transition: all 0.3s ease;
     }
 
     @keyframes sway {
@@ -50,6 +51,7 @@
       animation: rainbowFlow 5s ease infinite;
       letter-spacing: 0.5px;
       line-height: 1.2;
+      transition: all 0.3s ease;
     }
 
     @keyframes rainbowFlow {
@@ -73,6 +75,15 @@
       border-radius: 15px;
       transition: all 0.4s ease;
       backdrop-filter: blur(10px);
+      /* Светлая тема */
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    body.light-theme .navbar-brand {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     }
 
     .navbar-brand:hover {
@@ -80,6 +91,12 @@
       box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
       background: rgba(76, 175, 80, 0.1);
       border-color: rgba(76, 175, 80, 0.3);
+    }
+
+    body.light-theme .navbar-brand:hover {
+      background: rgba(76, 175, 80, 0.2);
+      border-color: #4CAF50;
+      transform: translateY(-3px) scale(1.02);
     }
 
     :root {
@@ -148,7 +165,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       cursor: pointer;
       z-index: 1000;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       animation: pulse 2s infinite;
     }
 
@@ -212,37 +229,6 @@
     @keyframes wordFly {
       from { transform: translateY(40px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
-    }
-
-    .btn-gradient {
-      background: var(--gradient-primary);
-      color: white;
-      border: none;
-      padding: 14px 32px;
-      border-radius: 60px;
-      font-weight: 600;
-      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-gradient::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: 0.5s;
-    }
-
-    .btn-gradient:hover::before {
-      left: 100%;
-    }
-
-    .btn-gradient:hover {
-      transform: scale(1.1) translateY(-6px);
-      box-shadow: 0 15px 50px rgba(76, 175, 80, 0.7);
     }
 
     /* === НОВОСТИ === */
@@ -325,20 +311,6 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    .feature-icon {
-      font-size: 3rem;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 15px;
-      transition: transform 0.4s ease;
-    }
-
-    .feature-icon:hover {
-      transform: rotate(10deg) scale(1.1);
-    }
-
     /* === МАГАЗИН === */
     .section-shop {
       background: linear-gradient(135deg, #2e1b4d, #1b2e4d);
@@ -371,33 +343,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
-    .btn-bot {
-      background: linear-gradient(45deg, #ffffff, #ffebee);
-      color: #E91E63;
-      font-weight: 700;
-      padding: 16px 45px;
-      border-radius: 60px;
-      font-size: 1.25rem;
-      box-shadow: 0 10px 30px rgba(255,255,255,0.4);
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    body.light-theme .btn-bot {
-      background: var(--gradient-primary);
-      color: white;
-    }
-
-    .btn-bot:hover {
-      transform: scale(1.15) rotate(3deg);
-      box-shadow: 0 18px 50px rgba(255,255,255,0.6);
-    }
-
-    body.light-theme .btn-bot:hover {
-      box-shadow: 0 18px 50px rgba(76, 175, 80, 0.7);
-    }
-
     /* === КОНТАКТЫ === */
     #contact {
       background: linear-gradient(135deg, #1e1e2d, #2d1e2e);
@@ -416,16 +361,25 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      transition: transform 0.4s ease;
+      background-size: 300% 100%;
+      animation: rainbow 3s ease infinite;
+      transition: all 0.4s ease;
+      display: inline-block;
     }
 
     body.light-theme .contact-icon {
       background: var(--primary);
       -webkit-text-fill-color: var(--primary);
+      animation: none;
     }
 
     .contact-icon:hover {
       transform: scale(1.3) rotate(20deg);
+    }
+
+    @keyframes rainbow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     /* === ПОДВАЛ === */
@@ -551,6 +505,34 @@
       margin: 5px 0 10px 0;
       display: block;
     }
+
+    /* === НОВАЯ АНИМАЦИЯ: ПЛАВНОЕ ПОЯВЛЕНИЕ КНОПОК === */
+    .btn-gradient, .btn-bot {
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .btn-gradient:hover, .btn-bot:hover {
+      transform: scale(1.08) translateY(-4px);
+      box-shadow: 0 12px 40px rgba(76, 175, 80, 0.5);
+    }
+
+    /* === АНИМАЦИЯ: ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ТЕМЫ === */
+    body {
+      transition: background 1s ease, color 1s ease;
+    }
+
+    body.light-theme {
+      transition: background 1s ease, color 1s ease;
+    }
+
+    /* === АНИМАЦИЯ: ЛЕГКИЙ ДРЕЙФ КНОПОК === */
+    .theme-toggle, .music-toggle {
+      transition: all 0.4s ease;
+    }
+
+    .theme-toggle:hover, .music-toggle:hover {
+      transform: scale(1.2) rotate(20deg);
+    }
   </style>
 </head>
 <body>
@@ -629,7 +611,7 @@ edu.gov.ru/press/1027...
 3. В Государственной Думе предложили ввести в школах специальный модуль по устной речи
 ria.ru/20250820/r...
 
-Информация взята:       https://vk.com/wall-102352642_7880      </h5>
+Информация взята: https://vk.com/wall-102352642_7880</h5>
       <p class="news-author">Автор: администрация сайта</p><div class="text-center mt-3 text-muted"><small>📷 Нет фото</small></div>
     </div>
   </div>
@@ -788,7 +770,7 @@ ria.ru/20250820/r...
     <i class="fas fa-volume-up"></i>
   </div>
 
-  <!-- Фоновая музыка (спокойная, атмосферная) -->
+  <!-- Фоновая музыка -->
   <audio id="background-music" loop>
     <source src="https://cdn.pixabay.com/audio/2022/04/27/audio_3d3d6d6f9d.mp3" type="audio/mpeg">
   </audio>
@@ -875,43 +857,3 @@ ria.ru/20250820/r...
   </script>
 </body>
 </html>
- <!-- <div class="col-md-6 col-lg-4 animate-on-scroll">
-  <div class="news-card" style="animation: fadeInUp 0.6s ease;">
-    <div class="p-4">
-      <span class="date-badge">25.08.2025</span>
-      <h5>Игра "Знамя Войны" (Warbanner) — это достаточно нишевая тактическая стратегия. Поскольку игра не выпускалась в 2025 году, а была выпущена ранее, то возможность поиграть в нее в 2025 году будет зависеть от того, останется ли она доступной на платформах, где она была выпущена, или будет доступна через ретро-гейминг или эмуляторы.
-
-Насколько мне известно, "Warbanner" была выпущена в 2008 году компанией Nival Interactive. Она выходила для ПК (Windows).
-
-Вот как вы можете попробовать поиграть в нее в 2025 году (или раньше, если вы планируете это сейчас):
-
-1. Поиск цифровых версий:
-    *   GOG.com (Good Old Games): Это один из лучших ресурсов для поиска старых игр, которые уже не продаются в обычных цифровых магазинах. GOG.com специализируется на играх для ПК, которые были адаптированы для работы на современных операционных системах. Проверьте их каталог.
-    *   Steam: Хотя Steam в основном ориентирован на новые игры, иногда старые хиты туда тоже попадают. Стоит проверить, нет ли там "Warbanner".
-    *   Другие цифровые магазины: Иногда игры можно найти на специализированных платформах или даже на сайтах самих разработчиков/издателей, если они поддерживают свои старые проекты.
-
-2. Физические копии (если сможете найти):
-    *   Если игра выходила на дисках, вы можете поискать ее на аукционах вроде eBay, Avito или в местных магазинах подержанных игр. Однако, установка с диска на современные Windows может потребовать дополнительных усилий (например, поиска патчей совместимости или использования виртуальных приводов).
-
-3. Ретро-гейминг и эмуляторы (если игра была на других платформах):
-    *   "Warbanner" была PC-игрой. Для нее не нужны эмуляторы консолей. Однако, если вы столкнетесь с проблемами совместимости на Windows 10/11, могут потребоваться "кряки" или патчи, которые позволят игре работать на современных системах. Эти патчи часто создаются сообществом энтузиастов. Будьте осторожны при скачивании файлов из непроверенных источников.
-
-4. Системные требования:
-    "Warbanner" была выпущена в 2008 году, поэтому ее системные требования очень низкие по современным меркам. Она должна без проблем работать даже на самых слабых компьютерах. Основная проблема — это совместимость с операционной системой.
-
-Что нужно сделать, чтобы подготовиться:
-
-*   Заранее поищите информацию: Зайдите на форумы, посвященные ретро-геймингу, или на сайты, где обсуждаются старые игры (например, PCGamingWiki), чтобы узнать, как успешно запустить "Warbanner" на современных Windows. Там часто есть руководства, ссылки на патчи и обсуждения проблем.
-*   Проверьте доступность: Начните поиски как можно раньше. Старые игры могут быть трудны для поиска, особенно если они не были переизданы.
-
-Итак, в 2025 году, как и сейчас, основной способ поиграть в "Warbanner" — это найти ее цифровую копию на таких платформах, как GOG.com, и убедиться, что она совместима с вашей операционной системой, возможно, с помощью фанатских патчей.</h5>
-      <p class="text-muted">Автор: 私はばかです</p>
-      <div class="text-center mt-3 text-muted">
-        <small><img src="./img sela/photo_2025-08-25_13-57-16.jpg" alt=""></small>
-      </div>
-    </div>
-  </div>
-  https://docs.google.com/spreadsheets/d/e/2PACX-1vS5ls4VbyXr2jAyuBvHgefb8w9o6TcSqghIZpsKzyxTX2h6flr51JYy7uGNSZezB6HswYTFVQp87-ux/pub?output=csv  
-</div> -->
-
-  
