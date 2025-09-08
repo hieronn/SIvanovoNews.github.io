@@ -75,9 +75,6 @@
       border-radius: 15px;
       transition: all 0.4s ease;
       backdrop-filter: blur(10px);
-      /* Светлая тема */
-
-      
     }
 
     body.light-theme .navbar-brand {
@@ -229,6 +226,59 @@
     @keyframes wordFly {
       from { transform: translateY(40px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* === КНОПКИ: ГРАДИЕНТ И СВЕЧЕНИЕ === */
+    .btn-gradient {
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: 1.1rem;
+    }
+
+    .btn-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: 0.5s;
+    }
+
+    .btn-gradient:hover::before {
+      left: 100%;
+    }
+
+    .btn-gradient:hover {
+      transform: scale(1.1) translateY(-6px);
+      box-shadow: 0 15px 50px rgba(76, 175, 80, 0.7);
+    }
+
+    /* === КНОПКА БОТА === */
+    .btn-bot {
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
+      font-weight: 700;
+      padding: 16px 45px;
+      border-radius: 60px;
+      font-size: 1.25rem;
+      box-shadow: 0 10px 30px rgba(106, 17, 203, 0.4);
+      transition: all 0.4s ease;
+      text-decoration: none;
+      display: inline-block;
+      border: none;
+    }
+
+    .btn-bot:hover {
+      transform: scale(1.15) rotate(3deg);
+      box-shadow: 0 18px 50px rgba(106, 17, 203, 0.6);
     }
 
     /* === НОВОСТИ === */
@@ -505,34 +555,6 @@
       margin: 5px 0 10px 0;
       display: block;
     }
-
-    /* === НОВАЯ АНИМАЦИЯ: ПЛАВНОЕ ПОЯВЛЕНИЕ КНОПОК === */
-    .btn-gradient, .btn-bot {
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-
-    .btn-gradient:hover, .btn-bot:hover {
-      transform: scale(1.08) translateY(-4px);
-      box-shadow: 0 12px 40px rgba(76, 175, 80, 0.5);
-    }
-
-    /* === АНИМАЦИЯ: ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ТЕМЫ === */
-    body {
-      transition: background 1s ease, color 1s ease;
-    }
-
-    body.light-theme {
-      transition: background 1s ease, color 1s ease;
-    }
-
-    /* === АНИМАЦИЯ: ЛЕГКИЙ ДРЕЙФ КНОПОК === */
-    .theme-toggle, .music-toggle {
-      transition: all 0.4s ease;
-    }
-
-    .theme-toggle:hover, .music-toggle:hover {
-      transform: scale(1.2) rotate(20deg);
-    }
   </style>
 </head>
 <body>
@@ -596,11 +618,11 @@
         Последние новости
       </h2>
       <div class="row" id="news-container">
-<div class="col-md-6 col-lg-4 animate-on-scroll visible">
-  <div class="news-card" style="animation: none; opacity: 1;">
-    <div class="p-4">
-      <span class="date-badge">31.08.2025</span>
-      <h5 class="news-text">Новости
+        <div class="col-md-6 col-lg-4 animate-on-scroll visible">
+          <div class="news-card" style="animation: none; opacity: 1;">
+            <div class="p-4">
+              <span class="date-badge">31.08.2025</span>
+              <h5 class="news-text">Новости
 
 1. Минпросвещения составило график каникул на 2025/2026 учебный год.
 tass.ru/infographi...
@@ -611,11 +633,12 @@ edu.gov.ru/press/1027...
 3. В Государственной Думе предложили ввести в школах специальный модуль по устной речи
 ria.ru/20250820/r...
 
-Информация взята: https://vk.com/wall-102352642_7880</h5>
-      <p class="news-author">Автор: администрация сайта</p><div class="text-center mt-3 text-muted"><small>📷 Нет фото</small></div>
-    </div>
-  </div>
-</div>
+Информация взята: <a href="https://vk.com/wall-102352642_7880" target="_blank">vk.com</a></h5>
+              <p class="news-author">Автор: администрация сайта</p>
+              <div class="text-center mt-3 text-muted"><small>📷 Нет фото</small></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -825,7 +848,7 @@ ria.ru/20250820/r...
 
     // === ОБРАБОТКА НОВОСТЕЙ ===
     document.querySelectorAll('.news-text').forEach(el => {
-      const fullText = el.textContent;
+      const fullText = el.textContent.trim();
       
       // Преобразуем ссылки в кликабельные
       const withLinks = fullText
