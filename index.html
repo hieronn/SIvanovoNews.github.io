@@ -8,8 +8,8 @@
   <!-- Favicon (иконка вкладки) -->
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/179/179301.png" type="image/png"> <!-- Зелёный лист -->
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Красивые шрифты -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -44,15 +44,16 @@
     /* === АНИМИРОВАННЫЙ ЗАГОЛОВОК === */
     .animated-title {
       display: inline-block;
+      font-family: 'Cinzel', serif;
       font-size: 1.3rem;
-      font-weight: 600;
+      font-weight: 700;
       background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39, #FFEB3B, #FF9800, #F44336, #E91E63);
       background-size: 400% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: rainbowFlow 5s ease infinite;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       line-height: 1.2;
       transition: all 0.3s ease;
     }
@@ -117,12 +118,23 @@
       --glow: 0 0 15px rgba(76, 175, 80, 0.6);
     }
 
+    /* === ГЛАВНЫЙ ШРИФТ ВЕЗДЕ === */
+    body, p, li, a {
+      font-family: 'Poppins', sans-serif !important;
+      color: var(--dark-text);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif !important;
+      font-weight: 600;
+      color: white;
+    }
+
+    /* === ФОН С ДВИЖЕНИЕМ === */
     body {
-      font-family: 'Poppins', sans-serif;
       background: var(--dark-bg);
       background-size: 600% 600%;
       animation: gradientBG 30s ease infinite;
-      color: var(--dark-text);
       line-height: 1.7;
       margin: 0;
       padding: 0;
@@ -142,9 +154,219 @@
       animation: none;
     }
 
-    body.light-theme .news-card,
-    body.light-theme .about-card {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* === БАННЕР === */
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                  url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+      background-size: cover;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+
+    .hero h1 span, .hero p span {
+      display: inline-block;
+      opacity: 0;
+      animation: wordFly 0.5s forwards;
+    }
+
+    .hero h1 span { animation-delay: calc(0.1s * var(--i)); }
+    .hero p span { animation-delay: calc(0.08s * var(--i) + 1s); }
+
+    @keyframes wordFly {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* === КНОПКИ === */
+    .btn-gradient {
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: 1.1rem;
+    }
+
+    .btn-bot {
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
+      font-weight: 700;
+      padding: 16px 45px;
+      border-radius: 60px;
+      font-size: 1.25rem;
+      box-shadow: 0 10px 30px rgba(106, 17, 203, 0.4);
+      transition: all 0.4s ease;
+      text-decoration: none;
+      display: inline-block;
+      border: none;
+    }
+
+    /* === НОВОСТИ === */
+    .news-card {
+      background: var(--card-bg-dark);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      border: 1px solid var(--card-border-dark);
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: slideUp 0.8s ease forwards;
+    }
+
+    @keyframes slideUp {
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .news-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    }
+
+    /* === О СЕЛЕ === */
+    .section-about {
+      padding: 150px 0;
+      background: rgba(30, 30, 45, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .about-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      padding: 50px;
+      border: 1px solid var(--card-border-dark);
+      animation: fadeInScale 1.3s ease forwards;
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    @keyframes fadeInScale {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* === АНИМИРОВАННЫЕ ИКОНКИ === */
+    .feature-icon {
+      font-size: 4rem;
+      color: #4CAF50;
+      margin-bottom: 20px;
+      transition: all 0.4s ease;
+      display: block;
+      text-align: center;
+    }
+
+    .feature-icon i {
+      transition: all 0.4s ease;
+    }
+
+    .feature-icon:hover i {
+      transform: scale(1.3) rotate(15deg);
+      color: #8BC34A;
+    }
+
+    /* === МАГАЗИН === */
+    .section-shop {
+      background: linear-gradient(135deg, #2e1b4d, #1b2e4d);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    /* === БОТ-СЕКЦИЯ === */
+    .bot-section {
+      background: linear-gradient(135deg, #3a0a5a, #5a0a3a);
+      background-size: 600% 600%;
+      animation: gradientWave 12s ease infinite;
+      border-radius: 28px;
+      padding: 70px 20px;
+      text-align: center;
+      color: white;
+      margin: 100px 0;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    /* === КОНТАКТЫ === */
+    #contact {
+      background: linear-gradient(135deg, #1e1e2d, #2d1e2e);
+      background-size: 400% 400%;
+      animation: footerGradient 15s ease infinite;
+      padding: 100px 0;
+    }
+
+    /* === ПОДВАЛ === */
+    .footer {
+      background: linear-gradient(135deg, #1e1e2d, #2d1e2e);
+      background-size: 400% 400%;
+      animation: footerGradient 15s ease infinite;
+      color: #FFF9C4;
+      padding: 80px 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* === ОБЩАЯ АНИМАЦИЯ === */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(60px);
+      transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === ТЕКСТ НОВОСТИ === */
+    .news-text {
+      white-space: pre-line;
+      margin: 10px 0;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .news-text.expanded {
+      -webkit-line-clamp: unset;
+      max-height: none;
+    }
+
+    /* === КНОПКА ПОДРОБНЕЕ === */
+    .read-more-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .read-more-btn:hover {
+      background: #388e3c;
+      transform: scale(1.05);
+    }
+
+    /* === УЛУЧШЕНИЕ АВТОРА === */
+    .news-author {
+      font-weight: 600;
+      color: #4CAF50;
+      font-style: normal;
+      margin: 5px 0 10px 0;
+      display: block;
     }
 
     /* === ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ === */
@@ -201,381 +423,6 @@
     .music-toggle:hover {
       transform: scale(1.1) rotate(10deg);
       box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
-    }
-
-    /* === БАННЕР === */
-    .hero {
-      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                  url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
-      background-size: cover;
-      height: 100vh;
-      min-height: 600px;
-      display: flex;
-      align-items: center;
-      text-align: center;
-      color: white;
-    }
-
-    .hero h1 span, .hero p span {
-      display: inline-block;
-      opacity: 0;
-      animation: wordFly 0.5s forwards;
-    }
-
-    .hero h1 span { animation-delay: calc(0.1s * var(--i)); }
-    .hero p span { animation-delay: calc(0.08s * var(--i) + 1s); }
-
-    @keyframes wordFly {
-      from { transform: translateY(40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* === КНОПКИ: ГРАДИЕНТ И СВЕЧЕНИЕ === */
-    .btn-gradient {
-      background: var(--gradient-primary);
-      color: white;
-      border: none;
-      padding: 14px 32px;
-      border-radius: 60px;
-      font-weight: 600;
-      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-      font-size: 1.1rem;
-    }
-
-    .btn-gradient::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: 0.5s;
-    }
-
-    .btn-gradient:hover::before {
-      left: 100%;
-    }
-
-    .btn-gradient:hover {
-      transform: scale(1.1) translateY(-6px);
-      box-shadow: 0 15px 50px rgba(76, 175, 80, 0.7);
-    }
-
-    /* === КНОПКА БОТА === */
-    .btn-bot {
-      background: linear-gradient(45deg, #6a11cb, #2575fc);
-      color: white;
-      font-weight: 700;
-      padding: 16px 45px;
-      border-radius: 60px;
-      font-size: 1.25rem;
-      box-shadow: 0 10px 30px rgba(106, 17, 203, 0.4);
-      transition: all 0.4s ease;
-      text-decoration: none;
-      display: inline-block;
-      border: none;
-    }
-
-    .btn-bot:hover {
-      transform: scale(1.15) rotate(3deg);
-      box-shadow: 0 18px 50px rgba(106, 17, 203, 0.6);
-    }
-
-    /* === НОВОСТИ === */
-    .news-card {
-      background: var(--card-bg-dark);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-      border: 1px solid var(--card-border-dark);
-      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(50px);
-      animation: slideUp 0.8s ease forwards;
-    }
-
-    body.light-theme .news-card {
-      background: var(--card-bg-light);
-      border: 1px solid var(--card-border-light);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-    }
-
-    @keyframes slideUp {
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .news-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
-    }
-
-    .date-badge {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 12px;
-      background: var(--gradient-primary);
-      background-size: 200% 200%;
-      animation: badgePulse 2s ease infinite;
-    }
-
-    @keyframes badgePulse {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    /* === О СЕЛЕ === */
-    .section-about {
-      padding: 150px 0; /* Увеличил отступ сверху и снизу */
-      background: rgba(30, 30, 45, 0.8);
-      backdrop-filter: blur(10px);
-    }
-
-    body.light-theme .section-about {
-      background: #f0f5f0;
-    }
-
-    .about-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-      padding: 50px;
-      border: 1px solid var(--card-border-dark);
-      animation: fadeInScale 1.3s ease forwards;
-      opacity: 0;
-      transform: scale(0.9);
-    }
-
-    @keyframes fadeInScale {
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* === Увеличенный заголовок "О селе" === */
-    .section-about h2 {
-      font-size: 2.8rem !important;
-      margin-bottom: 3rem;
-      text-align: center;
-    }
-
-    /* === АНИМИРОВАННЫЕ ИКОНКИ === */
-    .feature-icon {
-      font-size: 4rem;
-      color: #4CAF50;
-      margin-bottom: 20px;
-      transition: all 0.4s ease;
-      display: block;
-      text-align: center;
-    }
-
-    .feature-icon i {
-      transition: all 0.4s ease;
-    }
-
-    .feature-icon:hover i {
-      transform: scale(1.3) rotate(15deg);
-      color: #8BC34A;
-    }
-
-    /* === МАГАЗИН === */
-    .section-shop {
-      background: linear-gradient(135deg, #2e1b4d, #1b2e4d);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-      padding: 100px 0;
-      text-align: center;
-    }
-
-    body.light-theme .section-shop {
-      background: #f8f9fa;
-    }
-
-    /* === БОТ-СЕКЦИЯ === */
-    .bot-section {
-      background: linear-gradient(135deg, #3a0a5a, #5a0a3a);
-      background-size: 600% 600%;
-      animation: gradientWave 12s ease infinite;
-      border-radius: 28px;
-      padding: 70px 20px;
-      text-align: center;
-      color: white;
-      margin: 100px 0;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-    }
-
-    body.light-theme .bot-section {
-      background: #f0f5f0;
-      color: #333;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-
-    /* === КОНТАКТЫ === */
-    #contact {
-      background: linear-gradient(135deg, #1e1e2d, #2d1e2e);
-      background-size: 400% 400%;
-      animation: footerGradient 15s ease infinite;
-      padding: 100px 0;
-    }
-
-    body.light-theme #contact {
-      background: #f8f9fa;
-    }
-
-    .contact-icon {
-      font-size: 2.5rem;
-      background: var(--gradient-rainbow);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      background-size: 300% 100%;
-      animation: rainbow 3s ease infinite;
-      transition: all 0.4s ease;
-      display: inline-block;
-    }
-
-    body.light-theme .contact-icon {
-      background: var(--primary);
-      -webkit-text-fill-color: var(--primary);
-      animation: none;
-    }
-
-    .contact-icon:hover {
-      transform: scale(1.3) rotate(20deg);
-    }
-
-    @keyframes rainbow {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    /* === ПОДВАЛ === */
-    .footer {
-      background: linear-gradient(135deg, #1e1e2d, #2d1e2e);
-      background-size: 400% 400%;
-      animation: footerGradient 15s ease infinite;
-      color: #FFF9C4;
-      padding: 80px 0 40px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    body.light-theme .footer {
-      background: #f8f9fa;
-      color: #555;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    .footer a {
-      color: #FFF9C4;
-      transition: all 0.3s ease;
-    }
-
-    body.light-theme .footer a {
-      color: #2196F3;
-    }
-
-    .footer a:hover {
-      color: #FFCC80;
-      transform: scale(1.15) rotate(5deg);
-    }
-
-    body.light-theme .footer a:hover {
-      transform: scale(1.1) rotate(0);
-      color: #4CAF50;
-    }
-
-    /* === ОБЩАЯ АНИМАЦИЯ === */
-    .animate-on-scroll {
-      opacity: 0;
-      transform: translateY(60px);
-      transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-
-    .animate-on-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* === ФОТО В НОВОСТИ === */
-    .news-card img {
-      max-height: 200px;
-      object-fit: cover;
-      width: 100%;
-      border-radius: 12px;
-      margin: 10px 0;
-      border: 2px solid var(--card-border-dark);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    body.light-theme .news-card img {
-      border: 2px solid var(--card-border-light);
-    }
-
-    .news-card:hover img {
-      transform: scale(1.05);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    /* === ШРИФТЫ === */
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-    }
-
-    p, li, a {
-      font-family: 'Poppins', sans-serif;
-    }
-
-    /* === УБРАТЬ БУРГЕР-МЕНЮ === */
-    .navbar-toggler {
-      display: none;
-    }
-
-    /* === ТЕКСТ НОВОСТИ === */
-    .news-text {
-      white-space: pre-line;
-      margin: 10px 0;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-    }
-
-    .news-text.expanded {
-      -webkit-line-clamp: unset;
-      max-height: none;
-    }
-
-    /* === КНОПКА ПОДРОБНЕЕ === */
-    .read-more-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .read-more-btn:hover {
-      background: #388e3c;
-      transform: scale(1.05);
-    }
-
-    /* === УЛУЧШЕНИЕ АВТОРА === */
-    .news-author {
-      font-weight: 600;
-      color: #4CAF50;
-      font-style: normal;
-      margin: 5px 0 10px 0;
-      display: block;
     }
   </style>
 </head>
