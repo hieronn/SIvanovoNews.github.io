@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Новости села Иваново</title>
 
-  <!-- Новый Favicon (зелёный лист с анимацией) -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>" type="image/svg+xml">
+  <!-- Favicon (иконка вкладки) -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/25/25231.png" type="image/png"> <!-- Зелёный лист с каплей росы -->
 
-  <!-- Новый шрифт - более "рисованный" -->
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Amatic+SC:wght@400;700&family=Gochi+Hand&display=swap" rel="stylesheet">
+  <!-- Google Fonts - рисованные шрифты -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Fredoka+One&family=Indie+Flower&family=Patrick+Hand&display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -18,33 +19,18 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
   <style>
-    /* === НОВЫЕ ШРИФТЫ === */
-    body {
-      font-family: 'Caveat', cursive;
-      font-size: 1.3rem;
-      line-height: 1.6;
+    /* === ГЛОБАЛЬНЫЙ ШРИФТ === */
+    body, h1, h2, h3, h4, h5, h6, p, li, a, .btn, .navbar-brand, .news-text, .date-badge, .news-author {
+      font-family: 'Dancing Script', 'Patrick Hand', 'Indie Flower', cursive !important;
+      font-weight: 500;
     }
-    
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Amatic SC', cursive;
-      font-weight: 700;
-    }
-    
-    .navbar-brand {
-      font-family: 'Gochi Hand', cursive;
-    }
-    
-    /* Увеличиваем размер шрифта для лучшей читаемости */
-    p, li, a, span {
-      font-size: 1.4rem;
-    }
-    
+
     /* === АНИМИРОВАННЫЙ ЛИСТОЧЕК === */
     .animated-leaf {
       display: inline-block;
       color: #4CAF50;
-      font-size: 2.5rem;
-      margin-right: 15px;
+      font-size: 2rem;
+      margin-right: 12px;
       animation: sway 3s ease-in-out infinite alternate;
       filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
       transition: all 0.3s ease;
@@ -65,7 +51,7 @@
     /* === АНИМИРОВАННЫЙ ЗАГОЛОВОК === */
     .animated-title {
       display: inline-block;
-      font-size: 2rem;
+      font-size: 1.3rem;
       font-weight: 600;
       background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39, #FFEB3B, #FF9800, #F44336, #E91E63);
       background-size: 400% 100%;
@@ -73,7 +59,7 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: rainbowFlow 5s ease infinite;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       line-height: 1.2;
       transition: all 0.3s ease;
     }
@@ -95,8 +81,8 @@
       border: none;
       display: flex;
       align-items: center;
-      padding: 15px 20px;
-      border-radius: 20px;
+      padding: 12px 18px;
+      border-radius: 18px;
       transition: all 0.4s ease;
       backdrop-filter: blur(12px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -139,6 +125,7 @@
     }
 
     body {
+      font-family: 'Dancing Script', 'Patrick Hand', 'Indie Flower', cursive;
       background: var(--dark-bg);
       background-size: 600% 600%;
       animation: gradientBG 30s ease infinite;
@@ -262,8 +249,7 @@
       transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
-      font-size: 1.4rem;
-      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
     }
 
     .btn-gradient::before {
@@ -291,13 +277,12 @@
       font-weight: 700;
       padding: 16px 45px;
       border-radius: 60px;
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       box-shadow: 0 10px 30px rgba(106, 17, 203, 0.4);
       transition: all 0.4s ease;
       text-decoration: none;
       display: inline-block;
       border: none;
-      font-family: 'Caveat', cursive;
     }
 
     .btn-bot:hover {
@@ -338,7 +323,7 @@
       display: inline-block;
       padding: 6px 14px;
       border-radius: 50px;
-      font-size: 1rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: white;
       margin-bottom: 12px;
@@ -354,7 +339,7 @@
 
     /* === О СЕЛЕ === */
     .section-about {
-      padding: 150px 0;
+      padding: 150px 0; /* Увеличил отступ сверху и снизу */
       background: rgba(30, 30, 45, 0.8);
       backdrop-filter: blur(10px);
     }
@@ -381,14 +366,14 @@
 
     /* === Увеличенный заголовок "О селе" === */
     .section-about h2 {
-      font-size: 3.5rem !important;
+      font-size: 2.8rem !important;
       margin-bottom: 3rem;
       text-align: center;
     }
 
     /* === АНИМИРОВАННЫЕ ИКОНКИ === */
     .feature-icon {
-      font-size: 4.5rem;
+      font-size: 4rem;
       color: #4CAF50;
       margin-bottom: 20px;
       transition: all 0.4s ease;
@@ -449,30 +434,40 @@
       background: #f8f9fa;
     }
 
-    /* Анимированные иконки контактов */
     .contact-icon {
-      font-size: 4rem;
+      font-size: 3.5rem !important; /* Увеличенный размер */
       background: var(--gradient-rainbow);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       background-size: 300% 100%;
-      animation: rainbow 3s ease infinite;
+      animation: rainbow 2s ease infinite;
       transition: all 0.4s ease;
       display: inline-block;
-      margin-bottom: 15px;
+      transform: translateY(0);
+      animation: bounceAndRainbow 2s ease infinite;
+    }
+
+    @keyframes bounceAndRainbow {
+      0%, 100% {
+        transform: translateY(0);
+        background-position: 0% 50%;
+      }
+      50% {
+        transform: translateY(-15px) rotate(10deg);
+        background-position: 100% 50%;
+      }
     }
 
     body.light-theme .contact-icon {
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbow 3s ease infinite;
+      background: var(--primary);
+      -webkit-text-fill-color: var(--primary);
+      animation: none;
     }
 
     .contact-icon:hover {
-      transform: scale(1.3) rotate(20deg);
-      animation: rainbow 1s ease infinite;
+      transform: scale(1.5) rotate(30deg) !important;
+      filter: drop-shadow(0 0 20px rgba(255,255,255,0.8));
     }
 
     @keyframes rainbow {
@@ -547,78 +542,189 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    /* === АДМИН ПАНЕЛЬ === */
-    #admin-panel {
+    /* === УБРАТЬ БУРГЕР-МЕНЮ === */
+    .navbar-toggler {
+      display: none;
+    }
+
+    /* === ТЕКСТ НОВОСТИ === */
+    .news-text {
+      white-space: pre-line;
+      margin: 10px 0;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      font-size: 1.1rem;
+    }
+
+    .news-text.expanded {
+      -webkit-line-clamp: unset;
+      max-height: none;
+    }
+
+    /* === КНОПКА ПОДРОБНЕЕ === */
+    .read-more-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .read-more-btn:hover {
+      background: #388e3c;
+      transform: scale(1.05);
+    }
+
+    /* === УЛУЧШЕНИЕ АВТОРА === */
+    .news-author {
+      font-weight: 600;
+      color: #4CAF50;
+      font-style: normal;
+      margin: 5px 0 10px 0;
+      display: block;
+      font-size: 1.2rem;
+    }
+
+    /* === АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ УСТРОЙСТВА === */
+    @media (max-width: 768px) {
+      .hero {
+        height: auto;
+        min-height: 400px;
+        padding: 80px 20px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem !important;
+      }
+      
+      .hero p {
+        font-size: 1.1rem !important;
+      }
+      
+      .section-about {
+        padding: 80px 0;
+      }
+      
+      .about-card {
+        padding: 30px 20px;
+      }
+      
+      .feature-icon {
+        font-size: 2.5rem;
+      }
+      
+      .contact-icon {
+        font-size: 2.8rem !important;
+      }
+      
+      .theme-toggle {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      .music-toggle {
+        width: 40px;
+        height: 40px;
+        bottom: 80px;
+        right: 20px;
+        font-size: 1rem;
+      }
+      
+      .news-text {
+        font-size: 1rem;
+      }
+      
+      .news-author {
+        font-size: 1rem;
+      }
+      
+      .date-badge {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+      }
+      
+      .btn-gradient, .btn-bot {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+    }
+
+    /* === АДМИН-ПАНЕЛЬ === */
+    .admin-panel {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      color: white;
-      padding: 15px;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
       z-index: 9999;
       display: none;
-      backdrop-filter: blur(10px);
-      border-bottom: 2px solid #4CAF50;
-    }
-
-    .admin-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      color: white;
+      padding: 20px;
+      backdrop-filter: blur(5px);
     }
 
-    .admin-btn {
-      background: var(--gradient-primary);
+    .admin-panel.active {
+      display: flex;
+    }
+
+    .admin-panel h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #4CAF50;
+      text-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+    }
+
+    .admin-panel .btn {
+      margin: 10px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 15px;
+    }
+
+    .admin-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #E91E63;
       color: white;
       border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
       cursor: pointer;
-      margin: 0 5px;
-      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .admin-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+    .admin-close:hover {
+      transform: rotate(90deg);
+      background: #F44336;
     }
 
-    /* === АДАПТИВНОСТЬ === */
-    @media (max-width: 768px) {
-      body {
-        font-size: 1.2rem;
-      }
-      
-      .hero h1 {
-        font-size: 2.5rem !important;
-      }
-      
-      .contact-icon {
-        font-size: 3rem;
-      }
-      
-      .feature-icon {
-        font-size: 3.5rem;
-      }
+    /* === СКРЫТЫЙ ФОРМ-ЭЛЕМЕНТ ДЛЯ МОБИЛЬНОГО ТРИГГЕРА === */
+    #volumeTrigger {
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      opacity: 0;
     }
   </style>
 </head>
 <body>
-
-<!-- АДМИН ПАНЕЛЬ (скрыта по умолчанию) -->
-<div id="admin-panel">
-  <div class="admin-content">
-    <h4 style="margin: 0; font-family: 'Amatic SC', cursive;">Панель администратора</h4>
-    <div>
-      <button class="admin-btn" onclick="addNews()">Добавить новость</button>
-      <button class="admin-btn" onclick="editNews()">Редактировать</button>
-      <button class="admin-btn" onclick="hideAdminPanel()">Скрыть</button>
-    </div>
-  </div>
-</div>
 
 <!-- АНИМИРОВАННАЯ НАВИГАЦИЯ -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
@@ -648,7 +754,7 @@
   <!-- Главный баннер -->
   <section id="home" class="hero">
     <div class="container-fluid">
-      <h1 class="display-3 fw-bold mb-4" style="font-size: 4rem !important;">
+      <h1 class="display-3 fw-bold mb-4">
         <script>
           document.write(
             "Добро пожаловать в Иваново!".split(" ").map((word, i) => 
@@ -657,7 +763,7 @@
           );
         </script>
       </h1>
-      <p class="lead fs-4 mb-5" style="font-size: 2rem !important;">
+      <p class="lead fs-4 mb-5">
         <script>
           document.write(
             "Самые свежие новости, события и традиции — прямо из сердца нашей деревни".split(" ").map((word, i) => 
@@ -672,10 +778,10 @@
     </div>
   </section>
 
-  <!-- Новости (ПОДНЯТЫ ВЫШЕ) -->
+  <!-- Новости -->
   <section id="news" class="container-fluid py-5">
     <div class="container">
-      <h2 class="text-center mb-5 fw-bold" style="background: var(--gradient-rainbow); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.5rem !important;">
+      <h2 class="text-center mb-5 fw-bold" style="background: var(--gradient-rainbow); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         Последние новости
       </h2>
       <div class="row" id="news-container">
@@ -708,7 +814,7 @@ ria.ru/20250820/r...
   <section id="about" class="section-about">
     <div class="container-fluid">
       <div class="container">
-        <h2 class="text-center mb-5 fw-bold animate-on-scroll" style="background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.5rem !important;">
+        <h2 class="text-center mb-5 fw-bold animate-on-scroll" style="background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
           О селе Иваново
         </h2>
         <div class="row align-items-center justify-content-center">
@@ -753,8 +859,8 @@ ria.ru/20250820/r...
   <section id="shop" class="section-shop">
     <div class="container">
       <i class="fas fa-store fa-4x mb-4"></i>
-      <h2 class="fw-bold animate-on-scroll" style="font-size: 3rem !important;">🛒 Наш магазин — скоро откроется!</h2>
-      <p class="lead animate-on-scroll" style="animation-delay: 0.3s; font-size: 1.6rem !important;">
+      <h2 class="fw-bold animate-on-scroll">🛒 Наш магазин — скоро откроется!</h2>
+      <p class="lead animate-on-scroll" style="animation-delay: 0.3s;">
         Покупайте <strong>местные продукты</strong>: мёд, овощи, ягоды, варенье, грибы, сувениры ручной работы и так далее.
       </p>
       <button class="btn btn-gradient animate-on-scroll" style="animation-delay: 0.6s;" 
@@ -767,11 +873,11 @@ ria.ru/20250820/r...
   <!-- Бот -->
   <section class="bot-section animate-on-scroll">
     <div class="container">
-      <h2 style="font-size: 3rem !important;"><i class="fab fa-telegram me-3"></i> Прислать новость</h2>
-      <p class="lead" style="font-size: 1.6rem !important;">
+      <h2><i class="fab fa-telegram me-3"></i> Прислать новость</h2>
+      <p class="lead">
         <strong>Стало что-то известно? Произошло событие? Сфотографировали интересное место?</strong>
       </p>
-      <p class="lead" style="font-size: 1.6rem !important;">
+      <p class="lead">
         Напишите нашему боту — и мы опубликуем новость!
       </p>
       <a href="https://t.me/SIvanovoNewsBot" target="_blank" rel="noopener" class="btn-bot">
@@ -785,7 +891,7 @@ ria.ru/20250820/r...
 
   <!-- Контакты -->
   <section id="contact" class="container my-5 animate-on-scroll">
-    <h2 class="text-center mb-5 fw-bold" style="background: var(--gradient-rainbow); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 3.5rem !important;">
+    <h2 class="text-center mb-5 fw-bold" style="background: var(--gradient-rainbow); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
       Связаться с нами
     </h2>
     <div class="row justify-content-center">
@@ -859,6 +965,20 @@ ria.ru/20250820/r...
     <source src="https://cdn.pixabay.com/audio/2022/04/27/audio_3d3d6d6f9d.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- Админ-панель -->
+  <div class="admin-panel" id="admin-panel">
+    <button class="admin-close" id="admin-close">×</button>
+    <h2>Административная панель</h2>
+    <button class="btn btn-gradient" onclick="alert('Добавить новость')">Добавить новость</button>
+    <button class="btn btn-gradient" onclick="alert('Редактировать новости')">Редактировать новости</button>
+    <button class="btn btn-gradient" onclick="alert('Настройки сайта')">Настройки сайта</button>
+    <button class="btn btn-gradient" onclick="alert('Статистика')">Статистика</button>
+    <button class="btn btn-danger" onclick="document.getElementById('admin-panel').classList.remove('active')">Выйти</button>
+  </div>
+
+  <!-- Скрытый элемент для триггера на мобильных -->
+  <input type="volume" id="volumeTrigger">
+
   <!-- Подключаем jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
@@ -869,6 +989,12 @@ ria.ru/20250820/r...
     const themeIcon = themeToggle.querySelector('i');
     const musicIcon = musicToggle.querySelector('i');
     const music = document.getElementById('background-music');
+    const adminPanel = document.getElementById('admin-panel');
+    const adminClose = document.getElementById('admin-close');
+    
+    // Счетчик нажатий громкости для мобильных устройств
+    let volumePressCount = 0;
+    let volumePressTimer = null;
 
     // Загружаем сохранённую тему
     const savedTheme = localStorage.getItem('theme');
@@ -938,6 +1064,60 @@ ria.ru/20250820/r...
         el.innerHTML = withLinks;
       }
     });
+
+    // === АДМИН-ПАНЕЛЬ НА ПК (нажатие "/") ===
+    document.addEventListener('keydown', function(event) {
+      if (event.key === '/' && window.innerWidth > 768) {
+        event.preventDefault();
+        adminPanel.classList.toggle('active');
+      }
+    });
+
+    // === АДМИН-ПАНЕЛЬ НА МОБИЛЬНЫХ (3 нажатия на кнопку громкости) ===
+    // Имитация нажатий громкости через кнопку музыки (реальные события громкости недоступны в браузере)
+    musicToggle.addEventListener('click', function() {
+      volumePressCount++;
+      
+      if (volumePressTimer) {
+        clearTimeout(volumePressTimer);
+      }
+      
+      if (volumePressCount >= 3) {
+        adminPanel.classList.add('active');
+        volumePressCount = 0;
+      } else {
+        volumePressTimer = setTimeout(() => {
+          volumePressCount = 0;
+        }, 1000);
+      }
+    });
+
+    // Закрытие админ-панели
+    adminClose.addEventListener('click', function() {
+      adminPanel.classList.remove('active');
+    });
+
+    // Обработка изменения ориентации для мобильных устройств
+    window.addEventListener('orientationchange', function() {
+      // Просто для совместимости
+    });
+
+    // Адаптация под мобильные устройства
+    function checkScreenSize() {
+      if (window.innerWidth <= 768) {
+        // Мобильная версия
+        document.body.classList.add('mobile-view');
+      } else {
+        // Десктопная версия
+        document.body.classList.remove('mobile-view');
+      }
+    }
+
+    // Проверяем при загрузке страницы
+    checkScreenSize();
+    
+    // Проверяем при изменении размера окна
+    window.addEventListener('resize', checkScreenSize);
   </script>
 </body>
 </html>
