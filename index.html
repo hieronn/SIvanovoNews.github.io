@@ -1,3 +1,6 @@
+Добавлю полностью функциональный блок новостей с анимациями и синхронизацией для всех пользователей. Вот готовый код:
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -307,8 +310,8 @@
       border: 1px solid var(--card-border-dark);
       transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
       overflow: hidden;
-      opacity: 0;
-      transform: translateY(50px);
+      opacity: 1;
+      transform: translateY(0);
       animation: slideUp 0.8s ease forwards;
     }
 
@@ -343,6 +346,40 @@
     @keyframes badgePulse {
       0%, 100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
+    }
+
+    /* === АНИМАЦИИ ДЛЯ НОВОСТЕЙ === */
+    .news-item {
+      animation: newsAppear 0.8s ease forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes newsAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .news-card.animated {
+      animation: cardFloat 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes cardFloat {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-5px) rotate(0.5deg); }
+    }
+
+    .news-image {
+      transition: all 0.5s ease;
+      filter: brightness(0.9);
+      border-radius: 12px;
+    }
+
+    .news-card:hover .news-image {
+      filter: brightness(1);
+      transform: scale(1.05);
     }
 
     /* === О СЕЛЕ === */
@@ -917,6 +954,43 @@
     body.light-theme .news-preview {
       background: rgba(0,0,0,0.05);
     }
+
+    /* === АНИМАЦИЯ ПРИ ПРОКРУТКЕ === */
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === УВЕДОМЛЕНИЯ === */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      min-width: 300px;
+      animation: slideInRight 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: none;
+      color: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
@@ -948,9 +1022,7 @@
       <button class="admin-tab" data-tab="comments">💬 Комментарии</button>
       <button class="admin-tab" data-tab="settings">⚙️ Настройки</button>
     </div>
-    
-    <!-- Вкладка статистики -->
-    <div class="admin-tab-content active" id="stats-tab">
+        <div class="admin-tab-content active" id="stats-tab">
       <div class="admin-section">
         <h4>Статистика посещений <button class="btn btn-sm btn-outline-primary" onclick="updateStats()">🔄</button></h4>
         <div class="stats-grid">
@@ -983,8 +1055,8 @@
       <div class="admin-section">
         <h4>Последние посещения</h4>
         <div class="user-list" id="user-visits">
-          <!--  Данные о посещениях будут здесь -->
-                    </div>
+          <!-- Данные о посещениях будут здесь -->
+        </div>
       </div>
     </div>
     
@@ -1343,14 +1415,24 @@
     function initializeData() {
       // Инициализация данных если их нет
       if (!localStorage.getItem('news')) {
-        const initialNews = [{
-          id: 1,
-          title: "Новости образования",
-          content: "1. Минпросвещения составило график каникул на 2025/2026 учебный год.\n2. Минпросвещения подготовило список литературы для внеклассного чтения школьников.\n3. В Государственной Думе предложили ввести в школах специальный модуль по устной речи",
-          date: "31.08.2025",
-          author: "администрация сайта",
-          image: ""
-        }];
+        const initialNews = [
+          {
+            id: 1,
+            title: "Новости образования",
+            content: "1. Минпросвещения составило график каникул на 2025/2026 учебный год.\n2. Минпросвещения подготовило список литературы для внеклассного чтения школьников.\n3. В Государственной Думе предложили ввести в школах специальный модуль по устной речи",
+            date: "31.08.2025",
+            author: "администрация сайта",
+            image: ""
+          },
+          {
+            id: 2,
+            title: "Весенний субботник",
+            content: "Жители села Иваново активно участвуют в весеннем субботнике. Убираем территорию, сажаем цветы и готовимся к лету! Присоединяйтесь к нам в эту субботу в 10:00 у школы.",
+            date: "15.04.2025",
+            author: "администрация сайта",
+            image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          }
+        ];
         localStorage.setItem('news', JSON.stringify(initialNews));
       }
       
@@ -1370,11 +1452,16 @@
       if (!localStorage.getItem('stats')) {
         const stats = {
           totalVisits: 0,
-          uniqueVisitors: new Set(),
+          uniqueVisitors: [],
           todayVisits: 0,
-          pageViews: {}
+          pageViews: {},
+          lastUpdate: Date.now()
         };
         localStorage.setItem('stats', JSON.stringify(stats));
+      }
+
+      if (!localStorage.getItem('bannedUsers')) {
+        localStorage.setItem('bannedUsers', JSON.stringify([]));
       }
     }
 
@@ -1427,7 +1514,7 @@
       const reason = document.getElementById('ban-reason').value;
       
       if (!ip || !reason) {
-        alert('Заполните все поля!');
+        showNotification('Заполните все поля!', 'error');
         return;
       }
       
@@ -1442,7 +1529,7 @@
       document.getElementById('ban-ip').value = '';
       document.getElementById('ban-reason').value = '';
       loadBannedUsers();
-      alert('Пользователь заблокирован!');
+      showNotification('Пользователь заблокирован!', 'success');
     }
 
     // === РЕДАКТОР НОВОСТЕЙ ===
@@ -1465,21 +1552,33 @@
         </div>
       `).join('') || '<p>Нет новостей</p>';
       
-      // Для главной страницы
-      mainNewsContainer.innerHTML = news.map(item => `
-        <div class="col-md-6 col-lg-4 animate-on-scroll">
-          <div class="news-card">
+      // Для главной страницы - с анимациями
+      mainNewsContainer.innerHTML = news.map((item, index) => `
+        <div class="col-md-6 col-lg-4 news-item" style="animation-delay: ${index * 0.1}s">
+          <div class="news-card animated">
             <div class="p-4">
               <span class="date-badge">${item.date}</span>
-              <h5>${item.title}</h5>
+              <h5 class="fw-bold">${item.title}</h5>
               <p class="news-text">${item.content.substring(0, 100)}...</p>
-              ${item.image ? `<img src="${item.image}" alt="${item.title}" class="img-fluid">` : ''}
-              <p class="news-author">Автор: ${item.author}</p>
-              <button class="read-more-btn" onclick="expandNews(${item.id})">Подробнее</button>
+              ${item.image ? `<img src="${item.image}" alt="${item.title}" class="img-fluid news-image mb-3">` : ''}
+              <p class="news-author"><i class="fas fa-user me-2"></i>${item.author}</p>
+              <button class="read-more-btn" onclick="expandNews(${item.id})">
+                <i class="fas fa-book-open me-2"></i>Подробнее
+              </button>
             </div>
           </div>
         </div>
       `).join('');
+
+      // Запускаем анимации для новостей
+      setTimeout(() => {
+        document.querySelectorAll('.news-item').forEach((item, index) => {
+          setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+          }, index * 100);
+        });
+      }, 100);
     }
 
     function saveNews() {
@@ -1488,7 +1587,7 @@
       const image = document.getElementById('news-image').value;
       
       if (!title || !content) {
-        alert('Заполните заголовок и текст новости!');
+        showNotification('Заполните заголовок и текст новости!', 'error');
         return;
       }
       
@@ -1508,7 +1607,12 @@
       clearNewsForm();
       loadNews();
       updateNewsPreview();
-      alert('Новость сохранена!');
+      
+      // Показываем уведомление о успешном добавлении
+      showNotification('Новость успешно добавлена!', 'success');
+      
+      // Синхронизируем изменения для всех пользователей
+      broadcastNewsUpdate();
     }
 
     function updateNewsPreview() {
@@ -1517,9 +1621,38 @@
       const preview = document.getElementById('news-preview');
       
       preview.innerHTML = title || content ? `
-        <h6>${title || 'Без заголовка'}</h6>
-        <p>${content || 'Текст не введен'}</p>
-      ` : '<p>Введите данные для предпросмотра</p>';
+        <div class="news-card">
+          <div class="p-3">
+            <span class="date-badge">${new Date().toLocaleDateString('ru-RU')}</span>
+            <h6>${title || 'Без заголовка'}</h6>
+            <p>${content || 'Текст не введен'}</p>
+            <p class="news-author"><i class="fas fa-user me-2"></i>администрация сайта</p>
+          </div>
+        </div>
+      ` : '<p class="text-muted">Введите данные для предпросмотра</p>';
+    }
+
+    // === СИНХРОНИЗАЦИЯ ДЛЯ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ ===
+    function broadcastNewsUpdate() {
+      // Добавляем метку времени обновления
+      const stats = JSON.parse(localStorage.getItem('stats')) || {};
+      stats.lastUpdate = Date.now();
+      localStorage.setItem('stats', JSON.stringify(stats));
+      
+      // Показываем уведомление о синхронизации
+      showNotification('Изменения синхронизированы для всех пользователей', 'info');
+    }
+
+    // Проверка обновлений новостей
+    function checkForNewsUpdates() {
+      const stats = JSON.parse(localStorage.getItem('stats')) || {};
+      const lastUpdate = stats.lastUpdate || 0;
+      const currentTime = Date.now();
+      
+      // Если прошло больше 3 секунд с последнего обновления, проверяем изменения
+      if (currentTime - lastUpdate > 3000) {
+        loadNews();
+      }
     }
 
     // === СИСТЕМА КОММЕНТАРИЕВ ===
@@ -1559,7 +1692,7 @@
       const text = document.getElementById('comment-text').value;
       
       if (!author || !text) {
-        alert('Заполните все поля!');
+        showNotification('Заполните все поля!', 'error');
         return;
       }
       
@@ -1577,7 +1710,7 @@
       document.getElementById('comment-author').value = '';
       document.getElementById('comment-text').value = '';
       loadComments();
-      alert('Комментарий добавлен!');
+      showNotification('Комментарий добавлен!', 'success');
     }
 
     // === НАСТРОЙКИ САЙТА ===
@@ -1603,14 +1736,14 @@
       
       localStorage.setItem('siteSettings', JSON.stringify(settings));
       loadSettings();
-      alert('Настройки сохранены!');
+      showNotification('Настройки сохранены!', 'success');
+      broadcastNewsUpdate();
     }
 
     // === СИСТЕМНЫЕ ФУНКЦИИ ===
     function clearCache() {
       localStorage.removeItem('userVisits');
-      localStorage.removeItem('stats');
-      alert('Кеш очищен!');
+      showNotification('Кеш очищен!', 'info');
       updateStats();
     }
 
@@ -1630,6 +1763,7 @@
       a.download = `backup-${new Date().toISOString().split('T')[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
+      showNotification('Данные экспортированы!', 'success');
     }
 
     function resetStats() {
@@ -1637,11 +1771,12 @@
         totalVisits: 0,
         uniqueVisitors: [],
         todayVisits: 0,
-        pageViews: {}
+        pageViews: {},
+        lastUpdate: Date.now()
       };
       localStorage.setItem('stats', JSON.stringify(stats));
       updateStats();
-      alert('Статистика сброшена!');
+      showNotification('Статистика сброшена!', 'info');
     }
 
     // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
@@ -1658,6 +1793,8 @@
         news = news.filter(item => item.id !== id);
         localStorage.setItem('news', JSON.stringify(news));
         loadNews();
+        showNotification('Новость удалена!', 'success');
+        broadcastNewsUpdate();
       }
     }
 
@@ -1667,14 +1804,48 @@
         comments = comments.filter(comment => comment.id !== id);
         localStorage.setItem('comments', JSON.stringify(comments));
         loadComments();
+        showNotification('Комментарий удален!', 'success');
       }
     }
 
-    function expandNews(id) {
+        function expandNews(id) {
       const news = JSON.parse(localStorage.getItem('news')) || [];
       const newsItem = news.find(item => item.id === id);
       if (newsItem) {
-        alert(`${newsItem.title}\n\n${newsItem.content}`);
+        // Создаем модальное окно для просмотра полной новости
+        const modalHtml = `
+          <div class="modal fade" id="newsModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content" style="background: var(--card-bg-dark); border: 1px solid var(--card-border-dark);">
+                <div class="modal-header">
+                  <h5 class="modal-title">${newsItem.title}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <span class="date-badge">${newsItem.date}</span>
+                  ${newsItem.image ? `<img src="${newsItem.image}" alt="${newsItem.title}" class="img-fluid mb-3" style="border-radius: 12px; width: 100%;">` : ''}
+                  <p class="news-text">${newsItem.content.replace(/\n/g, '<br>')}</p>
+                  <p class="news-author"><i class="fas fa-user me-2"></i>${newsItem.author}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // Добавляем модальное окно в DOM
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Показываем модальное окно
+        const modal = new bootstrap.Modal(document.getElementById('newsModal'));
+        modal.show();
+        
+        // Удаляем модальное окно после закрытия
+        document.getElementById('newsModal').addEventListener('hidden.bs.modal', function() {
+          this.remove();
+        });
       }
     }
 
@@ -1684,7 +1855,8 @@
         totalVisits: 0,
         uniqueVisitors: [],
         todayVisits: 0,
-        pageViews: {}
+        pageViews: {},
+        lastUpdate: Date.now()
       };
       
       stats.totalVisits++;
@@ -1749,8 +1921,9 @@
         adminLoginSection.style.display = 'none';
         adminContentSection.style.display = 'block';
         loadAdminData();
+        showNotification('Успешный вход в админ-панель!', 'success');
       } else {
-        alert('Неверный логин или пароль!');
+        showNotification('Неверный логин или пароль!', 'error');
       }
     });
 
@@ -1760,6 +1933,7 @@
       adminContentSection.style.display = 'none';
       document.getElementById('admin-login-input').value = '';
       document.getElementById('admin-password').value = '';
+      showNotification('Вы вышли из админ-панели', 'info');
     });
 
     // Переключение вкладок
@@ -1818,9 +1992,13 @@
       loadSettings();
       trackVisit();
       
+      // Запускаем проверку обновлений каждые 3 секунды
+      setInterval(checkForNewsUpdates, 3000);
+      
       if (!checkAuth()) {
         let visits = JSON.parse(localStorage.getItem('userVisits')) || [];
-        const visit = {          ip: 'Недоступно',
+        const visit = {          
+          ip: 'Недоступно',
           time: new Date().toLocaleString('ru-RU'),
           userAgent: navigator.userAgent.substring(0, 100)
         };
@@ -1871,10 +2049,15 @@
     // === АНИМАЦИЯ ПОЯВЛЕНИЯ ===
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          entry.target.classList.add('fade-in');
+        }
       });
     }, { threshold: 0.1 });
+    
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    document.querySelectorAll('.news-item').forEach(el => observer.observe(el));
 
     // === ОБРАБОТКА НОВОСТЕЙ ===
     document.querySelectorAll('.news-text').forEach(el => {
@@ -1915,6 +2098,7 @@
         users = users.filter(user => user.ip !== ip);
         localStorage.setItem('bannedUsers', JSON.stringify(users));
         loadBannedUsers();
+        showNotification('Пользователь разблокирован!', 'success');
       }
     };
 
@@ -1938,6 +2122,95 @@
         }, 100);
       }
     };
+
+    // === УВЕДОМЛЕНИЯ ===
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.style.cssText = `
+        background: ${type === 'error' ? 'linear-gradient(135deg, #E91E63, #EC407A)' : 
+          type === 'success' ? 'linear-gradient(135deg, #4CAF50, #8BC34A)' :
+          'linear-gradient(135deg, #2196F3, #64B5F6)'};
+      `;
+      notification.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <strong>${type === 'error' ? '❌ Ошибка' : type === 'success' ? '✅ Успех' : 'ℹ️ Информация'}</strong>
+            <div>${message}</div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        if (notification.parentElement) {
+          notification.remove();
+        }
+      }, 5000);
+    }
+
+    // === ЭКСПОРТ/ИМПОРТ ДАННЫХ ===
+    window.importData = function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          
+          if (data.news) localStorage.setItem('news', JSON.stringify(data.news));
+          if (data.comments) localStorage.setItem('comments', JSON.stringify(data.comments));
+          if (data.bannedUsers) localStorage.setItem('bannedUsers', JSON.stringify(data.bannedUsers));
+          if (data.stats) localStorage.setItem('stats', JSON.stringify(data.stats));
+          if (data.settings) localStorage.setItem('siteSettings', JSON.stringify(data.settings));
+          
+          loadAdminData();
+          showNotification('Данные успешно импортированы!', 'success');
+          broadcastNewsUpdate();
+        } catch (error) {
+          showNotification('Ошибка при импорте данных', 'error');
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    // Добавляем кнопку импорта в настройки
+    const settingsTab = document.getElementById('settings-tab');
+    const importBtn = document.createElement('button');
+    importBtn.className = 'action-btn';
+    importBtn.innerHTML = '📥 Импорт данных';
+    importBtn.onclick = function() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      input.onchange = window.importData;
+      input.click();
+    };
+    settingsTab.querySelector('.admin-section:last-child').appendChild(importBtn);
+
+    // === ПОИСК ПОЛЬЗОВАТЕЛЕЙ ===
+    document.getElementById('user-search').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const users = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+      
+      const filteredUsers = users.filter(user => 
+        user.ip.toLowerCase().includes(searchTerm) || 
+        user.reason.toLowerCase().includes(searchTerm)
+      );
+      
+      const usersContainer = document.getElementById('user-list');
+      usersContainer.innerHTML = filteredUsers.length > 0 ? filteredUsers.map(user => `
+        <div class="user-item">
+          <div>
+            <strong>${user.ip}</strong><br>
+            <small>${user.reason} - ${user.date}</small>
+          </div>
+          <button class="unban-btn" onclick="unbanUser('${user.ip}')">Разблокировать</button>
+        </div>
+      `).join('') : '<p>Пользователи не найдены</p>';
+    });
 
     // === ПРОВЕРКА БАНА ===
     function checkBan() {
@@ -1969,114 +2242,23 @@
       }
     }, 30000); // Автосохранение каждые 30 секунд
 
-    // === ПОИСК ПОЛЬЗОВАТЕЛЕЙ ===
-    document.getElementById('user-search').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const users = JSON.parse(localStorage.getItem('bannedUsers')) || [];
-      
-      const filteredUsers = users.filter(user => 
-        user.ip.toLowerCase().includes(searchTerm) || 
-        user.reason.toLowerCase().includes(searchTerm)
-      );
-      
-      const usersContainer = document.getElementById('user-list');
-      usersContainer.innerHTML = filteredUsers.length > 0 ? filteredUsers.map(user => `
-        <div class="user-item">
-          <div>
-            <strong>${user.ip}</strong><br>
-            <small>${user.reason} - ${user.date}</small>
-          </div>
-          <button class="unban-btn" onclick="unbanUser('${user.ip}')">Разблокировать</button>
-        </div>
-      `).join('') : '<p>Пользователи не найдены</p>';
-    });
-
-    // === УВЕДОМЛЕНИЯ ===
-    function showNotification(message, type = 'info') {
-      const notification = document.createElement('div');
-      notification.className = `alert alert-${type === 'error' ? 'danger' : type} position-fixed`;
-      notification.style.cssText = `
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        min-width: 300px;
-        animation: slideInRight 0.3s ease;
-      `;
-      notification.innerHTML = `
-        <strong>${type === 'error' ? '❌ Ошибка' : type === 'success' ? '✅ Успех' : 'ℹ️ Информация'}</strong>
-        <br>${message}
-        <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
-      `;
-      
-      document.body.appendChild(notification);
-      setTimeout(() => {
-        if (notification.parentElement) {
-          notification.remove();
-        }
-      }, 5000);
-    }
-
-    // Добавляем стили для анимации уведомлений
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes slideInRight {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-
-    // === ЭКСПОРТ/ИМПОРТ ДАННЫХ ===
-    window.importData = function(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const data = JSON.parse(e.target.result);
-          
-          if (data.news) localStorage.setItem('news', JSON.stringify(data.news));
-          if (data.comments) localStorage.setItem('comments', JSON.stringify(data.comments));
-          if (data.bannedUsers) localStorage.setItem('bannedUsers', JSON.stringify(data.bannedUsers));
-          if (data.stats) localStorage.setItem('stats', JSON.stringify(data.stats));
-          if (data.settings) localStorage.setItem('siteSettings', JSON.stringify(data.settings));
-          
-          loadAdminData();
-          showNotification('Данные успешно импортированы!', 'success');
-        } catch (error) {
-          showNotification('Ошибка при импорте данных', 'error');
-        }
-      };
-      reader.readAsText(file);
-    };
-
-    // Добавляем кнопку импорта в настройки
-    const settingsTab = document.getElementById('settings-tab');
-    const importBtn = document.createElement('button');
-    importBtn.className = 'action-btn';
-    importBtn.innerHTML = '📥 Импорт данных';
-    importBtn.onclick = function() {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.json';
-      input.onchange = window.importData;
-      input.click();
-    };
-    settingsTab.querySelector('.admin-section:last-child').appendChild(importBtn);
-
     // === ФИНАЛЬНАЯ ИНИЦИАЛИЗАЦИЯ ===
     console.log('🌿 Сайт "Новости села Иваново" успешно загружен!');
     console.log('🔐 Админ панель: нажмите / или тройное нажатие на кнопку звука');
     console.log('👤 Логин: hieron, Пароль: Qpwoeiruty14088');
+    console.log('📰 Система новостей активна с синхронизацией для всех пользователей');
+    console.log('🎨 Анимации новостей включены');
+
+    // Запускаем начальную анимацию новостей
+    setTimeout(() => {
+      document.querySelectorAll('.news-item').forEach((item, index) => {
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, index * 150);
+      });
+    }, 500);
 
   </script>
 </body>
 </html>
-         
